@@ -1,0 +1,15 @@
+﻿@model QEQ.Models.Personaje
+@{
+    ViewBag.Title = "ModificarP";
+}
+
+<h2>Modifica el personaje </h2>
+
+@using (Html.BeginForm("ModificarP", "BackOffice", FormMethod.Post , new { enctype = "multipart/form-data" }))
+{
+<input type="hidden" name="IdPersonaje" value=@Model.IdPersonaje />
+@Html.Label("Nombre") @Html.TextBoxFor(x=>x.Nombre)
+@Html.Label("Cargar Fotito nueva") <input type="file" name="Foto" />
+@Html.Label("Categoria") @Html.DropDownListFor(x=>x.Categoria, new SelectList (ViewBag.ListaCat, "Id", "Nombre"))
+}
+
