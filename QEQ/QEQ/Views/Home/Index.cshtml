@@ -5,7 +5,7 @@
     <p> <a href="@Url.Action("Index", "Game")" class="btn btn-primary btn-lg">Acceder al juego &raquo;</a></p>
     @{ 
         
-        if (Convert.ToString(Session["Usu"]) == "Administrador") {
+        if (Convert.ToString(Session["Admin"]) == "Admin") {
     <p> <a href="@Url.Action("Index", "BackOfice")" class="btn btn-success btn-lg">Area 51 &raquo;</a></p>    
             }
         }

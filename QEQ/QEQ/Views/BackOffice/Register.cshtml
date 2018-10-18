@@ -11,6 +11,7 @@
     Nombre:      @Html.TextBoxFor(x => x.Nombre, new { @required = "required" }) @Html.ValidationMessageFor(x => x.Nombre) <br />
     Contraseña:  @Html.PasswordFor(x => x.Pass, new { @required = "required" }) @Html.ValidationMessageFor(x => x.Pass) <br />
     Email:       @Html.TextBoxFor(x => x.Email, new { @required = "required" }) @Html.ValidationMessageFor(x => x.Email)<br />
+  
     <input type="submit" value="Registrarse" />
 </form>
 }

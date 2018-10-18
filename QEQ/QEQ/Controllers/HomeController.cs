@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using QEQ.Models;
 
 namespace QEQ.Controllers
 {
@@ -17,6 +18,7 @@ namespace QEQ.Controllers
         public ActionResult Logout()
         {
             Session["Usu"] = null;
+            BD.msg = null;
             return RedirectToAction("Index", "Home");
         }
     }

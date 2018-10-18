@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using QEQ.Models;
 using System.Net;
 
+
 namespace QEQ.Controllers
 {
     public class BackOfficeController : Controller
@@ -21,8 +22,9 @@ namespace QEQ.Controllers
         {
             return View();
         }
-        public ActionResult LogIn(string Estado)
-        {                
+        public ActionResult LogIn()
+        {
+            Session["msg"] = BD.msg;
             return View();
         }
         [HttpPost]
@@ -34,18 +36,20 @@ namespace QEQ.Controllers
 
             if (contraseña != "" && Usuario != "")
             {
+                
                 Usuario usu;                
                 usu =  BD.Login(Usuario, contraseña);
                 if (usu.Username != "")
                 {
+                    
                     Session["Usu"] = Usuario;
                     Session["msg"] = "";
+                    if (usu.Admin)
+                    {
+                        Session["Admin"] = "Admin";
+                    }
                     return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    Session["msg"] = "Usuario o contraseña incorrecto";
-                }
+                }              
 
             }
             return RedirectToAction("LogIn", "BackOffice");
@@ -59,8 +63,8 @@ namespace QEQ.Controllers
         {
             string Host = Dns.GetHostName(), msg = "";
             IPAddress[] ip = Dns.GetHostAddresses(Host);
-            Usu.Ip = ip[3].ToString();
-            Usu.Mac = ip[0].ToString();
+            Usu.Ip = ip[0].ToString();
+            Usu.Mac = ip[3].ToString();
             // msg = BD.Register;
             if (msg == "")
             {

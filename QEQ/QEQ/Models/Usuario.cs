@@ -14,6 +14,8 @@ namespace QEQ.Models
         private string _ip;
         private string _email;
         private string _mac;
+        private bool _admin;
+
         public string Nombre
         {
             get
@@ -24,6 +26,18 @@ namespace QEQ.Models
             set
             {
                 _nombre = value;
+            }
+        }
+        public bool Admin
+        {
+            get
+            {
+                return _admin;
+            }
+
+            set
+            {
+                _admin = value;
             }
         }
         public string Username
@@ -98,15 +112,16 @@ namespace QEQ.Models
                 _ip = value;
             }
         }
-        public Usuario(string nombre, string username, string pass, int puntos, string ip, string email, string mac)
+        public Usuario(string nombre, string username, string pass, int puntos, string ip, string email, string mac, bool admin)
         {
             Nombre = nombre;
             Username = username;
-            Pass = pass;
+            Pass = pass;    
             Puntos = puntos;
             Ip = ip;
             Email = email;
             Mac = mac;
+            Admin = admin;
         }
         public Usuario()
         {

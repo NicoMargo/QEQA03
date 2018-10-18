@@ -11,7 +11,7 @@ namespace QEQ.Models
         private string _nombre;
         private string _foto;
         private string _categoria;
-        private List<Preg> _preguntas;
+
         public Personaje(int _id, string _nombre, string _foto, string _categoria)
         {
             this._id = _id;
@@ -69,18 +69,6 @@ namespace QEQ.Models
             set
             {
                 _categoria = value;
-            }
-        }
-        public List<Preg> Preguntas
-        {
-            get
-            {
-                return _preguntas;
-            }
-
-            set
-            {
-                _preguntas = value;
             }
         }
     }

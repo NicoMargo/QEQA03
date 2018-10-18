@@ -211,7 +211,6 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Personaje.cs" />
     <Compile Include="Models\Preg.cs" />
-    <Compile Include="Models\Rta.cs" />
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
