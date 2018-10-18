@@ -1,0 +1,17 @@
+﻿@using QEQ.Models
+@model QEQ.Models.Personaje
+@{
+    ViewBag.Title = "ABMPer";
+}
+
+<h2>ABMPer</h2>
+@using (Html.BeginForm("ModificarP", "BackOffice", FormMethod.Get, new { enctype = "multipart/form-data" }))
+{
+    <form method="post" action="@Url.Action("Register","Usuario")">
+        <input type="hidden" name="IdPersonaje" value=@Model.Id />
+        @Html.Label("Categoria") @Html.DropDownListFor(P => P.Nombre, new SelectList(ViewBag.Personajes, "Id", "Nombre"))
+        @Html.RadioButton("Accion", "Modificar") @Html.Label("Modificar")
+        @Html.RadioButton("Accion", "Borrar")@Html.Label("Borrar")
+        <input type="submit" value="Proceder" />
+        </form>
+}

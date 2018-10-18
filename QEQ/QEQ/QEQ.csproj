@@ -262,7 +262,7 @@
     <Content Include="Views\BackOffice\CrearP.cshtml" />
     <Content Include="Views\BackOffice\MostrarLista.cshtml" />
     <Content Include="Views\BackOffice\ModificarP.cshtml" />
-    <Content Include="Views\BackOffice\EliminarP.cshtml" />
+    <Content Include="Views\BackOffice\BorrarP.cshtml" />
     <Content Include="Views\BackOffice\LogIn.cshtml" />
     <Content Include="Views\BackOffice\Register.cshtml" />
     <Content Include="Views\BackOffice\ErrorLog.cshtml" />
@@ -271,6 +271,7 @@
     <Content Include="Views\Game\About.cshtml" />
     <Content Include="Views\Game\Desarrolladores.cshtml" />
     <Content Include="Views\Game\Index.cshtml" />
+    <Content Include="Views\BackOffice\ABMPer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

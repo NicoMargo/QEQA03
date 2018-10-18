@@ -12,6 +12,9 @@ namespace QEQ.Models
         private string _foto;
         private string _categoria;
         private List<Preg> _preguntas;
+
+        public Personaje()
+        { }
         public Personaje(int _id, string _nombre, string _foto, string _categoria)
         {
             this._id = _id;
