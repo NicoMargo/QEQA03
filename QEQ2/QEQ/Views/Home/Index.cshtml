@@ -1,0 +1,25 @@
+﻿<div class="jumbotron">
+   <img src="~/Content/LOGO.png" width="300" alt="Logo" align="right" />
+    <h1>¿Quien Es Quien?</h1>
+    <p class="lead"> Bienvenido al mejor juego de 4IA del Quien Es Quien desarollado por CGS Corp </p>
+    <p> <a href="@Url.Action("Index", "Game")" class="btn btn-primary btn-lg">Acceder al juego &raquo;</a></p>
+    @{ 
+        
+        if (Convert.ToString(Session["Usu"]) == "Administrador") {
+    <p> <a href="@Url.Action("Index", "BackOfice")" class="btn btn-success btn-lg">Area 51 &raquo;</a></p>    
+            }
+        }
+</div>
+
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Conoce al gordo del grupo</h2>
+        <p>
+            Conoce al grodo chisito  pelotudo del grupo. 
+            se llama el daun de cebolla y es un idiota
+            no explica nada y tiene problemas mentales
+        </p>
+        <p><a class="btn btn-info" href="https://www.google.com.ar/search?q=cebolla&safe=active&source=lnms&tbm=isch&sa=X&ved=0ahUKEwirmp7WiLjdAhWMIpAKHXPLCNcQ_AUICigB&biw=1366&bih=662#imgrc=p4DaDgA1Z8QbfM:">Mira al cebolla &raquo;</a></p>
+    </div>
+</div>
