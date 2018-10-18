@@ -7,10 +7,10 @@
 @using (@Html.BeginForm("Register", "BackOffice", FormMethod.Post))
 {
 <form method="post" action="@Url.Action("Register","Usuario")">
-    Username: @Html.TextBoxFor(x => x.Username) @Html.ValidationMessageFor(x => x.Username) <br />
-    Nombre: @Html.TextBoxFor(x => x.Nombre) @Html.ValidationMessageFor(x => x.Nombre) <br />
-    Contraseña: @Html.TextBoxFor(x => x.Pass, new { type = "Pass" }) @Html.ValidationMessageFor(x => x.Pass) <br />
-    Email: @Html.TextBoxFor(x => x.Email) @Html.ValidationMessageFor(x => x.Email)<br />
-    <input type="submit" value="Enviar" />
+    Username:    @Html.TextBoxFor(x => x.Username, new { @required = "required" }) @Html.ValidationMessageFor(x => x.Username) <br />
+    Nombre:      @Html.TextBoxFor(x => x.Nombre, new { @required = "required" }) @Html.ValidationMessageFor(x => x.Nombre) <br />
+    Contraseña:  @Html.PasswordFor(x => x.Pass, new { @required = "required" }) @Html.ValidationMessageFor(x => x.Pass) <br />
+    Email:       @Html.TextBoxFor(x => x.Email, new { @required = "required" }) @Html.ValidationMessageFor(x => x.Email)<br />
+    <input type="submit" value="Registrarse" />
 </form>
 }

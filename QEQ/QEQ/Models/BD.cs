@@ -11,7 +11,7 @@ namespace QEQ.Models
         public static string connectionString = "Server=10.128.8.16;User=QEQA03;Password=QEQA03;Database=QEQA03";
         //public static List<Preguntas> ListaPreg = new List<Preguntas>();
        // public static List<Respuestas> ListaResp = new List<Respuestas>();
-  
+
 
 
 
@@ -27,7 +27,6 @@ namespace QEQ.Models
         {
             laConexion.Close();
         }
-
         public static bool ModificarP(Personaje P)
         {
             bool reg = true;
@@ -57,10 +56,11 @@ namespace QEQ.Models
 
         public static Usuario Login(string User, string Pass)
         {
-            
-           
-            string Nombre ="", email = "", pass = "", username = "", Mac = "", IP = "";
-            int Puntos = -1;
+
+
+            string Nombre = "", email = "", pass = "", username = "", Mac = "", IpPublica = "", msg = "";
+            int Puntos = 0;
+            bool Admin = false;
             SqlConnection unaConexion = Conectar();
             SqlCommand laConsulta = unaConexion.CreateCommand();
             laConsulta.CommandType = System.Data.CommandType.StoredProcedure;
@@ -74,16 +74,19 @@ namespace QEQ.Models
             while (elLector.Read())
             {
                 Nombre = (elLector["Nombre"].ToString());
+               // msg = (elLector["msg"].ToString());
                 email = (elLector["Mail"].ToString());
                 pass = (elLector["Pass"].ToString());
-                Mac = (elLector["Mac"].ToString());
-                IP = (elLector["Ip"].ToString());
-                username = (elLector["Username"].ToString());
-                Puntos = Convert.ToInt32(elLector["Puntos"]);
-                
+               Mac = (elLector["mac"].ToString());
+                IpPublica = (elLector["IpPublica"].ToString());
+                username = (elLector["Username"].ToString());                             
+                    Puntos = Convert.ToInt32(elLector["Puntos"]);
+               
                 
             }
-            Usuario Usu = new Usuario(Nombre, username, pass, Puntos, IP, Mac, email);
+            Usuario Usu = new Usuario(Nombre, username, pass, Puntos, IpPublica, email, Mac);
+                     
+
             Desconectar(unaConexion);
             return Usu;
         }

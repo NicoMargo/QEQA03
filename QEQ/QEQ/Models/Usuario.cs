@@ -12,22 +12,8 @@ namespace QEQ.Models
         private string _pass;
         private int _puntos;
         private string _ip;
-        private string _mac;
         private string _email;
-
-        public string Username
-        {
-            get
-            {
-                return _username;
-            }
-
-            set
-            {
-                _username = value;
-            }
-        }
-
+        private string _mac;
         public string Nombre
         {
             get
@@ -40,16 +26,16 @@ namespace QEQ.Models
                 _nombre = value;
             }
         }
-        public string Email
+        public string Username
         {
             get
             {
-                return _email;
+                return _username;
             }
 
             set
             {
-                _email = value;
+                _username = value;
             }
         }
         public string Pass
@@ -76,16 +62,16 @@ namespace QEQ.Models
                 _puntos = value;
             }
         }
-        public string Íp
+        public string Email
         {
             get
             {
-                return _ip;
+                return _email;
             }
 
             set
             {
-                _ip = value;
+                _email = value;
             }
         }
         public string Mac
@@ -100,18 +86,32 @@ namespace QEQ.Models
                 _mac = value;
             }
         }
-
-
-        public Usuario(string nombre, string username, string pass, int puntos, string ip, string mac, string email)
+        public string Ip
         {
-            _nombre = nombre;
-            _username = username;
-            _pass = pass;
-            _puntos = puntos;
-            _ip = ip;
-            _mac = mac;
-            _email = email;
+            get
+            {
+                return _ip;
+            }
+
+            set
+            {
+                _ip = value;
+            }
         }
-        
+        public Usuario(string nombre, string username, string pass, int puntos, string ip, string email, string mac)
+        {
+            Nombre = nombre;
+            Username = username;
+            Pass = pass;
+            Puntos = puntos;
+            Ip = ip;
+            Email = email;
+            Mac = mac;
+        }
+        public Usuario()
+        {
+           
+        }
+
     }
 }

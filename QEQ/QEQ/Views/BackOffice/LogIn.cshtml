@@ -2,14 +2,13 @@
 @using QEQ.Models;
 @using (@Html.BeginForm("LogIn", "Backoffice", FormMethod.Post))
 {
-    @ViewBag.Estado
+    @Session["msg"]
     <br />
     <form action="@Url.Action("LogIn","Backoffice")" method="post">
 
-        <input placeholder="Usuario" type="text" name="Usuario" /> <br />
-        <input placeholder="Contraseña" type="password" name="Contraseña" /><br />
+        <input placeholder="Usuario" type="text" name="Usuario" required /> <br />
+        <input placeholder="Contraseña" type="password" name="Contraseña" required /><br />
         <input type="submit" value="enviar" /><br />
-
         @Html.ActionLink("¿No tienes Cuenta? Registrate!", "Register", "Backoffice") <br />
         @Html.ActionLink("¿Olvidaste tu clave?", "OlvidoPass", "Backoffice")
     </form>

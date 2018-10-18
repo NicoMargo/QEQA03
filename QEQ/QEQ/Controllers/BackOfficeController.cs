@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using QEQ.Models;
+using System.Net;
 
 namespace QEQ.Controllers
 {
@@ -21,29 +22,34 @@ namespace QEQ.Controllers
             return View();
         }
         public ActionResult LogIn(string Estado)
-        {
-            
-            ViewBag.Estado = Estado;
+        {                
             return View();
         }
         [HttpPost]
         public ActionResult LogIn(string Usuario, string contraseña)
-        {                     
-            Usuario usu = new Usuario("nico", "Anush", "123", 1234, "1","asdfasz", "fasdfas");
-            usu.Username = "nico";
+        {
+            /* lo que viene es para cuendo no tenemos la base en casa
+             Usuario usu = new Usuario("Anush", "Administrador", "123", 1234, "1", "asdfasz", "fasdfas");
+             */
+
             if (contraseña != "" && Usuario != "")
             {
-              //usu =  BD.Login(Usuario, contraseña);
+                Usuario usu;                
+                usu =  BD.Login(Usuario, contraseña);
                 if (usu.Username != "")
                 {
                     Session["Usu"] = Usuario;
+                    Session["msg"] = "";
                     return RedirectToAction("Index", "Home");
-                                    }                
-            }
-            string Estado = "Usuario o Contraseña incorrecto";
-                return RedirectToAction("LogIn","BackOffice",Estado);                
-        }
+                }
+                else
+                {
+                    Session["msg"] = "Usuario o contraseña incorrecto";
+                }
 
+            }
+            return RedirectToAction("LogIn", "BackOffice");
+        }
         public ActionResult Register()
         {
             return View();
@@ -51,8 +57,21 @@ namespace QEQ.Controllers
         [HttpPost]
         public ActionResult Register(Usuario Usu)
         {
-            // string msg = BD.Register;
-            return View();
+            string Host = Dns.GetHostName(), msg = "";
+            IPAddress[] ip = Dns.GetHostAddresses(Host);
+            Usu.Ip = ip[3].ToString();
+            Usu.Mac = ip[0].ToString();
+            // msg = BD.Register;
+            if (msg == "")
+            {
+                Session["Usu"] = Usu.Username;
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return RedirectToAction("Register", "BackOffice", new { id = "name" });
+               
+            }
         }
 
 
@@ -132,19 +151,29 @@ namespace QEQ.Controllers
             return View();
         }
         [HttpPost]
+        public ActionResult ModificarUsu(Usuario usu)
+        {
+            if (usu.Nombre != "" || usu.Pass != "" || usu.Email != "" || usu.Username != "")
+            {
+                //llamar bd para modificar
+                return RedirectToAction("ModificarUsuOk", "BackOffice");
+            }else
+            {
+                return RedirectToAction("Index", "BackOffice");
+            }
+          
+
+           
+        }
+        [HttpPost]
         public ActionResult CrearP(Personaje unPersonaje)
         {
             return View();
         }
 
         public ActionResult MostrarLista()
-        {
-            List<Personaje> Lista = new List<Personaje>();
-            Lista.Add(new Personaje(1, "Binker", "Binker.jpg", "1"));
-            Lista.Add(new Personaje(2, "Binker2", "lafoto2", "1"));
-            Lista.Add(new Personaje(3, "Binker3", "lafoto3", "1"));
-            //Lista = BD.TraerPersonajes();
-            ViewBag.Lista = Lista;
+        {          
+            //Lista = BD.TraerPersonajes();            
             return View();
             
         }

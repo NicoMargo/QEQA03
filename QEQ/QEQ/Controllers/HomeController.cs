@@ -13,6 +13,17 @@ namespace QEQ.Controllers
             return View();
         }
 
-   
+        
+        public ActionResult Logout()
+        {
+            Session["Usu"] = null;
+            return RedirectToAction("Index", "Home");
+        }
     }
 }
+                
+            
+           
+        
+
+    

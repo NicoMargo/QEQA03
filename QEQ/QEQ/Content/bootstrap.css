@@ -784,6 +784,7 @@ pre code {
 }
 
 .row {
+   
   margin-right: -15px;
   margin-left: -15px;
 }
@@ -1105,6 +1106,7 @@ pre code {
     width: 25%;
   }
   .col-md-4 {
+      
     width: 33.33333333333333%;
   }
   .col-md-5 {

@@ -73,12 +73,12 @@ else if (Session["Usu"] == null)
     </ul>
 } else
 {
- <ul class="nav navbar-nav navbar-right">        
-     <li>  <a href=""> Bienvenido</a>
-         <ul>
-             <li>@Html.ActionLink("Cerrar Sesion", "Index", "Home", routeValues: null, htmlAttributes: new { id = "loginLink" }) </li>
-             <li>@Html.ActionLink("Configuracion", "ModificarUsu", "BackOffice", routeValues: null, htmlAttributes: new { id = "loginLink" }) </li>
-         </ul>
+ <ul class="nav navbar-nav navbar-right">     
+     <li>  <a href=""> Bienvenido @Session["Usu"] </a>
+           <ul>              
+               <li>@Ajax.ActionLink("Cerrar Sesion", "Logout","Home", new AjaxOptions { HttpMethod = "POST" })</li>
+                   <li>@Html.ActionLink("Configuracion", "ModificarUsu", "BackOffice", routeValues: null, htmlAttributes: new { id = "loginLink" }) </li>
+               </ul>
      </li>
     </ul>
 
