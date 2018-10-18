@@ -9,10 +9,26 @@ namespace QEQ.Models
     public static class BD
     {
         public static string connectionString = "Server=10.128.8.16;User=QEQA03;Password=QEQA03;Database=QEQA03";
-        //public static List<Preguntas> ListaPreg = new List<Preguntas>();
-       // public static List<Respuestas> ListaResp = new List<Respuestas>();
+        public static List<Preg> Preguntas;//sp Traer Preguntas
+        public static List<Personaje> Personajes;//Sp traer personajes
+        public static List<string> Categorias;//sp Traer Cats
+        public static List<string> Grupos;//sp Traer grupos
+        public static List<Rta> Respuestas;//sp traer Ras
+        public static Dictionary<string, List<Preg>> PregsXGrupos;
 
-
+        public static Preg BuscarPregunta(string texto)
+        {
+            Preg pregunta = null;
+            int i = 0;
+            while (i < Preguntas.Count() && pregunta == null)
+            {
+                if (Preguntas[i].Texto == texto)
+                {
+                    pregunta = Preguntas[i];
+                }
+            }
+            return pregunta;
+        }
 
 
 
@@ -27,33 +43,111 @@ namespace QEQ.Models
         {
             laConexion.Close();
         }
-        public static bool ModificarP(Personaje P)
+        //Trae una nueva persona, y una lista de preguntas, las cuales fueron marcadas como Sí
+        public static string AgregarP(string Nombre, Personaje Per)
         {
-            bool reg = true;
-            
+            string msg = "";
+
             SqlConnection unaConexion = Conectar();
             SqlCommand laConsulta = unaConexion.CreateCommand();
             laConsulta.CommandType = System.Data.CommandType.StoredProcedure;
-            laConsulta.CommandText = "sp_Respuesta2";
-
-           /* laConsulta.Parameters.AddWithValue("@Categoria", CategInt);
-
+            laConsulta.CommandText = "spAgregarPersonaje";
+            laConsulta.Parameters.AddWithValue("@Nombre", Nombre);
+            laConsulta.Parameters.AddWithValue("@Categoria", Per.Categoria);
+            //laConsulta.Parameters.AddWithValue("@Imagen", Per.Imagen);
             SqlDataReader elLector = laConsulta.ExecuteReader();
             while (elLector.Read())
             {
-                ID = Convert.ToInt32(elLector["IDResp"]);
-                TextoResp = (elLector["texto"].ToString());
-                CategInt = Convert.ToInt32(elLector["Categoria"]);
-                Numero = Convert.ToInt32(elLector["Numero"]);
-                Correcta = Convert.ToBoolean(elLector["TF"]);
-                NumerosubCat = Convert.ToInt32(elLector["NumerosubCategoria"]);
-                Respuestas unaResp = new Respuestas(ID, Numero, TextoResp, Correcta, CategInt, NumerosubCat);
-                ListaResp.Add(unaResp);
-            }*/
+                msg = Convert.ToString(elLector["@msg"]);
+            }
             Desconectar(unaConexion);
-            return reg;
+
+            foreach (Preg pregunta in Per.Preguntas)
+            {
+                CargarRta(Per, pregunta);
+            }
+            return msg;
+        }
+        //Trae la persona rehecha, y una lista de preguntas, las cuales fueron marcadas como Sí
+        public static string ModificarP(string Nombre, Personaje Per, List<Preg> preguntas)
+        {
+            string msg = "";
+
+            SqlConnection unaConexion = Conectar();
+            SqlCommand laConsulta = unaConexion.CreateCommand();
+            laConsulta.CommandType = System.Data.CommandType.StoredProcedure;
+            laConsulta.CommandText = "spModificarPersonaje";
+            laConsulta.Parameters.AddWithValue("@Nombre", Nombre);
+            laConsulta.Parameters.AddWithValue("@Categoria", Per.Categoria);
+            laConsulta.Parameters.AddWithValue("@nuevoNombre", Per.Nombre);
+            //laConsulta.Parameters.AddWithValue("@Imagen", Per.Imagen);
+            SqlDataReader elLector = laConsulta.ExecuteReader();
+            while (elLector.Read())
+            {
+                msg = Convert.ToString(elLector["@msg"]);
+            }
+            Desconectar(unaConexion);
+
+            foreach (Preg pregunta in Preguntas)
+            {
+                CargarRta(Per, pregunta);
+            }
+            return msg;
         }
 
+        public static void CargarCats(){
+            SqlConnection unaConexion = Conectar();
+            SqlCommand laConsulta = unaConexion.CreateCommand();
+            laConsulta.CommandType = System.Data.CommandType.StoredProcedure;
+            laConsulta.CommandText = "spTraerCats";
+            SqlDataReader elLector = laConsulta.ExecuteReader();
+            while (elLector.Read())
+            {
+                Categorias.Add(Convert.ToString(elLector["Categoria"]));
+            }
+            Desconectar(unaConexion);
+        }
+        public static void CargarGrupos()
+        {
+            SqlConnection unaConexion = Conectar();
+            SqlCommand laConsulta = unaConexion.CreateCommand();
+            laConsulta.CommandType = System.Data.CommandType.StoredProcedure;
+            laConsulta.CommandText = "spTraerGrupos";
+            SqlDataReader elLector = laConsulta.ExecuteReader();
+            while (elLector.Read())
+            {
+                Grupos.Add(Convert.ToString(elLector["Nombre"]));
+            }
+            Desconectar(unaConexion);
+        }
+        public static void CargarPersonajes()
+        {
+            SqlConnection unaConexion = Conectar();
+            SqlCommand laConsulta = unaConexion.CreateCommand();
+            laConsulta.CommandType = System.Data.CommandType.StoredProcedure;
+            laConsulta.CommandText = "spTraerPersonajes";
+            laConsulta.Parameters.AddWithValue("@Categoria", "Todos");
+            SqlDataReader elLector = laConsulta.ExecuteReader();
+            while (elLector.Read())
+            {
+                Personajes.Add(new Personaje(Convert.ToInt32(elLector["Id"]),Convert.ToString(elLector["Nombre"]),"",Convert.ToString(elLector["Categoria"])));
+            }
+            Desconectar(unaConexion);
+        }
+        public static void CargarPersonajes(string Categoria)
+        {
+            SqlConnection unaConexion = Conectar();
+            SqlCommand laConsulta = unaConexion.CreateCommand();
+            laConsulta.CommandType = System.Data.CommandType.StoredProcedure;
+            laConsulta.CommandText = "spTraerPersonajes";
+            laConsulta.Parameters.AddWithValue("@Categoria", Categoria);
+            SqlDataReader elLector = laConsulta.ExecuteReader();
+            while (elLector.Read())
+            {
+                Personajes.Add(new Personaje(Convert.ToInt32(elLector["Id"]), Convert.ToString(elLector["Nombre"]), "", Convert.ToString(elLector["Categoria"])));
+            }
+            Desconectar(unaConexion);
+        }
         public static Usuario Login(string User, string Pass)
         {
 
