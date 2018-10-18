@@ -1,15 +1,24 @@
 ﻿@model QEQ.Models.Personaje
+@using QEQ.Models
 @{
     ViewBag.Title = "ModificarP";
 }
-
 <h2>Modifica el personaje </h2>
-
-@using (Html.BeginForm("ModificarP", "BackOffice", FormMethod.Post , new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("ABMPer", "BackOffice", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-<input type="hidden" name="IdPersonaje" value=@Model.IdPersonaje />
-@Html.Label("Nombre") @Html.TextBoxFor(x=>x.Nombre)
-@Html.Label("Cargar Fotito nueva") <input type="file" name="Foto" />
-@Html.Label("Categoria") @Html.DropDownListFor(x=>x.Categoria, new SelectList (ViewBag.ListaCat, "Id", "Nombre"))
+    @Html.Label("Personaje: " + Model.Nombre) <br />
+    <input type="hidden" name="IdPersonaje" value=@Model.Id /><br />
+    @Html.Label("Nuevo nombre") @Html.TextBoxFor(P => P.Nombre)<br />
+    @Html.Label("Cargar Fotito nueva") <input type="file" name="Foto" /><br />
+    @Html.Label("Categoria") @Html.DropDownListFor(P => P.Categoria, new SelectList(ViewBag.ListaCat)) <br />
+    foreach (string Grupo in ViewBag.PregsXGrupo.Keys)
+    {
+        int i = 0;
+        foreach (Preg pregunta in ViewBag.PregsxGrupo[Grupo])
+        {
+            @Html.RadioButtonFor(P => P.Preguntas[i], pregunta)<br />
+            @Html.Label(pregunta.Texto)
+        }
+        i++;
+    }
 }
-

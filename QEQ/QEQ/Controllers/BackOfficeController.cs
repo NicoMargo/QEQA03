@@ -79,6 +79,20 @@ namespace QEQ.Controllers
         }
 
 
+        public ActionResult ABMPer()
+        {
+            Personaje P = new Personaje();
+            BD.CargarPersonajes();
+            ViewBag.Personajes = BD.Personajes;
+            return View(P);
+        }
+
+        [HttpPost]
+        public ActionResult ABMPer(string Accion, Personaje P)
+        {
+            return View(Accion, P);
+        }
+
         /* public ActionResult CrearP()
          {
              return View();
@@ -113,43 +127,32 @@ namespace QEQ.Controllers
          }*/
 
 
-        public ActionResult EliminarP()
+        public ActionResult BorrarP()
         {
             return View();
         }
 
-        public ActionResult ModificarP(int id)
+        public ActionResult ModificarP(Personaje P)
         {
-            Personaje mipersonaje = new Personaje(5,"a","a","a");
+            BD.CargarPreguntas();
+            BD.CargarCats();
+            Personaje mipersonaje = P;
+            ViewBag.Nombre = mipersonaje.Nombre;
             //mipersonaje = buscar en la lista y traer el personaje
             //ViewBag.ListaCat = ModelBinderDictionary.TraerCategorias();
-            List<Categoria> listaCat = new List<Categoria>();
-            listaCat.Add(new Categoria(1, "profesores"));
-            listaCat.Add(new Categoria(2, "Alumnos"));
-            ViewBag.ListaCat = listaCat;
+            ViewBag.ListaCat = BD.Categorias;
+            ViewBag.PregsXGrupo = BD.PregsXGrupos;
             return View(mipersonaje);
 
         }
+        /*
         [HttpPost]
-        public ActionResult ModificarP(HttpPostedFileBase Foto, Personaje P)
+        public ActionResult ModificarP(string Accion, Personaje P)
         {
-         bool RegAfect = BD.ModificarP(P);
-            if (RegAfect)
-            {
-                ViewBag.Mensaje = "El personaje se actualizo correctamente";
-                return View("MostrarLista");
-            }
-            else
-            {
-                return View(P);
-            }
+            return View(Accion, P);
         }
-
-        public ActionResult CrearP()
-        {
-            return View();
-        }
-
+        */
+        
         public ActionResult ModificarUsu()
         {
             return View();
@@ -169,12 +172,7 @@ namespace QEQ.Controllers
 
            
         }
-        [HttpPost]
-        public ActionResult CrearP(Personaje unPersonaje)
-        {
-            return View();
-        }
-
+        
         public ActionResult MostrarLista()
         {          
             //Lista = BD.TraerPersonajes();            

@@ -211,6 +211,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Personaje.cs" />
     <Compile Include="Models\Preg.cs" />
+    <Compile Include="Models\Rta.cs" />
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -258,10 +259,10 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\BackOffice\Index.cshtml" />
-    <Content Include="Views\BackOffice\CrearP.cshtml" />
+    <Content Include="Views\BackOffice\AgregarP.cshtml" />
     <Content Include="Views\BackOffice\MostrarLista.cshtml" />
     <Content Include="Views\BackOffice\ModificarP.cshtml" />
-    <Content Include="Views\BackOffice\EliminarP.cshtml" />
+    <Content Include="Views\BackOffice\BorrarP.cshtml" />
     <Content Include="Views\BackOffice\LogIn.cshtml" />
     <Content Include="Views\BackOffice\Register.cshtml" />
     <Content Include="Views\BackOffice\ErrorLog.cshtml" />
@@ -270,6 +271,7 @@
     <Content Include="Views\Game\About.cshtml" />
     <Content Include="Views\Game\Desarrolladores.cshtml" />
     <Content Include="Views\Game\Index.cshtml" />
+    <Content Include="Views\BackOffice\ABMPer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
