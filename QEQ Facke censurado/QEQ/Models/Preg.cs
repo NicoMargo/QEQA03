@@ -9,7 +9,7 @@ namespace QEQ.Models
     {
         private int _id;
         private string _texto;
-        private int _idgrupo;
+        private string _grupo;
 
         public int Id
         {
@@ -37,24 +37,28 @@ namespace QEQ.Models
             }
         }
 
-        public int Idgrupo
+        public string Grupo
         {
             get
             {
-                return _idgrupo;
+                return _grupo;
             }
 
             set
             {
-                _idgrupo = value;
+                _grupo = value;
             }
         }
-
-        public Preg(int _id, string _texto, int _idgrupo)
+    
+        public Preg(int _id, string _texto, string _grupo)
         {
             this.Id = _id;
             this.Texto = _texto;
-            this.Idgrupo = _idgrupo;
+            this.Grupo = _grupo;
+        }
+        public Preg()
+        {
+
         }
     }
 }
