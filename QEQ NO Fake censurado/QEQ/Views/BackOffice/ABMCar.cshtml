@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewBag.Title = "ABMCar";
+}
+
+<h2>Menu de ABM de Caracteristicas</h2>
+@using QEQ.Models
+@Html.ActionLink("Agregar una caracteristica", "AgregarCar", "BackOffice"); <br />
+<table border="1" align="center">
+    @foreach (Preg pregutna in ViewBag.Preguntas)
+    {
+        <tr>
+            <td>@Html.Label(pregutna.Id.ToString());</td>
+            <td>@Html.Label(pregutna.Texto);</td>
+            <td>@Html.Label(pregutna.Grupo);</td>
+            <td>@Html.ActionLink("Modificar", "ModificarCar", "BackOffice", new { Texto = pregutna.Texto });</td>
+            <td>@Html.ActionLink("Borrar", "BorrarCar", "BackOffice", new { Texto = pregutna.Texto });</td>
+        </tr>
+    }
+</table>
+@Html.ActionLink("Volver al BackOffice Index", "Index", "BackOffice"); <br />

@@ -1,0 +1,13 @@
+﻿
+@{
+    ViewBag.Title = "BorrarCat";
+}
+
+<h2>BorrarCat</h2>
+
+
+Estas Segure?
+<form method="post" action="@Url.Action("BorrarCat", "BackOffice",new { Nombre = ViewBag.Nombre})">
+    <input type="button" name="Confirmacion" value="Si" />
+    <input type="button" name="Confirmacion" value="No" />
+</form>

@@ -1,0 +1,22 @@
+﻿@using QEQ.Models
+@model QEQ.Models.Personaje
+@{
+    ViewBag.Title = "ABMPer";
+}
+
+<h2>Menu ABM de Personajes</h2>
+@Html.ActionLink("AGregar un nuevo personaje", "AgregarP", "BackOffice"); <br/>
+<table border="1"  align="center" >
+    @foreach (Personaje personaje in ViewBag.Personajes)
+    {
+        <tr>
+            <td>@Html.Label(personaje.Id.ToString());</td>
+            <td>@Html.Label(personaje.Nombre);</td>
+            <td>@Html.Label(personaje.Categoria);</td>
+            <!--<td@Html.Label(personaje.Img);</td>-->
+            <td>@Html.ActionLink("Modificar", "ModificarP", "BackOffice", new { Nombre = personaje.Nombre });</td>
+            <td>@Html.ActionLink("Borrar", "BorrarP", "BackOffice", new { Nombre = personaje.Nombre });</td>
+        </tr>
+    }
+</table>
+@Html.ActionLink("Volver al BackOffice Index", "Index", "BackOffice"); <br />
