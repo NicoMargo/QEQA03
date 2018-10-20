@@ -25,9 +25,9 @@ namespace QEQ.Controllers
             return encontrado;
         }
         // GET: BackOffice
-        public ActionResult Index()
+        public ActionResult Index(int id)
         {
-            return View();
+           return View();
         }
 
 
@@ -79,6 +79,8 @@ namespace QEQ.Controllers
         {
             return View();
         }
+
+      
         [HttpPost]
         public ActionResult Register(Usuario Usu)
         {
@@ -340,25 +342,42 @@ namespace QEQ.Controllers
         }
 
         //ABMCaracteristicas o preguntas : Fin------------------------------------------------------------------------------------------------
-        public ActionResult ModificarUsu()
-        {
+        public ActionResult ModificarUsu(string id)
+        {           if (id != null)
+            {
+                ViewBag.Estado = id;
+            }
             return View();
         }
         [HttpPost]
-        public ActionResult ModificarUsu(Usuario usu)
+        public ActionResult ModificarUsu(Usuario usu, string PassVieja)
         {
-            if (usu.Nombre != "" || usu.Pass != "" || usu.Email != "" || usu.Username != "")
+            
+            if (usu.Nombre != null || usu.Pass != null || usu.Email != null || usu.Username != null)
             {
-                //llamar bd para modificar
-                return RedirectToAction("ModificarUsuOk", "BackOffice");
+                if (usu.Pass.Length > 5)
+                {
+                    int regs = BD.ModificarUsu(usu, Session["Usu"].ToString(), PassVieja);
+                    if (regs != 0)
+                    {
+                        Session["Usu"] = usu.Username;
+
+                        return RedirectToAction("Index", "Home", new { id = "1" });
+                    }
+                    else
+                    {
+                        return RedirectToAction("ModificarUsu", "BackOffice", new { id = "Contraseña Incorrecta" });
+                    }
+                }else
+                {
+                    return RedirectToAction("ModificarUsu", "BackOffice", new { id = "La contraseña debe tener 6 digitos o mas" });
+                }
             }else
             {
                 return RedirectToAction("Index", "BackOffice");
             }
-          
+                  }
 
-           
-        }
         
         public ActionResult MostrarLista()
         {          

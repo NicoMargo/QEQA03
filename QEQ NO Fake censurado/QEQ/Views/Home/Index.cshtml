@@ -1,7 +1,14 @@
-﻿<div class="jumbotron">
+﻿@{ 
+    if (ViewBag.Estado ==1)
+    {
+        <script type="text/javascript"> alert('Se modificaron todos sus datos satisfactoriamente')</script>
+    }
+}
+
+<div class="jumbotron">
    <img src="~/Content/LOGO.png" width="300" alt="Logo" align="right" />
     <h1>¿Quien Es Quien?</h1>
-    <p class="lead"> Bienvenido al mejor juego de 4IA del Quien Es Quien desarollado por CGS Corp </p>
+    <p class="lead"> Bienvenido al mejor juego de 4IA del Quien Es Quien desarollado por CGCS Corp </p>
     <p> <a href="@Url.Action("Index", "Game")" class="btn btn-primary btn-lg">Acceder al juego &raquo;</a></p>
     @{ 
         

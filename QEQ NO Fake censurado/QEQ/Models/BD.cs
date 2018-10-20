@@ -8,10 +8,11 @@ namespace QEQ.Models
 {
     public static class BD
     {
-        public static string connectionString = "Server=10.128.8.16;User=QEQA03;Password=QEQA03;Database=QEQA03";
-       // public static string connectionString = "Server=.;Database=QEQ;Trusted_Connection=True;";
-        //public static List<Preguntas> ListaPreg = new List<Preguntas>();
-        // public static List<Respuestas> ListaResp = new List<Respuestas>();
+        //public static string connectionString = "Server=10.128.8.16;User=QEQA03;Password=QEQA03;Database=QEQA03"; //Ort
+        public static string connectionString = @"Server=DESKTOP-5P28OS5\SQLEXPRESS;Database=QEQA03;Trusted_Connection=True;"; //Anush
+                                                                                                                               // public static string connectionString = "Server=.;Database=QEQ;Trusted_Connection=True;"; //chino
+                                                                                                                               //public static List<Preguntas> ListaPreg = new List<Preguntas>();
+                                                                                                                               // public static List<Respuestas> ListaResp = new List<Respuestas>();
         public static string msg;
         public static List<Preg> Preguntas;//sp Traer Preguntas
         public static List<Personaje> Personajes;//Sp traer personajes
@@ -19,6 +20,7 @@ namespace QEQ.Models
         public static List<string> Grupos;//sp Traer grupos
         public static List<Rta> Respuestas;//sp traer Ras
         public static Dictionary<string, List<Preg>> PregsXGrupos;
+       
 
         public static Preg BuscarPregunta(string texto)
         {
@@ -87,7 +89,7 @@ namespace QEQ.Models
             laConsulta.CommandText = "spCrearPersonaje";
             laConsulta.Parameters.AddWithValue("@Nombre", Per.Nombre);
             laConsulta.Parameters.AddWithValue("@Categoria", Per.Categoria);
-            laConsulta.Parameters.AddWithValue("@Imagen","" /*Per.Imagen*/);
+            laConsulta.Parameters.AddWithValue("@Imagen", "" /*Per.Imagen*/);
             SqlDataReader elLector = laConsulta.ExecuteReader();
             while (elLector.Read())
             {
@@ -132,7 +134,8 @@ namespace QEQ.Models
             return msg;
         }
 
-        public static string BorrarP(string Nombre) {
+        public static string BorrarP(string Nombre)
+        {
             string msg = "";
             SqlConnection unaConexion = Conectar();
             SqlCommand laConsulta = unaConexion.CreateCommand();
@@ -148,12 +151,12 @@ namespace QEQ.Models
             return msg;
         }
 
-        public static string AgregarCat(string Cat,bool tipo)
+        public static string AgregarCat(string Cat, bool tipo)
         {
-            string msg="";
+            string msg = "";
             string sp;
             //tipo true es cat, false es grupo
-            if (tipo) {sp = "spCrearCategoria";}
+            if (tipo) { sp = "spCrearCategoria"; }
             else { sp = "spCrearGrupo"; }
             SqlConnection unaConexion = Conectar();
             SqlCommand laConsulta = unaConexion.CreateCommand();
@@ -168,7 +171,7 @@ namespace QEQ.Models
             Desconectar(unaConexion);
             return msg;
         }
-        public static string ModificarCat(string Cat,string newCat, bool tipo)
+        public static string ModificarCat(string Cat, string newCat, bool tipo)
         {
 
             string msg = "";
@@ -306,7 +309,7 @@ namespace QEQ.Models
             while (elLector.Read())
             {
                 Grupos.Add(Convert.ToString(elLector["Nombre"]));
-                PregsXGrupos.Add(Convert.ToString(elLector["Nombre"]),new List<Preg>());
+                PregsXGrupos.Add(Convert.ToString(elLector["Nombre"]), new List<Preg>());
             }
             Desconectar(unaConexion);
         }
@@ -382,8 +385,7 @@ namespace QEQ.Models
                     msg = (elLector["msg"].ToString());
                     email = (elLector["Mail"].ToString());
                     pass = (elLector["Pass"].ToString());
-                    Mac = (elLector["mac"].ToString());
-                    IpPublica = (elLector["Ip1"].ToString());
+
                     username = (elLector["Username"].ToString());
                     Admin = Convert.ToBoolean(elLector["Administrador"]);
                     Puntos = Convert.ToInt32(elLector["Puntos"]);
@@ -397,7 +399,7 @@ namespace QEQ.Models
 
 
             }
-            Usuario Usu = new Usuario(Nombre, username, pass, Puntos, IpPublica, email, Mac,Admin);
+            Usuario Usu = new Usuario(Nombre, username, pass, Puntos, IpPublica, email, Mac, Admin);
 
 
             Desconectar(unaConexion);
@@ -405,49 +407,108 @@ namespace QEQ.Models
 
         }
 
-     /*   public static Usuario Register(Usuario usu)
-        {      
-            SqlConnection unaConexion = Conectar();
+        public static int ModificarUsu(Usuario usu, string usuviejo, string PassVieja)
+        {
+            int regs;
+            Usuario usuViejo = BD.Login(usuviejo, PassVieja);
+            if (usuViejo.Username != "")
+            {
+                SqlConnection unaConexion = Conectar();
             SqlCommand laConsulta = unaConexion.CreateCommand();
             laConsulta.CommandType = System.Data.CommandType.StoredProcedure;
-            laConsulta.CommandText = "spRegister";
+            laConsulta.CommandText = "spModificarUsuario";
+            laConsulta.Parameters.AddWithValue("@Username", usuviejo);
+            
+            
+                if (usu.Username == null)
+                {
+                    laConsulta.Parameters.AddWithValue("@nuevoUsername", usuViejo.Username);
+                }
+                else
+                {
+                    laConsulta.Parameters.AddWithValue("@nuevoUsername", usu.Username);
+                }
 
-            laConsulta.Parameters.AddWithValue("@Username", User);
-            laConsulta.Parameters.AddWithValue("@Password", Pass);
+                if (usu.Pass == null)
+                {
+                    laConsulta.Parameters.AddWithValue("@NuevaPass", 1);
+                }
+                else
+                {
+                    laConsulta.Parameters.AddWithValue("@NuevaPass", usu.Pass);
+                }
 
+                if (usu.Nombre == null)
+                {
+                    laConsulta.Parameters.AddWithValue("@nuevoNombre", usuViejo.Nombre);
+                }
+                else
+                {
+                    laConsulta.Parameters.AddWithValue("@nuevoNombre", usu.Nombre);
+                }
 
-            SqlDataReader elLector = laConsulta.ExecuteReader();
-            while (elLector.Read())
+                if (usu.Email == null)
+                {
+                    laConsulta.Parameters.AddWithValue("@nuevoMail", usuViejo.Email);
+                }
+                else
+                {
+                    laConsulta.Parameters.AddWithValue("@nuevoMail", usu.Email);
+                }
+                regs = laConsulta.ExecuteNonQuery();
+                Desconectar(unaConexion);
+            } else
             {
-                if (elLector["msg"].ToString() == "OK")
-                {
-                    Nombre = (elLector["Nombre"].ToString());
-                    msg = (elLector["msg"].ToString());
-                    email = (elLector["Mail"].ToString());
-                    pass = (elLector["Pass"].ToString());
-                    Mac = (elLector["mac"].ToString());
-                    IpPublica = (elLector["Ip1"].ToString());
-                    username = (elLector["Username"].ToString());
-                    Puntos = Convert.ToInt32(elLector["Puntos"]);
-                }
-                else if (elLector["msg"].ToString() != "OK")
-
-                {
-                    msg = (elLector["msg"].ToString());
-                }
+                regs = 0;
+            }  
+                      
+            return regs;
+        }
 
 
+        /*   public static Usuario Register(Usuario usu)
+           {      
+               SqlConnection unaConexion = Conectar();
+               SqlCommand laConsulta = unaConexion.CreateCommand();
+               laConsulta.CommandType = System.Data.CommandType.StoredProcedure;
+               laConsulta.CommandText = "spRegister";
 
-            }
-            Usuario Usu = new Usuario(Nombre, username, pass, Puntos, IpPublica, email, Mac);
+               laConsulta.Parameters.AddWithValue("@Username", User);
+               laConsulta.Parameters.AddWithValue("@Password", Pass);
 
 
-            Desconectar(unaConexion);
-            return Usu;
+               SqlDataReader elLector = laConsulta.ExecuteReader();
+               while (elLector.Read())
+               {
+                   if (elLector["msg"].ToString() == "OK")
+                   {
+                       Nombre = (elLector["Nombre"].ToString());
+                       msg = (elLector["msg"].ToString());
+                       email = (elLector["Mail"].ToString());
+                       pass = (elLector["Pass"].ToString());
+                       Mac = (elLector["mac"].ToString());
+                       IpPublica = (elLector["Ip1"].ToString());
+                       username = (elLector["Username"].ToString());
+                       Puntos = Convert.ToInt32(elLector["Puntos"]);
+                   }
+                   else if (elLector["msg"].ToString() != "OK")
 
-        }*/
+                   {
+                       msg = (elLector["msg"].ToString());
+                   }
+
+
+
+               }
+               Usuario Usu = new Usuario(Nombre, username, pass, Puntos, IpPublica, email, Mac);
+
+
+               Desconectar(unaConexion);
+               return Usu;
+
+           }*/
     }
 
-         
-    
+
+
 }

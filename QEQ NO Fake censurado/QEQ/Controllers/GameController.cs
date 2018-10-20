@@ -8,7 +8,7 @@ namespace QEQ.Controllers
 {
     public class GameController : Controller
     {
-        // GET: Game
+       // GET: Game
         public ActionResult Index()
         {
             return View();
