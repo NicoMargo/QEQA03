@@ -459,7 +459,7 @@ namespace QEQ.Models
                 Desconectar(unaConexion);
             } else
             {
-                regs = 0;
+                regs = -1;
             }  
                       
             return regs;

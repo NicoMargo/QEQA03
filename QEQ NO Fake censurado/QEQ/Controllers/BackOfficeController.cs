@@ -364,9 +364,13 @@ namespace QEQ.Controllers
 
                         return RedirectToAction("Index", "Home", new { id = "1" });
                     }
-                    else
+                    else if (regs == 2)
                     {
                         return RedirectToAction("ModificarUsu", "BackOffice", new { id = "Contraseña Incorrecta" });
+                    }
+                    else
+                    {
+                        return RedirectToAction("ModificarUsu", "BackOffice", new { id = "Ya existe ese nombre de usuario" });
                     }
                 }else
                 {
