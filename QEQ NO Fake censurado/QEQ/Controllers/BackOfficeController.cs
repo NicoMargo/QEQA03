@@ -46,6 +46,7 @@ namespace QEQ.Controllers
         public ActionResult LogIn()
         {
             Session["msg"] = BD.msg;
+            BD.msg = "";
             return View();
         }
         [HttpPost]
@@ -379,8 +380,10 @@ namespace QEQ.Controllers
             int regs = BD.ModificarUsu(usu, Session["Usu"].ToString(), PassVieja);
             if (regs > 0)
             {
-                Session["Usu"] = usu.Username;
-
+                if (usu.Username != null)
+                {
+                    Session["Usu"] = usu.Username;
+                }                           
                 return RedirectToAction("Index", "Home", new { id = "1" });
             }
             else if (regs == -2)
@@ -395,8 +398,7 @@ namespace QEQ.Controllers
         public ActionResult MostrarLista()
         {          
             //Lista = BD.TraerPersonajes();            
-            return View();
-            
+            return View();            
         }
     }
 }
