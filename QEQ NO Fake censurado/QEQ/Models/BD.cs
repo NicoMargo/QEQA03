@@ -431,7 +431,7 @@ namespace QEQ.Models
 
                 if (usu.Pass == null)
                 {
-                    laConsulta.Parameters.AddWithValue("@NuevaPass", 1);
+                    laConsulta.Parameters.AddWithValue("@NuevaPass", "a");
                 }
                 else
                 {
@@ -459,7 +459,7 @@ namespace QEQ.Models
                 Desconectar(unaConexion);
             } else
             {
-                regs = -1;
+                regs = -2;
             }  
                       
             return regs;

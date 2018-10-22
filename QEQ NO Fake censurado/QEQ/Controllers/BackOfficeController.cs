@@ -25,7 +25,7 @@ namespace QEQ.Controllers
             return encontrado;
         }
         // GET: BackOffice
-        public ActionResult Index(int id)
+        public ActionResult Index()
         {
            return View();
         }
@@ -352,37 +352,46 @@ namespace QEQ.Controllers
         [HttpPost]
         public ActionResult ModificarUsu(Usuario usu, string PassVieja)
         {
-            
+
             if (usu.Nombre != null || usu.Pass != null || usu.Email != null || usu.Username != null)
             {
+                if (usu.Pass == null)
+                {
+                    return Modificarusuaux(usu, PassVieja);
+                     
+                }
+
                 if (usu.Pass.Length > 5)
                 {
-                    int regs = BD.ModificarUsu(usu, Session["Usu"].ToString(), PassVieja);
-                    if (regs != 0)
-                    {
-                        Session["Usu"] = usu.Username;
-
-                        return RedirectToAction("Index", "Home", new { id = "1" });
-                    }
-                    else if (regs == 2)
-                    {
-                        return RedirectToAction("ModificarUsu", "BackOffice", new { id = "Contraseña Incorrecta" });
-                    }
-                    else
-                    {
-                        return RedirectToAction("ModificarUsu", "BackOffice", new { id = "Ya existe ese nombre de usuario" });
-                    }
-                }else
+                    return Modificarusuaux(usu, PassVieja);
+                }
+                else
                 {
                     return RedirectToAction("ModificarUsu", "BackOffice", new { id = "La contraseña debe tener 6 digitos o mas" });
                 }
-            }else
-            {
-                return RedirectToAction("Index", "BackOffice");
             }
-                  }
+              return RedirectToAction("Index", "BackOffice");           
+        }
 
-        
+
+        public ActionResult Modificarusuaux(Usuario usu, string PassVieja)
+        {
+            int regs = BD.ModificarUsu(usu, Session["Usu"].ToString(), PassVieja);
+            if (regs > 0)
+            {
+                Session["Usu"] = usu.Username;
+
+                return RedirectToAction("Index", "Home", new { id = "1" });
+            }
+            else if (regs == -2)
+            {
+                return RedirectToAction("ModificarUsu", "BackOffice", new { id = "Contraseña Incorrecta" });
+            }
+            else
+            {
+                return RedirectToAction("ModificarUsu", "BackOffice", new { id = "Ya existe ese nombre de usuario" });
+            }        
+        }
         public ActionResult MostrarLista()
         {          
             //Lista = BD.TraerPersonajes();            
