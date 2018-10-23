@@ -362,18 +362,19 @@ namespace QEQ.Models
             Desconectar(unaConexion);
         }
 
-        public static Usuario Login(string User, string Pass)
+        public static Usuario Login(string User, string Pass, string Ip, string mac)
         {
             string Nombre = "", email = "", pass = "", username = "", Mac = "", IpPublica = "";
-            int Puntos = 0;
+            int Puntos = 0, regs;
             bool Admin = false;
             SqlConnection unaConexion = Conectar();
             SqlCommand laConsulta = unaConexion.CreateCommand();
             laConsulta.CommandType = System.Data.CommandType.StoredProcedure;
             laConsulta.CommandText = "spLogin";
-
             laConsulta.Parameters.AddWithValue("@Username", User);
             laConsulta.Parameters.AddWithValue("@Password", Pass);
+            laConsulta.Parameters.AddWithValue("@Mac", mac);
+            laConsulta.Parameters.AddWithValue("@Ip", Ip);
 
 
             SqlDataReader elLector = laConsulta.ExecuteReader();
@@ -389,15 +390,15 @@ namespace QEQ.Models
                     username = (elLector["Username"].ToString());
                     Admin = Convert.ToBoolean(elLector["Administrador"]);
                     Puntos = Convert.ToInt32(elLector["Puntos"]);
+                    
+                    
                 }
                 else if (elLector["msg"].ToString() != "OK")
 
                 {
                     msg = (elLector["msg"].ToString());
                 }
-
-
-
+                regs = laConsulta.ExecuteNonQuery();
             }
             Usuario Usu = new Usuario(Nombre, username, pass, Puntos, IpPublica, email, Mac, Admin);
 
@@ -410,7 +411,7 @@ namespace QEQ.Models
         public static int ModificarUsu(Usuario usu, string usuviejo, string PassVieja)
         {
             int regs;
-            Usuario usuViejo = BD.Login(usuviejo, PassVieja);
+            Usuario usuViejo = BD.Login(usuviejo, PassVieja,null,null);
             if (usuViejo.Username != "")
             {
                 SqlConnection unaConexion = Conectar();

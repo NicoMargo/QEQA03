@@ -52,18 +52,17 @@ namespace QEQ.Controllers
         [HttpPost]
         public ActionResult LogIn(string Usuario, string contraseña)
         {
-            /* lo que viene es para cuendo no tenemos la base en casa
-             Usuario usu = new Usuario("Anush", "Administrador", "123", 1234, "1", "asdfasz", "fasdfas");
-             */
 
+            string Host = Dns.GetHostName(), Ip, Mac;
+            IPAddress[] ip = Dns.GetHostAddresses(Host);
+            Ip = ip[0].ToString();
+            Mac = ip[3].ToString();
             if (contraseña != "" && Usuario != "")
-            {
-                
+            {                
                 Usuario usu;                
-                usu =  BD.Login(Usuario, contraseña);
+                usu =  BD.Login(Usuario, contraseña, Ip, Mac);
                 if (usu.Username != "")
-                {
-                    
+                {                    
                     Session["Usu"] = Usuario;
                     Session["msg"] = "";
                     if (usu.Admin)
@@ -85,10 +84,7 @@ namespace QEQ.Controllers
         [HttpPost]
         public ActionResult Register(Usuario Usu)
         {
-            string Host = Dns.GetHostName(), msg = "";
-            IPAddress[] ip = Dns.GetHostAddresses(Host);
-            Usu.Ip = ip[0].ToString();
-            Usu.Mac = ip[3].ToString();
+            string msg = "";          
             // msg = BD.Register;
             if (msg == "")
             {
