@@ -397,9 +397,10 @@ namespace QEQ.Models
 
                 {
                     msg = (elLector["msg"].ToString());
-                }
-                regs = laConsulta.ExecuteNonQuery();
+                }                
             }
+            elLector.Close();
+            regs = laConsulta.ExecuteNonQuery();
             Usuario Usu = new Usuario(Nombre, username, pass, Puntos, IpPublica, email, Mac, Admin);
 
 
