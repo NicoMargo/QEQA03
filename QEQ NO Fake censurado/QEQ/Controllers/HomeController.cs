@@ -22,6 +22,7 @@ namespace QEQ.Controllers
         public ActionResult Logout()
         {
             Session["Usu"] = null;
+            Session["Admin"] = null;
             BD.msg = null;
             return RedirectToAction("Index", "Home");
         }

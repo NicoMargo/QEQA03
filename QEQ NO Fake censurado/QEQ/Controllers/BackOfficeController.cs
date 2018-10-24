@@ -59,7 +59,7 @@ namespace QEQ.Controllers
             Mac = ip[3].ToString();
             if (contraseña != "" && Usuario != "")
             {                
-                Usuario usu;                
+                Usuario usu;
                 usu =  BD.Login(Usuario, contraseña, Ip, Mac);
                 if (usu.Username != "")
                 {                    
@@ -82,20 +82,21 @@ namespace QEQ.Controllers
 
       
         [HttpPost]
-        public ActionResult Register(Usuario Usu)
+        public ActionResult Register(Usuario Usu, string Pin)
         {
-            string msg = "";          
-            // msg = BD.Register;
-            if (msg == "")
-            {
+            
+            if (Usu.Admin && Pin != "1")
+                {
+                Usu.Admin = false;
+            }
+          
+             int regs = BD.Register(Usu);           
                 Session["Usu"] = Usu.Username;
-                return RedirectToAction("Index", "Home");
-            }
-            else
+            if (Usu.Admin)
             {
-                return RedirectToAction("Register", "BackOffice");
-               
+                Session["Admin"] = "Admin";
             }
+            return RedirectToAction("Index", "Home");            
         }
 
         //ABMPersonajes : Comienzo------------------------------------------------------------------------------------------------

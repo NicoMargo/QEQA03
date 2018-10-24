@@ -468,47 +468,21 @@ namespace QEQ.Models
         }
 
 
-        /*   public static Usuario Register(Usuario usu)
-           {      
+           public static int Register(Usuario usu)
+           {           
                SqlConnection unaConexion = Conectar();
                SqlCommand laConsulta = unaConexion.CreateCommand();
                laConsulta.CommandType = System.Data.CommandType.StoredProcedure;
                laConsulta.CommandText = "spRegister";
-
-               laConsulta.Parameters.AddWithValue("@Username", User);
-               laConsulta.Parameters.AddWithValue("@Password", Pass);
-
-
-               SqlDataReader elLector = laConsulta.ExecuteReader();
-               while (elLector.Read())
-               {
-                   if (elLector["msg"].ToString() == "OK")
-                   {
-                       Nombre = (elLector["Nombre"].ToString());
-                       msg = (elLector["msg"].ToString());
-                       email = (elLector["Mail"].ToString());
-                       pass = (elLector["Pass"].ToString());
-                       Mac = (elLector["mac"].ToString());
-                       IpPublica = (elLector["Ip1"].ToString());
-                       username = (elLector["Username"].ToString());
-                       Puntos = Convert.ToInt32(elLector["Puntos"]);
-                   }
-                   else if (elLector["msg"].ToString() != "OK")
-
-                   {
-                       msg = (elLector["msg"].ToString());
-                   }
-
-
-
-               }
-               Usuario Usu = new Usuario(Nombre, username, pass, Puntos, IpPublica, email, Mac);
-
-
+            laConsulta.Parameters.AddWithValue("@Username", usu.Username);
+            laConsulta.Parameters.AddWithValue("@Password", usu.Pass);
+            laConsulta.Parameters.AddWithValue("@Nomb", usu.Nombre);
+            laConsulta.Parameters.AddWithValue("@Mail", usu.Email);
+            laConsulta.Parameters.AddWithValue("@Admin", usu.Admin);
+             int  regs = laConsulta.ExecuteNonQuery();                   
                Desconectar(unaConexion);
-               return Usu;
-
-           }*/
+               return regs;
+           }
     }
 
 

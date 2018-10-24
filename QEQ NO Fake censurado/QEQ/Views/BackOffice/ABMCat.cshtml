@@ -1,11 +1,11 @@
 ﻿@using QEQ.Models
-@model QEQ.Models.Personaje
+@model QEQ.Models.Categoria
 @{
     ViewBag.Title = "ABMCat";
 }
 
 <h2>Menu ABM de Categorias</h2>
-@Html.ActionLink("AGregar una nueva categoria", "AgregarCat", "BackOffice"); <br />
+@Html.ActionLink("Agregar una nueva categoria", "AgregarCat", "BackOffice"); <br />
 <table border="1" align="center">
     @foreach (string Categoria in ViewBag.Categorias)
     {
