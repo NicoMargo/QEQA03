@@ -4,7 +4,8 @@
 }
 
 <h2>Modifica la Categoria @ViewBag.Cat </h2>
-<form action="@Url.Action("ModificarCate","BackOffice", new { Cat = ViewBag.Cat})" method="post">
+<form action="@Url.Action("ModificarCate","BackOffice")" method="post">
+    <input type="hidden" name="Cat" value="ViewBag.Cat" />
     <input type="text" name="NewCat" />
     <input type="radio" name ="tipo" value="true" /> Categoria (de Personajes) <br/>
     <input type="radio" name="tipo" value="false" /> Grupo (de preguntas) <br />

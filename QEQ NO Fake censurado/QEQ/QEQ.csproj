@@ -282,6 +282,7 @@
     <Content Include="Views\BackOffice\ABMCar.cshtml" />
     <Content Include="Views\BackOffice\AgregarPFail.cshtml" />
     <Content Include="Views\BackOffice\ModificarUsuOk.cshtml" />
+    <Content Include="Views\BackOffice\BorrarCar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

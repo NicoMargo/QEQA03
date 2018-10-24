@@ -1,0 +1,13 @@
+﻿
+@{
+    ViewBag.Title = "Borrar Caracteristica";
+}
+<h2>Borrar la caracteristica</h2>
+
+
+Estas Seguro?
+<form method="post" action="@Url.Action("BorrarCar", "BackOffice")">
+    <input type="hidden" name="Texto" value="ViewBag.Texto" />
+    <input type="submit" name="Confirmacion" value="Si" />
+    <input type="submit" name="Confirmacion" value="No" />
+</form>

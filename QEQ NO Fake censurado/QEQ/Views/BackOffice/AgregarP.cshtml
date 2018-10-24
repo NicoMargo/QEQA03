@@ -6,7 +6,6 @@
 <h2>Crea un personaje </h2>
 @using (Html.BeginForm("AgregarPer", "BackOffice", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    <input type="hidden" name="IdPersonaje" value=@Model.Id  /><br />
     @Html.Label("Nombre") @Html.TextBoxFor(P => P.Nombre, new { @class = "form-control", required = "required" }) <br />
     @Html.Label("Cargar Fotito nueva") <input type="file" name="Foto" /><br />
     @Html.Label("Categoria") @Html.DropDownListFor(P => P.Categoria, new SelectList(ViewBag.ListaCat)) <br />

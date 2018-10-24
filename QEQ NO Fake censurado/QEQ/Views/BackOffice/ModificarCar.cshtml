@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "ModificarCar";
+    ViewBag.Title = "Modificar Caracteristica";
 }
 
 <h2>Modifica una Caracteristica</h2>
@@ -11,8 +11,8 @@
 
 @using (Html.BeginForm("ModificarCar", "BackOffice", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    <input type="hidden" name="IdPersonaje" value=@Model.Id /><br />
-    @Html.Label("Texto") @Html.TextBoxFor(P => P.Texto, new { Car =ViewBag.Car })<br />
+    <input type="hidden" name="Texto" value="@ViewBag.Texto" /><br />
+    @Html.Label("Texto") @Html.TextBoxFor(P => P.Texto)<br />
     @Html.Label("Grupo") @Html.DropDownListFor(P => P.Grupo, new SelectList(ViewBag.ListaCat)) <br />
     <input type="submit" value="Proceder" />
 }

@@ -8,8 +8,8 @@ namespace QEQ.Models
 {
     public static class BD
     {
-        //public static string connectionString = "Server=10.128.8.16;User=QEQA03;Password=QEQA03;Database=QEQA03"; //Ort
-        public static string connectionString = @"Server=DESKTOP-5P28OS5\SQLEXPRESS;Database=QEQA03;Trusted_Connection=True;"; //Anush
+        public static string connectionString = "Server=10.128.8.16;User=QEQA03;Password=QEQA03;Database=QEQA03"; //Ort
+        //public static string connectionString = @"Server=DESKTOP-5P28OS5\SQLEXPRESS;Database=QEQA03;Trusted_Connection=True;"; //Anush
                                                                                                                                // public static string connectionString = "Server=.;Database=QEQ;Trusted_Connection=True;"; //chino
                                                                                                                                //public static List<Preguntas> ListaPreg = new List<Preguntas>();
                                                                                                                                // public static List<Respuestas> ListaResp = new List<Respuestas>();
@@ -89,7 +89,7 @@ namespace QEQ.Models
             laConsulta.CommandText = "spCrearPersonaje";
             laConsulta.Parameters.AddWithValue("@Nombre", Per.Nombre);
             laConsulta.Parameters.AddWithValue("@Categoria", Per.Categoria);
-            laConsulta.Parameters.AddWithValue("@Imagen", "" /*Per.Imagen*/);
+            laConsulta.Parameters.AddWithValue("@Foto", "" /*Per.Imagen*/);
             SqlDataReader elLector = laConsulta.ExecuteReader();
             while (elLector.Read())
             {
@@ -117,7 +117,7 @@ namespace QEQ.Models
             laConsulta.Parameters.AddWithValue("@Nombre", Nombre);
             laConsulta.Parameters.AddWithValue("@Categoria", Per.Categoria);
             laConsulta.Parameters.AddWithValue("@nuevoNombre", Per.Nombre);
-            laConsulta.Parameters.AddWithValue("@Imagen", ""/*Per.Imagen*/);
+            laConsulta.Parameters.AddWithValue("@Foto", ""/*Per.Imagen*/);
             SqlDataReader elLector = laConsulta.ExecuteReader();
             if (elLector.Read())
             {

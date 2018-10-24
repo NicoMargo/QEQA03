@@ -6,8 +6,8 @@
 <h2>Modifica el personaje @Model.Nombre </h2>
 @using (Html.BeginForm("ModificarPer", "BackOffice", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    @Html.Label("Personaje: " + Model.Nombre, new { Nombre= Model.Nombre}) <br />
-    <input type="hidden" name="IdPersonaje" value=@Model.Id /><br />
+    @Html.Label("Personaje: ") <label>@ViewBag.Nombre</label><br />
+    <input type="hidden" name="Nombre" value=@ViewBag.Nombre /><br />
     @Html.Label("Nuevo nombre") @Html.TextBoxFor(P => P.Nombre)<br />
     @Html.Label("Cargar Fotito nueva") <input type="file" name="Foto" /><br />
     @Html.Label("Categoria") @Html.DropDownListFor(P => P.Categoria, new SelectList(ViewBag.ListaCat)) <br />

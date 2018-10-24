@@ -1,9 +1,13 @@
 ﻿
+@{
+    ViewBag.Title = "Borrar Categoria";
+}
 <h2>Borrar la Categoria</h2>
 
 
 Estas Seguro?
-<form method="post" action="@Url.Action("BorrarCat", "BackOffice",new { Nombre = ViewBag.Nombre})">
+<form method="post" action="@Url.Action("BorrarCat", "BackOffice")">
+    <input type="hidden" name="Cat" value="ViewBag.Cat" />
     <input type="submit" name="Confirmacion" value="Si" />
     <input type="submit" name="Confirmacion" value="No" />
 </form>

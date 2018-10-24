@@ -36,9 +36,7 @@ namespace QEQ.Controllers
             return View();
         }
 
-        public ActionResult Msg( string[] parametros) {
-            ViewBag.Msg = parametros[0];
-            ViewBag.Viu = parametros[1];
+        public ActionResult Msg() {
             return View();
         }
 
@@ -110,7 +108,8 @@ namespace QEQ.Controllers
         [HttpPost]
         public ActionResult ABMPer(string Accion, string Nombre)
         {
-            return View(Accion, Nombre);
+            ViewBag.Nombre=Nombre;
+            return View(Accion);
         }
 
       
@@ -134,10 +133,9 @@ namespace QEQ.Controllers
             {
                 return RedirectToAction("AgregarPFail", "BackOffice");
             }
-            string[] parametros = new string[2];
-            parametros[1] = "ABMPer";
-            parametros[0] = BD.AgregarP(P);
-            return View("Msg", parametros);
+            ViewBag.Destino = "ABMPer";
+            ViewBag.Msg = BD.AgregarP(P);
+            return View("Msg");
         }
 
         /* lista falsa para probar
@@ -147,32 +145,30 @@ namespace QEQ.Controllers
             Personajes.Add(new Personaje(3, "3", "1", "1"));
             ViewBag.Personajes = Personajes;
              */
-        public ActionResult BorrarP(string Nombre)
+        public ActionResult BorrarP()
         {
-            ViewBag.Nombre = Nombre;
             return View();
         }
         [HttpPost]
         public ActionResult BorrarPer(string Confirmacion,string Nombre)
         {
-            string[] parametros = new string[2];
-            parametros[1] = "ABMPer";
+            ViewBag.Destino = "ABMPer";
             if (Confirmacion == "Si") {
-                parametros[0] = BD.BorrarP(Nombre);
+                ViewBag.Msg = BD.BorrarP(Nombre);
             }
             else
             {
-                parametros[0] = "Ha decidido no Eliminar Personajes";
+                ViewBag.Msg = "Ha decidido no Eliminar Personajes";
                 
             }
-            return View("Msg",parametros);
+            return View("Msg");
         }
 
         public ActionResult ModificarP(string Nombre)
         {
             BD.CargarPreguntas();
             BD.CargarCats();
-            Personaje mipersonaje = new Personaje( BD.BuscarPersonaje(Nombre).Id,Nombre,null,null);
+            Personaje mipersonaje = new Personaje();
             ViewBag.Nombre = Nombre;
             //mipersonaje = buscar en la lista y traer el personaje
             //ViewBag.ListaCat = ModelBinderDictionary.TraerCategorias();
@@ -186,10 +182,9 @@ namespace QEQ.Controllers
         [HttpPost]
         public ActionResult ModificarPer(string Nombre, Personaje P)
         {
-            string[] parametros = new string[2];
-            parametros[1] = "ABMPer";
-            parametros[0] = BD.ModificarP(Nombre, P);
-            return View("Msg", parametros);
+            ViewBag.Destino = "ABMPer";
+            ViewBag.Msg = BD.ModificarP(Nombre, P);
+            return View("Msg");
         }
         //ABMPersonajes : FIn------------------------------------------------------------------------------------------------
         //ABMCategorias : Comienzo------------------------------------------------------------------------------------------------
@@ -205,7 +200,8 @@ namespace QEQ.Controllers
         [HttpPost]
         public ActionResult ABMCat(string Accion, string Cat)
         {
-            return View(Accion, Cat);
+            ViewBag.Cat=Cat;
+            return View(Accion);
         }
 
 
@@ -218,39 +214,34 @@ namespace QEQ.Controllers
         [HttpPost]
         public ActionResult AgregarCat(string Cat, string tipo)
         {
-            string[] parametros = new string[2];
-            parametros[1] = "ABMCat";
-            parametros[0] = BD.AgregarCat(Cat, Convert.ToBoolean(tipo));
-            return View("Msg", parametros);
+            ViewBag.Destino = "ABMCat";
+            ViewBag.Msg = BD.AgregarCat(Cat, Convert.ToBoolean(tipo));
+            return View("Msg");
         }
         
-        public ActionResult BorrarCat(string Nombre)
+        public ActionResult BorrarCat()
         {
-            ViewBag.Nombre = Nombre;
             return View();
         }
         [HttpPost]
-        public ActionResult BorrarCat(string Confirmacion, string Nombre)
+        public ActionResult BorrarCat(string Confirmacion, string Cat)
         {
-            string[] parametros = new string[2];
-            parametros[1] = "ABMCat";
+            ViewBag.Destino = "ABMCat";
             if (Confirmacion == "Si")
             {
-                parametros[0] = BD.BorrarCat(Nombre, BuscarCat(Nombre,BD.Categorias));
+                ViewBag.Msg = BD.BorrarCat(Cat, BuscarCat(Cat,BD.Categorias));
             }
             else
             {
-                parametros[0] = "Ha decidido no Eliminar Personajes";
+                ViewBag.Msg = "Ha decidido no Eliminar Personajes";
 
             }
-            return View("Msg", parametros);
+            return View("Msg");
         }
 
-        public ActionResult ModificarCat(string Cat)
+        public ActionResult ModificarCat()
         {
             BD.CargarCats();
-            ViewBag.Nombre = Cat;
-
             return View();
 
         }
@@ -258,10 +249,9 @@ namespace QEQ.Controllers
         [HttpPost]
         public ActionResult ModificarCate(string Cat,string NewCat, string tipo)
         {
-            string[] parametros = new string[2];
-            parametros[1] = "ABMCat";
-            parametros[0] = BD.ModificarCat(Cat,NewCat, Convert.ToBoolean(tipo));
-            return View("Msg", parametros);
+            ViewBag.Destino = "ABMCat";
+            ViewBag.Msg = BD.ModificarCat(Cat,NewCat, Convert.ToBoolean(tipo));
+            return View("Msg");
         }
         //ABMCategorias : fin------------------------------------------------------------------------------------------------
         //ABMCaracteristicas o preguntas : Comienzo------------------------------------------------------------------------------------------------
@@ -274,9 +264,10 @@ namespace QEQ.Controllers
         }
 
         [HttpPost]
-        public ActionResult ABMCar(string Accion, string Nombre)
+        public ActionResult ABMCar(string Accion, string Texto)
         {
-            return View(Accion, Nombre);
+            ViewBag.Texto = Texto;
+            return View(Accion);
         }
 
 
@@ -292,51 +283,45 @@ namespace QEQ.Controllers
         [HttpPost]
         public ActionResult AgregarCar(Preg preg)
         {
-            string[] parametros = new string[2];
-            parametros[1] = "ABMPer";
-            parametros[0] = BD.AgregarCar(preg);
-            return View("Msg", parametros);
+            ViewBag.Destino = "ABMPer";
+            ViewBag.Msg = BD.AgregarCar(preg);
+            return View("Msg");
         }
         
-        public ActionResult BorrarCar(string Texto)
+        public ActionResult BorrarCar()
         {
-            ViewBag.Texto = Texto;
             return View();
         }
         [HttpPost]
         public ActionResult BorrarCar(string Confirmacion, string Texto)
         {
-            string[] parametros = new string[2];
-            parametros[1] = "ABMCar";
+            ViewBag.Destino = "ABMCar";
             if (Confirmacion == "Si")
             {
-                parametros[0] = BD.BorrarCar(Texto);
+                ViewBag.Msg = BD.BorrarCar(Texto);
             }
             else
             {
-                parametros[0] = "Ha decidido no Eliminar Personajes";
+                ViewBag.Msg = "Ha decidido no Eliminar Personajes";
 
             }
-            return View("Msg", parametros);
+            return View("Msg");
         }
 
-        public ActionResult ModificarCar(string texto)
+        public ActionResult ModificarCar()
         {
             BD.CargarPreguntas();
-
-            Preg caracteristica = new Preg(BD.BuscarPregunta(texto).Id, texto, null);
-            ViewBag.Car = texto;
+            Preg caracteristica = new Preg(BD.BuscarPregunta(ViewBag.Texto).Id, ViewBag.Texto, null);
             return View(caracteristica);
 
         }
 
         [HttpPost]
-        public ActionResult ModificarCar(string Car, Preg caracteristica)
+        public ActionResult ModificarCar(string Texto, Preg caracteristica)
         {
-            string[] parametros = new string[2];
-            parametros[1] = "ABMPer";
-            parametros[0] = BD.ModificarCar(Car, caracteristica);
-            return View("Msg", parametros);
+            ViewBag.Destino = "ABMPer";
+            ViewBag.Msg = BD.ModificarCar(Texto, caracteristica);
+            return View("Msg");
         }
 
         //ABMCaracteristicas o preguntas : Fin------------------------------------------------------------------------------------------------
