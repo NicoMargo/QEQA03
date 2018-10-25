@@ -200,7 +200,7 @@ namespace QEQ.Controllers
         [HttpPost]
         public ActionResult ABMCat(string Accion, string Cat)
         {
-            Seccion["Cat"]=Cat;
+            Session["Cat"]=Cat;
             return View(Accion);
         }
 

@@ -168,7 +168,7 @@ namespace QEQ.Models
             {
                 msg = Convert.ToString(elLector["msg"]);
             }
-            Desconectar(unaCon1exion);
+            Desconectar(unaConexion);
             return msg;
         }
         public static string ModificarCat(string Cat, string newCat, bool tipo)
