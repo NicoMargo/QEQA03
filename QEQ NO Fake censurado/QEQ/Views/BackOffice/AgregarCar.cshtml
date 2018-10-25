@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewBag.Title = "AgregarCar";
+}
+
+@using QEQ.Models
+@model QEQ.Models.Preg
+<h2>Agregar una Caracteristica</h2>
+
+@using (Html.BeginForm("AgregarCar", "BackOffice", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.Label("Texto") @Html.TextBoxFor(P => P.Texto)<br />
+    @Html.Label("Grupo") @Html.DropDownListFor(P => P.Grupo, new SelectList(ViewBag.ListaCat)) <br />
+    <input type="submit" value="Proceder" />
+}

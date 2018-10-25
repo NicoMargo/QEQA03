@@ -1,0 +1,39 @@
+﻿@using QEQ.Models
+@model QEQ.Models.Categoria
+@{
+    ViewBag.Title = "ABMCat";
+}
+
+<h2>Menu ABM de Categorias</h2>
+@Html.ActionLink("Agregar una nueva categoria", "AgregarCat", "BackOffice"); <br />
+<table border="1" align="center">
+    <tr>
+        <td>categoria</td>
+        <td>Modificar</td>
+        <td>Borrar</td>
+    </tr>
+    @foreach (string Categoria in ViewBag.Categorias)
+    {
+        <tr>
+            <td>@Html.Label(Categoria)</td>
+            <td>@Html.ActionLink("Modificar", "ModificarCat", "BackOffice", new { Cat = Categoria })</td>
+            <td>@Html.ActionLink("Borrar", "BorrarCat", "BackOffice", new { Cat = Categoria })</td>
+        </tr>
+    }
+</table>
+<table border="1" align="center">
+    <tr>
+        <td>Grupo</td>
+        <td>Modificar</td>
+        <td>Borrar</td>
+    </tr>
+    @foreach (string Grupo in ViewBag.Grupos)
+    {
+        <tr>
+            <td>@Html.Label(Grupo)</td>
+            <td>@Html.ActionLink("Modificar", "ModificarCat", "BackOffice", new { Cat = Grupo });</td>
+            <td>@Html.ActionLink("Borrar", "BorrarCat", "BackOffice", new { Cat = Grupo });</td>
+        </tr>
+    }
+</table>
+@Html.ActionLink("Volver al BackOffice Index", "Index", "BackOffice"); <br />

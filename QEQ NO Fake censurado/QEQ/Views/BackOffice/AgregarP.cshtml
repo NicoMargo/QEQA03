@@ -1,0 +1,32 @@
+﻿@model QEQ.Models.Personaje
+@using QEQ.Models
+@{
+    ViewBag.Title = "Creacion de Personaje";
+}
+<h2>Crea un personaje </h2>
+@using (Html.BeginForm("AgregarPer", "BackOffice", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.Label("Nombre") @Html.TextBoxFor(P => P.Nombre, new { @class = "form-control", required = "required" }) <br />
+    @Html.Label("Cargar Fotito nueva") <input type="file" name="Foto" /><br />
+    @Html.Label("Categoria") @Html.DropDownListFor(P => P.Categoria, new SelectList(ViewBag.ListaCat,"")) <br />
+    int i = 0;
+    Model.Preguntas = new List<Preg>();
+    foreach (string Grupo in ViewBag.PregsXGrupo.Keys)
+    {
+        @Html.Label(Grupo)<br />
+        Model.Preguntas.Add(new Preg());
+        @Html.RadioButtonFor(P => P.Preguntas[i], new Preg())
+        @Html.Label("No")<br />
+        foreach (Preg pregunta in ViewBag.PregsxGrupo[Grupo])
+        {
+            @Html.RadioButtonFor(P => P.Preguntas[i], pregunta)
+            @Html.Label(pregunta.Texto)<br />
+
+        }
+        if (Model.Preguntas[i] != new Preg())
+        {
+            i++;
+        }
+    }
+    <input type="submit" value="Proceder" />
+}

@@ -1,0 +1,8 @@
+﻿
+@{
+    ViewBag.Title = "Msg";
+    string Destino = Session["Destino"].ToString();
+}
+
+<h2>@Session["ABMMsg"]</h2>
+@Html.ActionLink("Volver a " + Destino,Destino)
