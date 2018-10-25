@@ -4,5 +4,5 @@
     string Destino = Session["Destino"].ToString();
 }
 
-<h2>@ViewBag.Msg</h2>
+<h2>@Session["ABMMsg"]</h2>
 @Html.ActionLink("Volver a " + Destino,Destino)
