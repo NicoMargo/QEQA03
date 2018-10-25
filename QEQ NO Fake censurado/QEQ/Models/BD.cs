@@ -168,7 +168,7 @@ namespace QEQ.Models
             {
                 msg = Convert.ToString(elLector["msg"]);
             }
-            Desconectar(unaConexion);
+            Desconectar(unaCon1exion);
             return msg;
         }
         public static string ModificarCat(string Cat, string newCat, bool tipo)
@@ -195,8 +195,8 @@ namespace QEQ.Models
             SqlCommand laConsulta = unaConexion.CreateCommand();
             laConsulta.CommandType = System.Data.CommandType.StoredProcedure;
             laConsulta.CommandText = sp;
-            laConsulta.Parameters.AddWithValue(pCat, Cat);
-            laConsulta.Parameters.AddWithValue(pNewCat, newCat);
+            laConsulta.Parameters.AddWithValue(pNewCat, Cat);
+            laConsulta.Parameters.AddWithValue(pCat, newCat);
             SqlDataReader elLector = laConsulta.ExecuteReader();
             if (elLector.Read())
             {
@@ -211,7 +211,7 @@ namespace QEQ.Models
             string msg = "";
             string sp;
             //tipo true es cat, false es grupo
-            if (tipo) { sp = "spEliminarCategoria"; }
+            if (tipo) { sp = "spEliminarCat"; }
             else { sp = "spEliminarGrupo"; }
             SqlConnection unaConexion = Conectar();
             SqlCommand laConsulta = unaConexion.CreateCommand();
@@ -240,7 +240,7 @@ namespace QEQ.Models
             SqlDataReader elLector = laConsulta.ExecuteReader();
             if (elLector.Read())
             {
-                msg = Convert.ToString(elLector["@msg"]);
+                msg = Convert.ToString(elLector["msg"]);
             }
             Desconectar(unaConexion);
             return msg;
@@ -253,7 +253,7 @@ namespace QEQ.Models
             SqlConnection unaConexion = Conectar();
             SqlCommand laConsulta = unaConexion.CreateCommand();
             laConsulta.CommandType = System.Data.CommandType.StoredProcedure;
-            laConsulta.CommandText = "spModificarPreg";
+            laConsulta.CommandText = "spModificarPregunta";
             laConsulta.Parameters.AddWithValue("@idPregunta", BuscarPregunta(texto).Id);
             laConsulta.Parameters.AddWithValue("@Grupo", Car.Grupo);
             laConsulta.Parameters.AddWithValue("@nuevoTexto", Car.Texto);
