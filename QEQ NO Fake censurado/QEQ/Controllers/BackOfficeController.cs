@@ -36,7 +36,7 @@ namespace QEQ.Controllers
             return View();
         }
 
-        public ActionResult Msg() {
+        public ActionResult ABMMsg() {
             return View();
         }
 
@@ -108,7 +108,7 @@ namespace QEQ.Controllers
         [HttpPost]
         public ActionResult ABMPer(string Accion, string Nombre)
         {
-            ViewBag.Nombre=Nombre;
+            Session["Nombre"]=Nombre;
             return View(Accion);
         }
 
@@ -133,9 +133,9 @@ namespace QEQ.Controllers
             {
                 return RedirectToAction("AgregarPFail", "BackOffice");
             }
-            ViewBag.Destino = "ABMPer";
-            ViewBag.Msg = BD.AgregarP(P);
-            return View("Msg");
+            Session["Destino"] = "ABMPer";
+            Session["ABMMsg"] = BD.AgregarP(P);
+            return View("ABMMsg");
         }
 
         /* lista falsa para probar
@@ -152,16 +152,16 @@ namespace QEQ.Controllers
         [HttpPost]
         public ActionResult BorrarPer(string Confirmacion,string Nombre)
         {
-            ViewBag.Destino = "ABMPer";
+            Session["Destino"] = "ABMPer";
             if (Confirmacion == "Si") {
-                ViewBag.Msg = BD.BorrarP(Nombre);
+                Session["ABMMsg"] = BD.BorrarP(Nombre);
             }
             else
             {
-                ViewBag.Msg = "Ha decidido no Eliminar Personajes";
+                Session["ABMMsg"] = "Ha decidido no Eliminar Personajes";
                 
             }
-            return View("Msg");
+            return View("ABMMsg");
         }
 
         public ActionResult ModificarP(string Nombre)
@@ -182,9 +182,9 @@ namespace QEQ.Controllers
         [HttpPost]
         public ActionResult ModificarPer(string Nombre, Personaje P)
         {
-            ViewBag.Destino = "ABMPer";
-            ViewBag.Msg = BD.ModificarP(Nombre, P);
-            return View("Msg");
+            Session["Destino"] = "ABMPer";
+            Session["ABMMsg"] = BD.ModificarP(Nombre, P);
+            return View("ABMMsg");
         }
         //ABMPersonajes : FIn------------------------------------------------------------------------------------------------
         //ABMCategorias : Comienzo------------------------------------------------------------------------------------------------
@@ -200,7 +200,7 @@ namespace QEQ.Controllers
         [HttpPost]
         public ActionResult ABMCat(string Accion, string Cat)
         {
-            ViewBag.Cat=Cat;
+            Seccion["Cat"]=Cat;
             return View(Accion);
         }
 
@@ -214,9 +214,9 @@ namespace QEQ.Controllers
         [HttpPost]
         public ActionResult AgregarCat(string Cat, string tipo)
         {
-            ViewBag.Destino = "ABMCat";
-            ViewBag.Msg = BD.AgregarCat(Cat, Convert.ToBoolean(tipo));
-            return View("Msg");
+            Session["Destino"] = "ABMCat";
+            Session["ABMMsg"] = BD.AgregarCat(Cat, Convert.ToBoolean(tipo));
+            return View("ABMMsg");
         }
         
         public ActionResult BorrarCat()
@@ -226,17 +226,17 @@ namespace QEQ.Controllers
         [HttpPost]
         public ActionResult BorrarCat(string Confirmacion, string Cat)
         {
-            ViewBag.Destino = "ABMCat";
+            Session["Destino"] = "ABMCat";
             if (Confirmacion == "Si")
             {
-                ViewBag.Msg = BD.BorrarCat(Cat, BuscarCat(Cat,BD.Categorias));
+                Session["ABMMsg"] = BD.BorrarCat(Cat, BuscarCat(Cat,BD.Categorias));
             }
             else
             {
-                ViewBag.Msg = "Ha decidido no Eliminar Personajes";
+                Session["ABMMsg"] = "Ha decidido no Eliminar Personajes";
 
             }
-            return View("Msg");
+            return View("ABMMsg");
         }
 
         public ActionResult ModificarCat()
@@ -249,9 +249,9 @@ namespace QEQ.Controllers
         [HttpPost]
         public ActionResult ModificarCate(string Cat,string NewCat, string tipo)
         {
-            ViewBag.Destino = "ABMCat";
-            ViewBag.Msg = BD.ModificarCat(Cat,NewCat, Convert.ToBoolean(tipo));
-            return View("Msg");
+            Session["Destino"] = "ABMCat";
+            Session["ABMMsg"] = BD.ModificarCat(Cat,NewCat, Convert.ToBoolean(tipo));
+            return View("ABMMsg");
         }
         //ABMCategorias : fin------------------------------------------------------------------------------------------------
         //ABMCaracteristicas o preguntas : Comienzo------------------------------------------------------------------------------------------------
@@ -266,7 +266,7 @@ namespace QEQ.Controllers
         [HttpPost]
         public ActionResult ABMCar(string Accion, string Texto)
         {
-            ViewBag.Texto = Texto;
+            Session["Texto"] = Texto;
             return View(Accion);
         }
 
@@ -283,9 +283,9 @@ namespace QEQ.Controllers
         [HttpPost]
         public ActionResult AgregarCar(Preg preg)
         {
-            ViewBag.Destino = "ABMPer";
-            ViewBag.Msg = BD.AgregarCar(preg);
-            return View("Msg");
+            Session["Destino"] = "ABMPer";
+            Session["ABMMsg"] = BD.AgregarCar(preg);
+            return View("ABMMsg");
         }
         
         public ActionResult BorrarCar()
@@ -295,17 +295,17 @@ namespace QEQ.Controllers
         [HttpPost]
         public ActionResult BorrarCar(string Confirmacion, string Texto)
         {
-            ViewBag.Destino = "ABMCar";
+            Session["Destino"] = "ABMCar";
             if (Confirmacion == "Si")
             {
-                ViewBag.Msg = BD.BorrarCar(Texto);
+                Session["ABMMsg"] = BD.BorrarCar(Texto);
             }
             else
             {
-                ViewBag.Msg = "Ha decidido no Eliminar Personajes";
+                Session["ABMMsg"] = "Ha decidido no Eliminar Personajes";
 
             }
-            return View("Msg");
+            return View("ABMMsg");
         }
 
         public ActionResult ModificarCar()
@@ -319,9 +319,9 @@ namespace QEQ.Controllers
         [HttpPost]
         public ActionResult ModificarCar(string Texto, Preg caracteristica)
         {
-            ViewBag.Destino = "ABMPer";
-            ViewBag.Msg = BD.ModificarCar(Texto, caracteristica);
-            return View("Msg");
+            Session["Destino"] = "ABMPer";
+            Session["ABMMsg"] = BD.ModificarCar(Texto, caracteristica);
+            return View("ABMMsg");
         }
 
         //ABMCaracteristicas o preguntas : Fin------------------------------------------------------------------------------------------------

@@ -3,9 +3,9 @@
     ViewBag.Title = "ModificarCat";
 }
 
-<h2>Modifica la Categoria @ViewBag.Cat </h2>
+<h2>Modifica la Categoria @Session["Cat"] </h2>
 <form action="@Url.Action("ModificarCate","BackOffice")" method="post">
-    <input type="hidden" name="Cat" value="ViewBag.Cat" />
+    <input type="hidden" name="Cat" value="@Session["Cat"]" />
     <input type="text" name="NewCat" />
     <input type="radio" name ="tipo" value="true" /> Categoria (de Personajes) <br/>
     <input type="radio" name="tipo" value="false" /> Grupo (de preguntas) <br />

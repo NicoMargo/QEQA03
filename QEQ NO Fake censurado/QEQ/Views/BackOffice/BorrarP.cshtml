@@ -3,11 +3,11 @@
     ViewBag.Title = "EliminarP";
 }
 
-<h2>Eliminar Personaje</h2>
+<h2>Eliminar Personaje @Session["Nombre"]</h2>
 
 Estas Segure?
 <form method="post" action="@Url.Action("BorrarPer", "BackOffice")">
-    <input type="hidden" name="Nombre" value="ViewBag.Nombre" />
-    <input type="button" name="Confirmacion" value="Si" />
-    <input type="button" name="Confirmacion" value="No" />
+    <input type="hidden" name="Nombre" value="@Session["Nombre"]" />
+    <input type="submit" name="Confirmacion" value="Si" />
+    <input type="submit" name="Confirmacion" value="No" />
 </form>

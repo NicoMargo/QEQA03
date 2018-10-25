@@ -7,7 +7,7 @@
 
 Estas Seguro?
 <form method="post" action="@Url.Action("BorrarCat", "BackOffice")">
-    <input type="hidden" name="Cat" value="ViewBag.Cat" />
+    <input type="hidden" name="Cat" value="@Session["Cat"]" />
     <input type="submit" name="Confirmacion" value="Si" />
     <input type="submit" name="Confirmacion" value="No" />
 </form>
