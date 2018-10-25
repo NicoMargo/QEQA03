@@ -20,11 +20,13 @@
             <td>@Html.ActionLink("Borrar", "BorrarCat", "BackOffice", new { Cat = Categoria });</td>
         </tr>
     }
-        <tr>
-            <td>Grupo</td>
-            <td>Modificar</td>
-            <td>Borrar</td>
-        </tr>
+</table>
+<table border="1" align="center">
+    <tr>
+        <td>Grupo</td>
+        <td>Modificar</td>
+        <td>Borrar</td>
+    </tr>
     @foreach (string Grupo in ViewBag.Grupos)
     {
         <tr>

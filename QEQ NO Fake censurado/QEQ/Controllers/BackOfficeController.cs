@@ -104,15 +104,6 @@ namespace QEQ.Controllers
             ViewBag.Personajes = BD.Personajes;
             return View();
         }
-
-        [HttpPost]
-        public ActionResult ABMPer(string Accion, string Nombre)
-        {
-            Session["Nombre"]=Nombre;
-            return View(Accion);
-        }
-
-      
         public ActionResult AgregarP()
         {
             BD.CargarPreguntas();
@@ -145,16 +136,17 @@ namespace QEQ.Controllers
             Personajes.Add(new Personaje(3, "3", "1", "1"));
             ViewBag.Personajes = Personajes;
              */
-        public ActionResult BorrarP()
+        public ActionResult BorrarP(string Nombre)
         {
+            Session["Nombre"] = Nombre;
             return View();
         }
         [HttpPost]
-        public ActionResult BorrarPer(string Confirmacion,string Nombre)
+        public ActionResult BorrarPer(string Confirmacion)
         {
             Session["Destino"] = "ABMPer";
             if (Confirmacion == "Si") {
-                Session["ABMMsg"] = BD.BorrarP(Nombre);
+                Session["ABMMsg"] = BD.BorrarP(Session["Nombre"].ToString());
             }
             else
             {
@@ -169,7 +161,7 @@ namespace QEQ.Controllers
             BD.CargarPreguntas();
             BD.CargarCats();
             Personaje mipersonaje = new Personaje();
-            ViewBag.Nombre = Nombre;
+            Session["Nombre"] = Nombre;
             //mipersonaje = buscar en la lista y traer el personaje
             //ViewBag.ListaCat = ModelBinderDictionary.TraerCategorias();
             ViewBag.ListaCat = BD.Categorias;
@@ -180,10 +172,10 @@ namespace QEQ.Controllers
         }
 
         [HttpPost]
-        public ActionResult ModificarPer(string Nombre, Personaje P)
+        public ActionResult ModificarPer(Personaje P)
         {
             Session["Destino"] = "ABMPer";
-            Session["ABMMsg"] = BD.ModificarP(Nombre, P);
+            Session["ABMMsg"] = BD.ModificarP(Session["Nombre"].ToString(), P);
             return View("ABMMsg");
         }
         //ABMPersonajes : FIn------------------------------------------------------------------------------------------------
@@ -196,15 +188,7 @@ namespace QEQ.Controllers
             ViewBag.Grupos = BD.Grupos;
             return View();
         }
-
-        [HttpPost]
-        public ActionResult ABMCat(string Accion, string Cat)
-        {
-            Session["Cat"]=Cat;
-            return View(Accion);
-        }
-
-
+        
         public ActionResult AgregarCat()
         {
             BD.CargarCats();            
@@ -219,17 +203,18 @@ namespace QEQ.Controllers
             return View("ABMMsg");
         }
         
-        public ActionResult BorrarCat()
+        public ActionResult BorrarCat(string Cat)
         {
+            Session["Cat"] = Cat;
             return View();
         }
         [HttpPost]
-        public ActionResult BorrarCat(string Confirmacion, string Cat)
+        public ActionResult BorrarCate(string Confirmacion)
         {
             Session["Destino"] = "ABMCat";
             if (Confirmacion == "Si")
             {
-                Session["ABMMsg"] = BD.BorrarCat(Cat, BuscarCat(Cat,BD.Categorias));
+                Session["ABMMsg"] = BD.BorrarCat(Session["Cat"].ToString(), BuscarCat(Session["Cat"].ToString(), BD.Categorias));
             }
             else
             {
@@ -239,18 +224,19 @@ namespace QEQ.Controllers
             return View("ABMMsg");
         }
 
-        public ActionResult ModificarCat()
+        public ActionResult ModificarCat(string Cat)
         {
+            Session["Cat"] = Cat;
             BD.CargarCats();
             return View();
 
         }
 
         [HttpPost]
-        public ActionResult ModificarCate(string Cat,string NewCat, string tipo)
+        public ActionResult ModificarCate(string NewCat, string tipo)
         {
             Session["Destino"] = "ABMCat";
-            Session["ABMMsg"] = BD.ModificarCat(Cat,NewCat, Convert.ToBoolean(tipo));
+            Session["ABMMsg"] = BD.ModificarCat(Session["Cat"].ToString(),NewCat, Convert.ToBoolean(tipo));
             return View("ABMMsg");
         }
         //ABMCategorias : fin------------------------------------------------------------------------------------------------
@@ -262,15 +248,6 @@ namespace QEQ.Controllers
             ViewBag.Preguntas = BD.Preguntas;
             return View();
         }
-
-        [HttpPost]
-        public ActionResult ABMCar(string Accion, string Texto)
-        {
-            Session["Texto"] = Texto;
-            return View(Accion);
-        }
-
-
         public ActionResult AgregarCar()
         {
             BD.CargarPreguntas();
@@ -288,17 +265,18 @@ namespace QEQ.Controllers
             return View("ABMMsg");
         }
         
-        public ActionResult BorrarCar()
+        public ActionResult BorrarCar(string Texto)
         {
+            Session["Texto"] = Texto;
             return View();
         }
         [HttpPost]
-        public ActionResult BorrarCar(string Confirmacion, string Texto)
+        public ActionResult BorrarCara(string Confirmacion)
         {
             Session["Destino"] = "ABMCar";
             if (Confirmacion == "Si")
             {
-                Session["ABMMsg"] = BD.BorrarCar(Texto);
+                Session["ABMMsg"] = BD.BorrarCar(Session["Texto"].ToString());
             }
             else
             {
@@ -308,8 +286,9 @@ namespace QEQ.Controllers
             return View("ABMMsg");
         }
 
-        public ActionResult ModificarCar()
+        public ActionResult ModificarCar(string Texto)
         {
+            Session["Texto"] = Texto;
             BD.CargarPreguntas();
             Preg caracteristica = new Preg(BD.BuscarPregunta(ViewBag.Texto).Id, ViewBag.Texto, null);
             return View(caracteristica);
@@ -317,10 +296,10 @@ namespace QEQ.Controllers
         }
 
         [HttpPost]
-        public ActionResult ModificarCar(string Texto, Preg caracteristica)
+        public ActionResult ModificarCar( Preg caracteristica)
         {
             Session["Destino"] = "ABMPer";
-            Session["ABMMsg"] = BD.ModificarCar(Texto, caracteristica);
+            Session["ABMMsg"] = BD.ModificarCar(Session["Texto"].ToString(), caracteristica);
             return View("ABMMsg");
         }
 
