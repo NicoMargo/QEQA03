@@ -50,7 +50,6 @@ namespace QEQ.Controllers
         [HttpPost]
         public ActionResult LogIn(string Usuario, string contraseña)
         {
-
             string Host = Dns.GetHostName(), Ip, Mac;
             IPAddress[] ip = Dns.GetHostAddresses(Host);
             Ip = ip[0].ToString();
@@ -99,16 +98,28 @@ namespace QEQ.Controllers
             }
             return RedirectToAction("Index", "Home");
         }
+        public ActionResult AD()
+        {
+            return View();
+        }
 
         //ABMPersonajes : Comienzo------------------------------------------------------------------------------------------------
         public ActionResult ABMPer()
         {
+            if (Session["Admin"] != "Admin")
+            {
+                return RedirectToAction("AD", "BackOffice");
+            }
             BD.CargarPersonajes();
             ViewBag.Personajes = BD.Personajes;
             return View();
         }
         public ActionResult AgregarP()
         {
+            if (Session["Admin"] != "Admin")
+            {
+                return RedirectToAction("AD", "BackOffice");
+            }
             BD.CargarPreguntas();
             BD.CargarCats();
             Personaje mipersonaje = new Personaje();
@@ -141,12 +152,20 @@ namespace QEQ.Controllers
              */
         public ActionResult BorrarP(string Nombre)
         {
+            if (Session["Admin"] != "Admin")
+            {
+                return RedirectToAction("AD", "BackOffice");
+            }
             Session["Nombre"] = Nombre;
             return View();
         }
         [HttpPost]
         public ActionResult BorrarPer(string Confirmacion)
         {
+            if (Session["Admin"] != "Admin")
+            {
+                return RedirectToAction("AD", "BackOffice");
+            }
             Session["Destino"] = "ABMPer";
             if (Confirmacion == "Si") {
                 Session["ABMMsg"] = BD.BorrarP(Session["Nombre"].ToString());
@@ -161,6 +180,10 @@ namespace QEQ.Controllers
 
         public ActionResult ModificarP(string Nombre)
         {
+            if (Session["Admin"] != "Admin")
+            {
+                return RedirectToAction("AD", "BackOffice");
+            }
             BD.CargarPreguntas();
             BD.CargarCats();
             Personaje mipersonaje = new Personaje();
@@ -194,6 +217,10 @@ namespace QEQ.Controllers
         
         public ActionResult AgregarCat()
         {
+            if (Session["Admin"] != "Admin")
+            {
+                return RedirectToAction("AD", "BackOffice");
+            }
             BD.CargarCats();            
             return View();
         }
@@ -208,6 +235,10 @@ namespace QEQ.Controllers
         
         public ActionResult BorrarCat(string Cat)
         {
+            if (Session["Admin"] != "Admin")
+            {
+                return RedirectToAction("AD", "BackOffice");
+            }
             Session["Cat"] = Cat;
             return View();
         }
@@ -229,6 +260,10 @@ namespace QEQ.Controllers
 
         public ActionResult ModificarCat(string Cat)
         {
+            if (Session["Admin"] != "Admin")
+            {
+                return RedirectToAction("AD", "BackOffice");
+            }
             Session["Cat"] = Cat;
             BD.CargarCats();
             return View();
@@ -247,12 +282,20 @@ namespace QEQ.Controllers
 
         public ActionResult ABMCar()
         {
+            if (Session["Admin"] != "Admin")
+            {
+                return RedirectToAction("AD", "BackOffice");
+            }
             BD.CargarPreguntas();
             ViewBag.Preguntas = BD.Preguntas;
             return View();
         }
         public ActionResult AgregarCar()
         {
+            if (Session["Admin"] != "Admin")
+            {
+                return RedirectToAction("AD", "BackOffice");
+            }
             BD.CargarPreguntas();
             BD.CargarGrupos();
             Preg lapregunta = new Preg();
@@ -270,6 +313,10 @@ namespace QEQ.Controllers
         
         public ActionResult BorrarCar(string Texto)
         {
+            if (Session["Admin"] != "Admin")
+            {
+                return RedirectToAction("AD", "BackOffice");
+            }
             Session["Texto"] = Texto;
             return View();
         }
@@ -291,6 +338,10 @@ namespace QEQ.Controllers
 
         public ActionResult ModificarCar(string Texto)
         {
+            if (Session["Admin"] != "Admin")
+            {
+                return RedirectToAction("AD", "BackOffice");
+            }
             Session["Texto"] = Texto;
             Preg caracteristica = new Preg(BD.BuscarPregunta(ViewBag.Texto).Id, ViewBag.Texto, null);
             return View(caracteristica);
@@ -308,6 +359,10 @@ namespace QEQ.Controllers
         //ABMCaracteristicas o preguntas : Fin------------------------------------------------------------------------------------------------
         public ActionResult ModificarUsu(string id)
         {
+            if (Session["Admin"] != "Admin")
+            {
+                return RedirectToAction("AD", "BackOffice");
+            }
             if (id != null)
             {
                 ViewBag.Estado = id;
@@ -363,7 +418,11 @@ namespace QEQ.Controllers
             }
         }
         public ActionResult MostrarLista()
-        {          
+        {
+            if (Session["Admin"] != "Admin")
+            {
+                return RedirectToAction("AD", "BackOffice");
+            }
             //Lista = BD.TraerPersonajes();            
             return View();            
         }
