@@ -10,18 +10,18 @@ namespace QEQ.Models
         private int _id;
         private string _nombre;
         private string _foto;
-        private string _categoria;
+        private int _idcategoria;
         private List<Preg> _preguntas;
 
         public Personaje()
         { }
 
-        public Personaje(int _id, string _nombre, string _foto, string _categoria)
+        public Personaje(int _id, string _nombre, string _foto, int _categoria)
         {
             this._id = _id;
             this._nombre = _nombre;
             this._foto = _foto;
-            this._categoria = _categoria;
+            this._idcategoria = _categoria;
         }
 
         public int Id
@@ -63,16 +63,16 @@ namespace QEQ.Models
             }
         }
 
-        public string Categoria
+        public int idCategoria
         {
             get
             {
-                return _categoria;
+                return _idcategoria;
             }
 
             set
             {
-                _categoria = value;
+                _idcategoria = value;
             }
         }
         public List<Preg> Preguntas

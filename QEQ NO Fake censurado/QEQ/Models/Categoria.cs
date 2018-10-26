@@ -5,16 +5,18 @@ using System.Web;
 
 namespace QEQ.Models
 {
-    public class Categoria
+    public class Cat
     {
         private int _id;
         private string _nombre;
 
-        public Categoria(int _id, string _nombre)
+        public Cat(int _id, string _nombre)
         {
             this._id = _id;
             this._nombre = _nombre;
         }
+        public Cat()
+        { }
 
         public int Id
         {

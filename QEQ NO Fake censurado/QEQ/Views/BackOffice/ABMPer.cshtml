@@ -12,10 +12,10 @@
         <tr>
             <td>@Html.Label(personaje.Id.ToString())</td>
             <td>@Html.Label(personaje.Nombre)</td>
-            <td>@Html.Label(personaje.Categoria)</td>
+            <td>@Html.Label(BD.BuscarCat(personaje.idCategoria,BD.Categorias).Nombre)</td>
             <!--<td@Html.Label(personaje.Img);</td>-->
-            <td>@Html.ActionLink("Modificar", "ModificarP", "BackOffice", new { Nombre = personaje.Nombre });</td>
-            <td>@Html.ActionLink("Borrar", "BorrarP", "BackOffice", new { Nombre = personaje.Nombre });</td>
+            <td>@Html.ActionLink("Modificar", "ModificarP", "BackOffice", new { Id = personaje.Id });</td>
+            <td>@Html.ActionLink("Borrar", "BorrarP", "BackOffice", new { Id = personaje.Id });</td>
         </tr>
     }
 </table>

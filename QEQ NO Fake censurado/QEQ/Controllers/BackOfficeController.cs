@@ -150,17 +150,17 @@ namespace QEQ.Controllers
             Personajes.Add(new Personaje(3, "3", "1", "1"));
             ViewBag.Personajes = Personajes;
              */
-        public ActionResult BorrarP(string Nombre)
+        public ActionResult BorrarP(int id)
         {
             if (Session["Admin"] != "Admin")
             {
                 return RedirectToAction("AD", "BackOffice");
             }
-            Session["Nombre"] = Nombre;
+            ViewBag.Nombre = Nombre;
             return View();
         }
         [HttpPost]
-        public ActionResult BorrarPer(string Confirmacion)
+        public ActionResult BorrarPer(string Confirmacion, string Nombre)
         {
             if (Session["Admin"] != "Admin")
             {
@@ -168,7 +168,7 @@ namespace QEQ.Controllers
             }
             Session["Destino"] = "ABMPer";
             if (Confirmacion == "Si") {
-                Session["ABMMsg"] = BD.BorrarP(Session["Nombre"].ToString());
+                Session["ABMMsg"] = BD.BorrarP(Nombre);
             }
             else
             {

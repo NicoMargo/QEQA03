@@ -6,7 +6,7 @@
 <h2>Modifica el personaje @Session["Nombre"] </h2>
 @using (Html.BeginForm("ModificarPer", "BackOffice", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    @Html.Label("Personaje: ") <label>@Session["Nombre"]</label><br />
+    @Html.Label("Personaje: " + Session["Nombre"].ToString()) <br />
     <input type="hidden" name="Nombre" value="@Session["Nombre"]" /><br />
     @Html.Label("Nuevo nombre") @Html.TextBoxFor(P => P.Nombre)<br />
     @Html.Label("Cargar Fotito nueva") <input type="file" name="Foto" /><br />

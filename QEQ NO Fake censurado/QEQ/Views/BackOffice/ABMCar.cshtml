@@ -12,9 +12,9 @@
         <tr>
             <td>@Html.Label(pregutna.Id.ToString())</td>
             <td>@Html.Label(pregutna.Texto)</td>
-            <td>@Html.Label(pregutna.Grupo)</td>
-            <td>@Html.ActionLink("Modificar", "ModificarCar", "BackOffice", new { Texto = pregutna.Texto })</td>
-            <td>@Html.ActionLink("Borrar", "BorrarCar", "BackOffice", new { Texto = pregutna.Texto })</td>
+            <td>@Html.Label(BD.BuscarCat(pregutna.idGrupo,BD.Grupos).Nombre)</td>
+            <td>@Html.ActionLink("Modificar", "ModificarCar", "BackOffice", new { Id = pregutna.Id })</td>
+            <td>@Html.ActionLink("Borrar", "BorrarCar", "BackOffice", new { Id = pregutna.Id })</td>
         </tr>
     }
 </table>
