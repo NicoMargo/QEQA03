@@ -2,17 +2,16 @@
 @{
     ViewBag.Title = "Modificar Caracteristica";
 }
-
+@using QEQ.Models
 <h2>Modifica la Caracteristica</h2>
 
 
 @using QEQ.Models
 @model QEQ.Models.Preg
-Pregunta: " @Session["Texto"]? "
+Pregunta: " @BD.BuscarPregunta(Model.Id).Texto? "
 @using (Html.BeginForm("ModificarCar", "BackOffice", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    <input type="hidden" name="Texto" value="@Session["Texto"]" /><br />
-    @Html.Label("Texto") @Html.TextBoxFor(P => P.Texto)<br />
-    @Html.Label("Grupo") @Html.DropDownListFor(P => P.Grupo, new SelectList(ViewBag.ListaCat)) <br />
+    @Html.Label("Texto") @Html.TextBoxFor(P => P.Texto, new { @required = "required" }) <br />
+    @Html.Label("Grupo") @Html.DropDownListFor(P => P.idGrupo, new SelectList(ViewBag.Grupos), "Id", "Nombre") <br />
     <input type="submit" value="Proceder" />
 }

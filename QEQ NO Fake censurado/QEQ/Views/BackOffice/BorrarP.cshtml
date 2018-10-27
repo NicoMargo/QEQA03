@@ -1,13 +1,13 @@
 ﻿
 @{
-    ViewBag.Title = "EliminarP";
+    ViewBag.Title = "BorrarP";
 }
-
-<h2>Eliminar Personaje @ViewBag.Nombre</h2>
+@using QEQ.Models
+<h2>Eliminar Personaje @BD.BuscarPersonaje(ViewBag.Id).Nombre</h2>
 
 Estas Segure?
 <form method="post" action="@Url.Action("BorrarPer", "BackOffice")">
-    <input type="hidden" name="Nombre" value="@ViewBag.Nombre" />
+    <input type="hidden" name="Id" value="@ViewBag.Id" />
     <input type="submit" name="Confirmacion" value="Si" />
     <input type="submit" name="Confirmacion" value="No" />
 </form>

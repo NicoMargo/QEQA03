@@ -1,4 +1,4 @@
-﻿
+﻿@using QEQ.Models
 @{
     ViewBag.Title = "Borrar Caracteristica";
 }
@@ -6,9 +6,9 @@
 
 
 Estas Seguro de eliminar la siguiente pregunta? <br />
-"@Session["Texto"] ?"<br />
-<form method="post" action="@Url.Action("BorrarCara", "BackOffice")">
-    <input type="hidden" name="Texto" value="@Session["Texto"]" />
+"@BD.BuscarPregunta(ViewBag.Id).Texto ?"<br />
+<form method="post" action="@Url.Action("BorrarCar", "BackOffice")">
+    <input type="hidden" name="Id" value="@ViewBag.Id" />
     <input type="submit" name="Confirmacion" value="Si" />
     <input type="submit" name="Confirmacion" value="No" />
 </form>

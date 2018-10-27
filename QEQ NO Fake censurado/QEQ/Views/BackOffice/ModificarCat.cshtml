@@ -2,12 +2,17 @@
 @{
     ViewBag.Title = "ModificarCat";
 }
+@model QEQ.Models.Cat
+@using QEQ.Models
+<h2>Modifica la Categoria @BD.BuscarCat(Model.Id,BD.Categorias).Nombre </h2>
 
-<h2>Modifica la Categoria @Session["Cat"] </h2>
-<form action="@Url.Action("ModificarCate","BackOffice")" method="post">
-    <input type="hidden" name="Cat" value="@Session["Cat"]" />
-    <input type="text" name="NewCat" /><br />
-    <input type="radio" name ="tipo" value="true" /> Categoria (de Personajes) <br/>
-    <input type="radio" name="tipo" value="false" /> Grupo (de preguntas) <br />
-    <input type="submit" name = "cargar" value="Cargar" />"
-</form>
+@using (Html.BeginForm("ModificarCat", "BackOffice", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.TextBoxFor(x => x.Nombre, new { @required = "required" })  
+    @Html.ValidationMessageFor(x => x.Nombre) <br />
+    @Html.RadioButton("tipo", "true",true)
+    @Html.Label("Categoria(de Personajes)") <br />
+    @Html.RadioButton("tipo", "false")
+    @Html.Label("Grupo(de preguntas)") <br />
+    <input type="submit" name="cargar" value="Cargar" /> 
+}

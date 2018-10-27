@@ -2,12 +2,13 @@
 @{
     ViewBag.Title = "Borrar Categoria";
 }
-<h2>Borrar la Categoria</h2>
+@using QEQ.Models
+<h2>Borrar la Categoria @BD.BuscarCat(ViewBag.Id,BD.Categorias).Nombre</h2>
 
 
 Estas Seguro?
-<form method="post" action="@Url.Action("BorrarCate", "BackOffice")">
-    <input type="hidden" name="Cat" value="@Session["Cat"]" />
+<form method="post" action="@Url.Action("BorrarCat", "BackOffice")">
+    <input type="hidden" name="Id" value="@ViewBag.Id" />
     <input type="submit" name="Confirmacion" value="Si" />
     <input type="submit" name="Confirmacion" value="No" />
 </form>

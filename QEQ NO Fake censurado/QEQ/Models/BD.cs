@@ -8,11 +8,13 @@ namespace QEQ.Models
 {
     public static class BD
     {
-        public static string connectionString = "Server=10.128.8.16;User=QEQA03;Password=QEQA03;Database=QEQA03"; //Ort
+        //public static string connectionString = "Server=10.128.8.16;User=QEQA03;Password=QEQA03;Database=QEQA03"; //Ort
         //public static string connectionString = @"Server=DESKTOP-5P28OS5\SQLEXPRESS;Database=QEQA03;Trusted_Connection=True;"; //Anush
-                                                                                                                               // public static string connectionString = "Server=.;Database=QEQ;Trusted_Connection=True;"; //chino
-                                                                                                                               //public static List<Preguntas> ListaPreg = new List<Preguntas>();
-                                                                                                                               // public static List<Respuestas> ListaResp = new List<Respuestas>();
+        public static string connectionString = @"Server=DESKTOP-P6PCH8N\SQLEXPRESS;Database=QEQA03;Trusted_Connection=True;"; //Chino
+
+        // public static string connectionString = "Server=.;Database=QEQ;Trusted_Connection=True;"; //chino
+        //public static List<Preguntas> ListaPreg = new List<Preguntas>();
+        // public static List<Respuestas> ListaResp = new List<Respuestas>();
         public static string msg;
         public static List<Preg> Preguntas;//sp Traer Preguntas
         public static List<Personaje> Personajes;//Sp traer personajes
@@ -38,7 +40,20 @@ namespace QEQ.Models
             }
             return pregunta;
         }
+        public static Preg BuscarPregunta(int id)
+        {
+            Preg pregunta = null;
+            int i = 0;
+            while (i < Preguntas.Count() && pregunta == null)
+            {
+                if (Preguntas[i].Id == id)
+                {
+                    pregunta = Preguntas[i];
+                }
 
+            }
+            return pregunta;
+        }
         public static Personaje BuscarPersonaje(string Nombre)
         {
             Personaje personaje = null;
@@ -94,6 +109,11 @@ namespace QEQ.Models
             }
             return grupo;
         }
+
+
+
+
+        //Action REsults------------------------------------------------------------------------------------------------------------------------------------
             public static SqlConnection Conectar()
         {
             SqlConnection laConexion = new SqlConnection(connectionString);
@@ -209,7 +229,7 @@ namespace QEQ.Models
             Desconectar(unaConexion);
             return msg;
         }
-        public static string ModificarCat(Cat cat, string newCat, bool tipo)
+        public static string ModificarCat(Cat cat, bool tipo)
         {
 
             string msg = "";
@@ -234,7 +254,7 @@ namespace QEQ.Models
             laConsulta.CommandType = System.Data.CommandType.StoredProcedure;
             laConsulta.CommandText = sp;
             laConsulta.Parameters.AddWithValue(pCat, cat.Id);
-            laConsulta.Parameters.AddWithValue(pNewCat, newCat);
+            laConsulta.Parameters.AddWithValue(pNewCat, cat.Nombre);
             SqlDataReader elLector = laConsulta.ExecuteReader();
             if (elLector.Read())
             {
@@ -395,7 +415,7 @@ namespace QEQ.Models
             {
                 Preg Pregunta = new Preg(Convert.ToInt32(elLector["idPregunta"]), Convert.ToString(elLector["Texto"]), Convert.ToInt32(elLector["idGrupo"]));
                 Preguntas.Add(Pregunta);
-                PregsXGrupos[BuscarGrupo(Pregunta.idGrupo).Nombre].Add(Pregunta);
+                PregsXGrupos[BuscarCat(Pregunta.idGrupo,Grupos).Nombre].Add(Pregunta);
             }
             Desconectar(unaConexion);
         }

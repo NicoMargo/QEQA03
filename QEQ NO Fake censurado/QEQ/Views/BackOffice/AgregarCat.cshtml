@@ -5,9 +5,12 @@
 
 <h2>Agregar una nueva Categoria</h2>
 
-<form action="@Url.Action("AgregarCat","BackOffice")" method="post">
-    <input type="text" name="Cat" />
-    <input type="radio" name="tipo" value="true" /> Categoria (de Personajes) <br />
-    <input type="radio" name="tipo" value="false" /> Grupo (de preguntas) <br />
-    <input type="submit" name="cargar" value="Cargar" />"
-</form>
+@using (Html.BeginForm("AgregarCat", "BackOffice", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.TextBox("Cat", new { @required = "required" }) <br />
+    @Html.RadioButton("tipo", "true", true)
+    @Html.Label("Categoria(de Personajes)") <br />
+    @Html.RadioButton("tipo", "false")
+    @Html.Label("Grupo(de preguntas)") <br />
+    <input type="submit" name="cargar" value="Cargar" />
+}
