@@ -7,6 +7,13 @@
 @using QEQ.Models
 @Html.ActionLink("Agregar una caracteristica", "AgregarCar", "BackOffice"); <br />
 <table border="1" align="center">
+    <tr>
+        <td>Id</td>
+        <td>Texto</td>
+        <td>Grupo</td>
+        <td>Modificar</td>
+        <td>Borrar</td>
+    </tr>
     @foreach (Preg pregutna in ViewBag.Preguntas)
     {
         <tr>

@@ -430,7 +430,7 @@ namespace QEQ.Controllers
             }
             else
             {
-                Session["Destino"] = "ABMPer";
+                Session["Destino"] = "ABMCar";
                 Session["ABMMsg"] = BD.AgregarCar(preg);
                 return View("ABMMsg");
             }

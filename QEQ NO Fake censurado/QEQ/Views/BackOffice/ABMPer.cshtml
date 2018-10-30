@@ -7,6 +7,14 @@
 <h2>Menu ABM de Personajes</h2>
 @Html.ActionLink("Agregar un nuevo personaje", "AgregarP", "BackOffice"); <br/>
 <table border="1"  align="center" >
+    <tr>
+        <td>Id</td>
+        <td>Nombre</td>
+        <td>Categoria</td>
+        <td>Imagn</td>
+        <td>Modificar</td>
+        <td>Borrar</td>
+    </tr>
     @foreach (Personaje personaje in ViewBag.Personajes)
     {
         <tr>

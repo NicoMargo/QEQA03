@@ -8,9 +8,9 @@ namespace QEQ.Models
 {
     public static class BD
     {
-        //public static string connectionString = "Server=10.128.8.16;User=QEQA03;Password=QEQA03;Database=QEQA03"; //Ort
+        public static string connectionString = "Server=10.128.8.16;User=QEQA03;Password=QEQA03;Database=QEQA03"; //Ort
         //public static string connectionString = @"Server=DESKTOP-5P28OS5\SQLEXPRESS;Database=QEQA03;Trusted_Connection=True;"; //Anush
-        public static string connectionString = @"Server=DESKTOP-P6PCH8N\SQLEXPRESS;Database=QEQA03;Trusted_Connection=True;"; //Chino
+        //public static string connectionString = @"Server=DESKTOP-P6PCH8N\SQLEXPRESS;Database=QEQA03;Trusted_Connection=True;"; //Chino
 
         // public static string connectionString = "Server=.;Database=QEQ;Trusted_Connection=True;"; //chino
         //public static List<Preguntas> ListaPreg = new List<Preguntas>();
@@ -158,7 +158,7 @@ namespace QEQ.Models
             {
                 foreach (Preg pregunta in Per.Preguntas)
                 {
-                    //      CargarRta(Per, pregunta);
+                    CargarRta(Per, pregunta);
                 }
             }
             return msg;
@@ -378,7 +378,7 @@ namespace QEQ.Models
             SqlCommand laConsulta = unaConexion.CreateCommand();
             laConsulta.CommandType = System.Data.CommandType.StoredProcedure;
             laConsulta.CommandText = "spTraerPersonajes";
-            laConsulta.Parameters.AddWithValue("@Categoria", "Todos");
+            laConsulta.Parameters.AddWithValue("@idCategoria",0);
             SqlDataReader elLector = laConsulta.ExecuteReader();
             while (elLector.Read())
             {
