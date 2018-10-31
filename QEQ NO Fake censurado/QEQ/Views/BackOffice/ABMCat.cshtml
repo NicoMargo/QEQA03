@@ -4,11 +4,12 @@
 }
 
 <h2>Menu ABM de Categorias</h2>
-@Html.ActionLink("Agregar una nueva categoria", "AgregarCat", "BackOffice"); <br />
+@Html.ActionLink("Agregar una nueva categoria", "AgregarCat", "BackOffice") <br />
+<label>Categorias (Clasificacion de Personajes)</label><br />
 <table border="1" align="center">
     <tr>
-        <td>id</td>
-        <td>categoria</td>
+        <td>Id</td>
+        <td>Categoria</td>
         <td>Modificar</td>
         <td>Borrar</td>
     </tr>
@@ -17,14 +18,15 @@
         <tr>
             <td>@Html.Label(Categoria.Id.ToString())</td>
             <td>@Html.Label(Categoria.Nombre)</td>
-            <td>@Html.ActionLink("Modificar", "ModificarCat", "BackOffice", new { id = Categoria.Id })</td>
-            <td>@Html.ActionLink("Borrar", "BorrarCat", "BackOffice", new { id = Categoria.Id })</td>
+            <td>@Html.ActionLink("Modificar", "ModificarCat", "BackOffice", new { id = Categoria.Id,tipo = true },null)</td>
+            <td>@Html.ActionLink("Borrar", "BorrarCat", "BackOffice", new { id = Categoria.Id,tipo = true },null)</td>
         </tr>
     }
 </table>
+<label>Grupos (Clasificacion de Preguntas)</label><br />
 <table border="1" align="center">
     <tr>
-        <td>id</td>
+        <td>Id</td>
         <td>Grupo</td>
         <td>Modificar</td>
         <td>Borrar</td>
@@ -34,9 +36,9 @@
         <tr>
             <td>@Html.Label(Grupo.Id.ToString())</td>
             <td>@Html.Label(Grupo.Nombre)</td>
-            <td>@Html.ActionLink("Modificar", "ModificarCat", "BackOffice", new { Id = Grupo.Id },null);</td>
-            <td>@Html.ActionLink("Borrar", "BorrarCat", "BackOffice", new { Id = Grupo.Id },null);</td>
+            <td>@Html.ActionLink("Modificar", "ModificarCat", "BackOffice", new { id = Grupo.Id,tipo = false }, null)</td>
+            <td>@Html.ActionLink("Borrar", "BorrarCat", "BackOffice", new { id = Grupo.Id,tipo = false }, null)</td>
         </tr>
     }
 </table>
-@Html.ActionLink("Volver al BackOffice Index", "Index", "BackOffice"); <br />
+@Html.ActionLink("Volver al BackOffice Index", "Index", "BackOffice") <br />

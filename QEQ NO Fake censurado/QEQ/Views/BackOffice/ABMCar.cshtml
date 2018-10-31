@@ -5,7 +5,7 @@
 
 <h2>Menu de ABM de Caracteristicas</h2>
 @using QEQ.Models
-@Html.ActionLink("Agregar una caracteristica", "AgregarCar", "BackOffice"); <br />
+@Html.ActionLink("Agregar una caracteristica", "AgregarCar", "BackOffice") <br />
 <table border="1" align="center">
     <tr>
         <td>Id</td>
@@ -20,9 +20,9 @@
             <td>@Html.Label(pregutna.Id.ToString())</td>
             <td>@Html.Label(pregutna.Texto)</td>
             <td>@Html.Label(BD.BuscarCat(pregutna.idGrupo,BD.Grupos).Nombre)</td>
-            <td>@Html.ActionLink("Modificar", "ModificarCar", "BackOffice", new { Id = pregutna.Id })</td>
-            <td>@Html.ActionLink("Borrar", "BorrarCar", "BackOffice", new { Id = pregutna.Id })</td>
+            <td>@Html.ActionLink("Modificar", "ModificarCar", "BackOffice", new { id = pregutna.Id },null)</td>
+            <td>@Html.ActionLink("Borrar", "BorrarCar", "BackOffice", new { id = pregutna.Id },null)</td>
         </tr>
     }
 </table>
-@Html.ActionLink("Volver al BackOffice Index", "Index", "BackOffice"); <br />
+@Html.ActionLink("Volver al BackOffice Index", "Index", "BackOffice") <br />

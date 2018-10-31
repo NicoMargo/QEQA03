@@ -321,7 +321,7 @@ namespace QEQ.Controllers
             }
         }
         
-        public ActionResult BorrarCat(int id)
+        public ActionResult BorrarCat(int id, bool tipo)
         {
             if (Session["Admin"].ToString() != "Admin")
             {
@@ -330,6 +330,7 @@ namespace QEQ.Controllers
             else
             {
                 ViewBag.Id = id;
+                ViewBag.Tipo = tipo;
                 return View();
             }
         }
@@ -356,7 +357,7 @@ namespace QEQ.Controllers
             }
         }
 
-        public ActionResult ModificarCat(int id)
+        public ActionResult ModificarCat(int id, bool tipo)
         {
             if (Session["Admin"].ToString() != "Admin")
             {
@@ -369,6 +370,7 @@ namespace QEQ.Controllers
                     return RedirectToAction("AD", "BackOffice");
                 }
                 ViewBag.Id =id;
+                ViewBag.tipo = tipo;
                 Cat cat = new Cat(id, null);
                 BD.CargarCats();
                 return View(cat);

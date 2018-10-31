@@ -275,7 +275,7 @@ namespace QEQ.Models
             SqlCommand laConsulta = unaConexion.CreateCommand();
             laConsulta.CommandType = System.Data.CommandType.StoredProcedure;
             laConsulta.CommandText = sp;
-            laConsulta.Parameters.AddWithValue("@Id", cat.Id);
+            laConsulta.Parameters.AddWithValue("@id", cat.Id);
             SqlDataReader elLector = laConsulta.ExecuteReader();
             if (elLector.Read())
             {
@@ -379,6 +379,7 @@ namespace QEQ.Models
             laConsulta.CommandType = System.Data.CommandType.StoredProcedure;
             laConsulta.CommandText = "spTraerPersonajes";
             laConsulta.Parameters.AddWithValue("@idCategoria",0);
+
             SqlDataReader elLector = laConsulta.ExecuteReader();
             while (elLector.Read())
             {
