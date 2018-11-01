@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data.SqlClient;
+using System.Data;
 
 namespace QEQ.Models
 {
     public static class BD
     {
-        public static string connectionString = "Server=10.128.8.16;User=QEQA03;Password=QEQA03;Database=QEQA03"; //Ort
-        //public static string connectionString = @"Server=DESKTOP-5P28OS5\SQLEXPRESS;Database=QEQA03;Trusted_Connection=True;"; //Anush
+        //public static string connectionString = "Server=10.128.8.16;User=QEQA03;Password=QEQA03;Database=QEQA03"; //Ort
+        public static string connectionString = @"Server=DESKTOP-5P28OS5\SQLEXPRESS;Database=QEQA03;Trusted_Connection=True;"; //Anush
         //public static string connectionString = @"Server=DESKTOP-P6PCH8N\SQLEXPRESS;Database=QEQA03;Trusted_Connection=True;"; //Chino
 
         // public static string connectionString = "Server=.;Database=QEQ;Trusted_Connection=True;"; //chino
@@ -147,7 +148,7 @@ namespace QEQ.Models
             laConsulta.CommandText = "spCrearPersonaje";
             laConsulta.Parameters.AddWithValue("@Nombre", Per.Nombre);
             laConsulta.Parameters.AddWithValue("@idCategoria", Per.idCategoria);
-            laConsulta.Parameters.AddWithValue("@Foto", "" /*Per.Imagen*/);
+            laConsulta.Parameters.AddWithValue("@Foto", Per.FotoByte);
             SqlDataReader elLector = laConsulta.ExecuteReader();
             while (elLector.Read())
             {
@@ -383,7 +384,7 @@ namespace QEQ.Models
             SqlDataReader elLector = laConsulta.ExecuteReader();
             while (elLector.Read())
             {
-                Personajes.Add(new Personaje(Convert.ToInt32(elLector["idPersona"]), Convert.ToString(elLector["Nombre"]), "", Convert.ToInt32(elLector["idCategoria"])));
+              //  Personajes.Add(new Personaje(Convert.ToInt32(elLector["idPersona"]), Convert.ToString(elLector["Nombre"]), null, 2, null, Convert.ToInt32(elLector["idCategoria"])));
             }
             Desconectar(unaConexion);
         }
@@ -398,7 +399,7 @@ namespace QEQ.Models
             SqlDataReader elLector = laConsulta.ExecuteReader();
             while (elLector.Read())
             {
-                Personajes.Add(new Personaje(Convert.ToInt32(elLector["idPersona"]), Convert.ToString(elLector["Nombre"]), "", Convert.ToInt32(elLector["idCategoria"])));
+             //   Personajes.Add(new Personaje(Convert.ToInt32(elLector["idPersona"]), Convert.ToString(elLector["Nombre"]), null,2,null, Convert.ToInt32(elLector["idCategoria"])));
             }
             Desconectar(unaConexion);
         }

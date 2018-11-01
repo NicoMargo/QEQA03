@@ -3,25 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
+
 namespace QEQ.Models
 {
     public class Personaje
     {
         private int _id;
         private string _nombre;
-        private string _foto;
+        private HttpPostedFileBase _foto;
         private int _idcategoria;
+        private Byte[] _fotoByte;
         private List<Preg> _preguntas;
 
         public Personaje()
         { }
 
-        public Personaje(int _id, string _nombre, string _foto, int _categoria)
+        public Personaje(int id, string nombre, HttpPostedFileBase foto, int idcategoria, Byte[] fotoByte, List<Preg> preguntas)
         {
-            this._id = _id;
-            this._nombre = _nombre;
-            this._foto = _foto;
-            this._idcategoria = _categoria;
+            _id = id;
+            _nombre = nombre;
+            _foto = foto;
+            _idcategoria = idcategoria;
+            _fotoByte = fotoByte;
+            _preguntas = preguntas;
         }
 
         public int Id
@@ -34,6 +38,19 @@ namespace QEQ.Models
             set
             {
                 _id = value;
+            }
+        }
+
+        public Byte[] FotoByte
+        {
+            get
+            {
+                return _fotoByte;
+            }
+
+            set
+            {
+                _fotoByte = value;
             }
         }
 
@@ -50,7 +67,7 @@ namespace QEQ.Models
             }
         }
 
-        public string Foto
+        public HttpPostedFileBase Foto
         {
             get
             {
@@ -87,5 +104,7 @@ namespace QEQ.Models
                 _preguntas = value;
             }
         }
+
+        
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Drawing;
 using QEQ.Models;
 using System.Net;
 
@@ -166,21 +167,29 @@ namespace QEQ.Controllers
         }
         public ActionResult AgregarP()
         {
-            if (Session["Admin"].ToString() != "Admin")
+            Session["Admin"] = "Admin";
+            try
+            {
+                if (Session["Admin"].ToString() != "Admin")
+                {
+                    return RedirectToAction("AD", "BackOffice");
+                }
+                else
+                {
+                    BD.CargarPreguntas();
+                    BD.CargarCats();
+                    Personaje mipersonaje = new Personaje();
+                    //mipersonaje = buscar en la lista y traer el personaje
+                    //ViewBag.ListaCat = ModelBinderDictionary.TraerCategorias();
+                    ViewBag.ListaCat = BD.Categorias;
+                    ViewBag.PregsXGrupo = BD.PregsXGrupos;
+                    ViewBag.Grupos = BD.Grupos;
+                    return View(mipersonaje);
+                }
+            }
+            catch (NullReferenceException)
             {
                 return RedirectToAction("AD", "BackOffice");
-            }
-            else
-            {
-                BD.CargarPreguntas();
-                BD.CargarCats();
-                Personaje mipersonaje = new Personaje();
-                //mipersonaje = buscar en la lista y traer el personaje
-                //ViewBag.ListaCat = ModelBinderDictionary.TraerCategorias();
-                ViewBag.ListaCat = BD.Categorias;
-                ViewBag.PregsXGrupo = BD.PregsXGrupos;
-                ViewBag.Grupos = BD.Grupos;
-                return View(mipersonaje);
             }
         }
         [HttpPost]
@@ -192,6 +201,12 @@ namespace QEQ.Controllers
             }
             else
             {
+                int tamaño = P.Foto.ContentLength;
+                byte[] ImagenOriginal = new byte[tamaño];
+                P.Foto.InputStream.Read(ImagenOriginal, 0, tamaño);
+                P.FotoByte = ImagenOriginal;
+                Bitmap ImagenBinaria = new Bitmap(P.Foto.InputStream);
+                string ImagenDataURL64 = "data:image/jpg;base64," + Convert.ToBase64String(ImagenOriginal);
                 Session["Destino"] = "ABMPer";
                 Session["ABMMsg"] = BD.AgregarP(P);
                 return View("ABMMsg");
@@ -250,14 +265,14 @@ namespace QEQ.Controllers
             {
                 BD.CargarPreguntas();
                 BD.CargarCats();
-                Personaje mipersonaje = new Personaje(id, null, null, 0);
+                //  Personaje mipersonaje = new Personaje(id, null, null,null, 0);
                 ViewBag.Nombre = BD.BuscarPersonaje(id).Nombre;
                 //mipersonaje = buscar en la lista y traer el personaje
                 //ViewBag.ListaCat = ModelBinderDictionary.TraerCategorias();
                 ViewBag.ListaCat = BD.Categorias;
                 ViewBag.PregsXGrupo = BD.PregsXGrupos;
                 ViewBag.Grupos = BD.Grupos;
-                return View(mipersonaje);
+                return View();
             }
         }
 
