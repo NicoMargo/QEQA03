@@ -12,6 +12,6 @@ Pregunta: " @BD.BuscarPregunta(Model.Id).Texto? "
 @using (Html.BeginForm("ModificarCar", "BackOffice", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.Label("Texto") @Html.TextBoxFor(P => P.Texto, new { @required = "required" }) <br />
-    @Html.Label("Grupo") @Html.DropDownListFor(P => P.idGrupo, new SelectList(ViewBag.Grupos), "Id", "Nombre") <br />
+    @Html.Label("Grupo") @Html.DropDownListFor(P => P.idGrupo, new SelectList(ViewBag.Grupos ,"Id", "Nombre")) <br />
     <input type="submit" value="Proceder" />
 }

@@ -41,7 +41,7 @@ namespace QEQ.Controllers
             string Host = Dns.GetHostName(), Ip, Mac;
             IPAddress[] ip = Dns.GetHostAddresses(Host);
             Ip = ip[0].ToString();
-            Mac = ip[3].ToString();
+            Mac = ip[0].ToString();
             if (contraseña != "" && Usuario != "")
             {
                 Usuario usu;
@@ -72,7 +72,7 @@ namespace QEQ.Controllers
             string Host = Dns.GetHostName();
             IPAddress[] ip = Dns.GetHostAddresses(Host);
             Usu.Ip = ip[0].ToString();
-            Usu.Mac = ip[3].ToString();
+            Usu.Mac = ip[0].ToString();
             if (Usu.Admin && Pin != "1")
             {
                 Usu.Admin = false;
@@ -111,7 +111,7 @@ namespace QEQ.Controllers
                 string Host = Dns.GetHostName();
                 IPAddress[] ip = Dns.GetHostAddresses(Host);
                 usu.Ip = ip[0].ToString();
-                usu.Mac = ip[3].ToString();
+                usu.Mac = ip[0].ToString();
                 if (usu.Pass == null)
                 {
                     return Modificarusuaux(usu, PassVieja);
@@ -496,6 +496,7 @@ namespace QEQ.Controllers
             else
             {
                 ViewBag.Id = id;
+                ViewBag.Grupos = BD.Grupos;
                 Preg caracteristica = new Preg(id, null, 0);
                 return View(caracteristica);
             }
@@ -510,7 +511,7 @@ namespace QEQ.Controllers
             }
             else
             {
-                Session["Destino"] = "ABMPer";
+                Session["Destino"] = "ABMCar";
                 Session["ABMMsg"] = BD.ModificarCar(caracteristica);
                 return View("ABMMsg");
             }

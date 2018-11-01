@@ -6,7 +6,7 @@
 
 
 Estas Seguro de eliminar la siguiente pregunta? <br />
-"@BD.BuscarPregunta(ViewBag.Id).Texto ?"<br />
+"@BD.BuscarPregunta(Convert.ToInt32(ViewBag.Id)).Texto ?"<br />
 <form method="post" action="@Url.Action("BorrarCar", "BackOffice")">
     <input type="hidden" name="Id" value="@ViewBag.Id" />
     <input type="submit" name="Confirmacion" value="Si" />

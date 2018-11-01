@@ -10,8 +10,8 @@ namespace QEQ.Models
     public static class BD
     {
         //public static string connectionString = "Server=10.128.8.16;User=QEQA03;Password=QEQA03;Database=QEQA03"; //Ort
-        public static string connectionString = @"Server=DESKTOP-5P28OS5\SQLEXPRESS;Database=QEQA03;Trusted_Connection=True;"; //Anush
-        //public static string connectionString = @"Server=DESKTOP-P6PCH8N\SQLEXPRESS;Database=QEQA03;Trusted_Connection=True;"; //Chino
+        //public static string connectionString = @"Server=DESKTOP-5P28OS5\SQLEXPRESS;Database=QEQA03;Trusted_Connection=True;"; //Anush
+        public static string connectionString = @"Server=DESKTOP-P6PCH8N\SQLEXPRESS;Database=QEQA03;Trusted_Connection=True;"; //Chino
 
         // public static string connectionString = "Server=.;Database=QEQ;Trusted_Connection=True;"; //chino
         //public static List<Preguntas> ListaPreg = new List<Preguntas>();
@@ -27,20 +27,7 @@ namespace QEQ.Models
         public static Dictionary<string, List<Preg>> PregsXGrupos;
        
 
-        public static Preg BuscarPregunta(string texto)
-        {
-            Preg pregunta = null;
-            int i = 0;
-            while (i < Preguntas.Count() && pregunta == null)
-            {
-                if (Preguntas[i].Texto == texto)
-                {
-                    pregunta = Preguntas[i];
-                }
-
-            }
-            return pregunta;
-        }
+        
         public static Preg BuscarPregunta(int id)
         {
             Preg pregunta = null;
@@ -51,7 +38,10 @@ namespace QEQ.Models
                 {
                     pregunta = Preguntas[i];
                 }
-
+                else
+                {
+                    i++;
+                }
             }
             return pregunta;
         }
