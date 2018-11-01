@@ -20,6 +20,7 @@
         <tr>
             <td>@Html.Label(personaje.Id.ToString())</td>
             <td>@Html.Label(personaje.Nombre)</td>
+            <td> <img class="img-responsive" /></td>
             <td>@Html.Label(BD.BuscarCat(personaje.idCategoria,BD.Categorias).Nombre)</td>
             <!--<td@Html.Label(personaje.Img)</td>-->
             <td>@Html.ActionLink("Modificar", "ModificarP", "BackOffice", new { id = personaje.Id },null)</td>

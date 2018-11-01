@@ -153,21 +153,28 @@ namespace QEQ.Controllers
         //Area 51----------------------Area 51----------------------Area 51----------------------Area 51----------------------Area 51----------------------
         //ABMPersonajes : Comienzo------------------------------------------------------------------------------------------------
         public ActionResult ABMPer()
-        {
-            if (Session["Admin"].ToString() != "Admin")
+        {          
+            try
+            {
+                if (Session["Admin"].ToString() != "Admin")
+                {
+                    return RedirectToAction("AD", "BackOffice");
+                }
+                else
+                {
+                    BD.CargarPersonajes();
+                    ViewBag.Personajes = BD.Personajes;
+                    return View();
+                }
+            }
+            catch (NullReferenceException)
             {
                 return RedirectToAction("AD", "BackOffice");
-            }
-            else
-            {
-                BD.CargarPersonajes();
-                ViewBag.Personajes = BD.Personajes;
-                return View();
             }
         }
         public ActionResult AgregarP()
         {
-            Session["Admin"] = "Admin";
+            
             try
             {
                 if (Session["Admin"].ToString() != "Admin")
