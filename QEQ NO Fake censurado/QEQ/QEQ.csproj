@@ -285,6 +285,7 @@
     <Content Include="Views\BackOffice\ModificarUsuOk.cshtml" />
     <Content Include="Views\BackOffice\BorrarCar.cshtml" />
     <Content Include="Views\BackOffice\AD.cshtml" />
+    <Content Include="Views\Game\Start1.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
