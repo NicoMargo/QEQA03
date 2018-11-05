@@ -162,9 +162,9 @@ namespace QEQ.Controllers
                 }
                 else
                 {
+                    BD.CargarCats();
                     BD.CargarPersonajes();
                     ViewBag.Personajes = BD.Personajes;
-                    
                     return View();
                 }
             }
@@ -271,6 +271,8 @@ namespace QEQ.Controllers
             }
             else
             {
+                Personaje elpersonaje = new Personaje();
+                elpersonaje.Id = id;
                 BD.CargarPreguntas();
                 BD.CargarCats();
                 //  Personaje mipersonaje = new Personaje(id, null, null,null, 0);
@@ -280,7 +282,7 @@ namespace QEQ.Controllers
                 ViewBag.ListaCat = BD.Categorias;
                 ViewBag.PregsXGrupo = BD.PregsXGrupos;
                 ViewBag.Grupos = BD.Grupos;
-                return View();
+                return View(elpersonaje);
             }
         }
 
