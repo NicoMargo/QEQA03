@@ -11,21 +11,23 @@
         <td>Id</td>
         <td>Nombre</td>
         <td>Categoria</td>
-        <td>Imagn</td>
+        <td>Imagen</td>
         <td>Modificar</td>
         <td>Borrar</td>
     </tr>
     @foreach (Personaje personaje in ViewBag.Personajes)
     {
-        <tr>
-            <td>@Html.Label(personaje.Id.ToString())</td>
-            <td>@Html.Label(personaje.Nombre)</td>
-            <td> <img class="img-responsive" /></td>
-            <td>@Html.Label(BD.BuscarCat(personaje.idCategoria,BD.Categorias).Nombre)</td>
-            <!--<td@Html.Label(personaje.Img)</td>-->
-            <td>@Html.ActionLink("Modificar", "ModificarP", "BackOffice", new { id = personaje.Id },null)</td>
-            <td>@Html.ActionLink("Borrar", "BorrarP", "BackOffice", new { id = personaje.Id },null)</td>
-        </tr>
+    <tr>
+        <td>@Html.Label(personaje.Id.ToString())</td>
+        <td>@Html.Label(personaje.Nombre)</td>
+        
+        <td> <img class="img-responsive" src="personaje.Direccion" /></td>
+        <td>@Html.Label(BD.BuscarCat(personaje.idCategoria, BD.Categorias).Nombre)</td>
+
+
+        <td>@Html.ActionLink("Modificar", "ModificarP", "BackOffice", new { id = personaje.Id }, null)</td>
+        <td>@Html.ActionLink("Borrar", "BorrarP", "BackOffice", new { id = personaje.Id }, null)</td>
+    </tr>
     }
 </table>
 @Html.ActionLink("Volver al BackOffice Index", "Index", "BackOffice") <br />

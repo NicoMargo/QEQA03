@@ -164,6 +164,7 @@ namespace QEQ.Controllers
                 {
                     BD.CargarPersonajes();
                     ViewBag.Personajes = BD.Personajes;
+                    
                     return View();
                 }
             }
@@ -174,7 +175,7 @@ namespace QEQ.Controllers
         }
         public ActionResult AgregarP()
         {
-            
+           
             try
             {
                 if (Session["Admin"].ToString() != "Admin")
@@ -202,6 +203,7 @@ namespace QEQ.Controllers
         [HttpPost]
         public ActionResult AgregarPer(Personaje P)
         {
+            
             if (Session["Admin"].ToString() != "Admin")
             {
                 return RedirectToAction("AD", "BackOffice");
@@ -212,8 +214,7 @@ namespace QEQ.Controllers
                 byte[] ImagenOriginal = new byte[tamaño];
                 P.Foto.InputStream.Read(ImagenOriginal, 0, tamaño);
                 P.FotoByte = ImagenOriginal;
-                Bitmap ImagenBinaria = new Bitmap(P.Foto.InputStream);
-                string ImagenDataURL64 = "data:image/jpg;base64," + Convert.ToBase64String(ImagenOriginal);
+                
                 Session["Destino"] = "ABMPer";
                 Session["ABMMsg"] = BD.AgregarP(P);
                 return View("ABMMsg");

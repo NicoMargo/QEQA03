@@ -4,18 +4,24 @@ using System.Linq;
 using System.Web;
 using System.Data.SqlClient;
 using System.Data;
+using System.Text;
 
 namespace QEQ.Models
 {
     public static class BD
     {
+<<<<<<< HEAD
+       // public static string connectionString = "Server=10.128.8.16;User=QEQA03;Password=QEQA03;Database=QEQA03"; //Ort
+        public static string connectionString = @"Server=DESKTOP-5P28OS5\SQLEXPRESS;Database=QEQA03;Trusted_Connection=True;"; //Anush
+       // public static string connectionString = @"Server=DESKTOP-P6PCH8N\SQLEXPRESS;Database=QEQA03;Trusted_Connection=True;"; //Chino
+=======
         //public static string connectionString = "Server=10.128.8.16;User=QEQA03;Password=QEQA03;Database=QEQA03"; //Ort
         //public static string connectionString = @"Server=DESKTOP-5P28OS5\SQLEXPRESS;Database=QEQA03;Trusted_Connection=True;"; //Anush
         public static string connectionString = @"Server=DESKTOP-P6PCH8N\SQLEXPRESS;Database=QEQA03;Trusted_Connection=True;"; //Chino
+>>>>>>> 05d49473da54ab976239421e87da01fa90b91d09
 
         // public static string connectionString = "Server=.;Database=QEQ;Trusted_Connection=True;"; //chino
-        //public static List<Preguntas> ListaPreg = new List<Preguntas>();
-        // public static List<Respuestas> ListaResp = new List<Respuestas>();
+    
         public static string msg;
         public static List<Preg> Preguntas;//sp Traer Preguntas
         public static List<Personaje> Personajes;//Sp traer personajes
@@ -370,12 +376,16 @@ namespace QEQ.Models
             laConsulta.CommandType = System.Data.CommandType.StoredProcedure;
             laConsulta.CommandText = "spTraerPersonajes";
             laConsulta.Parameters.AddWithValue("@idCategoria",0);
-
+         
             SqlDataReader elLector = laConsulta.ExecuteReader();
             while (elLector.Read())
-            {
-              //  Personajes.Add(new Personaje(Convert.ToInt32(elLector["idPersona"]), Convert.ToString(elLector["Nombre"]), null, 2, null, Convert.ToInt32(elLector["idCategoria"])));
+            {                
+                byte[] foto = (byte[])elLector["Foto"];
+                string Direccion = "data:Image/jpg;base64," + Convert.ToBase64String(foto);
+                Personajes.Add(new Personaje(Convert.ToInt32(elLector["idPersona"]), Convert.ToString(elLector["Nombre"]), null, Convert.ToInt32(elLector["idCategoria"]),Direccion, (byte[])elLector["Foto"]));
+
             }
+
             Desconectar(unaConexion);
         }
         public static void CargarPersonajes(int idCategoria)
@@ -387,9 +397,14 @@ namespace QEQ.Models
             laConsulta.CommandText = "spTraerPersonajes";
             laConsulta.Parameters.AddWithValue("@idCategoria", idCategoria);
             SqlDataReader elLector = laConsulta.ExecuteReader();
+            byte[] bfoto;
+            string sfoto;
             while (elLector.Read())
             {
-             //   Personajes.Add(new Personaje(Convert.ToInt32(elLector["idPersona"]), Convert.ToString(elLector["Nombre"]), null,2,null, Convert.ToInt32(elLector["idCategoria"])));
+                sfoto = Convert.ToString(elLector["Foto"]);
+                bfoto = Encoding.ASCII.GetBytes(sfoto);
+                string Direccion = "data:Image/jpg;base64," + Convert.ToBase64String(bfoto);
+                Personajes.Add(new Personaje(Convert.ToInt32(elLector["idPersona"]), Convert.ToString(elLector["Nombre"]), null, Convert.ToInt32(elLector["idCategoria"]), Direccion, (byte[])elLector["Foto"]));
             }
             Desconectar(unaConexion);
         }

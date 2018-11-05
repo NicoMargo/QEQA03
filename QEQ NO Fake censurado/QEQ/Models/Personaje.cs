@@ -12,22 +12,36 @@ namespace QEQ.Models
         private string _nombre;
         private HttpPostedFileBase _foto;
         private int _idcategoria;
-        private Byte[] _fotoByte;
+        private byte[] _fotoByte;
         private List<Preg> _preguntas;
+        private string _direccion;
 
         public Personaje()
         { }
 
-        public Personaje(int id, string nombre, HttpPostedFileBase foto, int idcategoria, Byte[] fotoByte, List<Preg> preguntas)
+        public Personaje(int id, string nombre, HttpPostedFileBase foto, int idcategoria, string direccion, byte[] fotoByte /*List<Preg> preguntas,*/ )
         {
             _id = id;
             _nombre = nombre;
             _foto = foto;
             _idcategoria = idcategoria;
             _fotoByte = fotoByte;
-            _preguntas = preguntas;
+            /*_preguntas = preguntas;*/
+            _direccion = direccion;
         }
 
+        public string Direccion
+        {
+            get
+            {
+                return _direccion;
+            }
+
+            set
+            {
+                _direccion = value;
+            }
+        }
         public int Id
         {
             get
@@ -41,7 +55,7 @@ namespace QEQ.Models
             }
         }
 
-        public Byte[] FotoByte
+        public byte[] FotoByte
         {
             get
             {
