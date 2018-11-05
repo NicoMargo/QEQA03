@@ -378,7 +378,7 @@ namespace QEQ.Models
             while (elLector.Read())
             {                
                 byte[] foto = (byte[])elLector["Foto"];
-                string Direccion = "data:Image/jpg;base64," + Convert.ToBase64String(foto);
+                string Direccion = "data:Image/png;base64," + Convert.ToBase64String(foto);
                 Personajes.Add(new Personaje(Convert.ToInt32(elLector["idPersona"]), Convert.ToString(elLector["Nombre"]), null, Convert.ToInt32(elLector["idCategoria"]),Direccion, (byte[])elLector["Foto"]));
 
             }
@@ -400,7 +400,7 @@ namespace QEQ.Models
             {
                 sfoto = Convert.ToString(elLector["Foto"]);
                 bfoto = Encoding.ASCII.GetBytes(sfoto);
-                string Direccion = "data:Image/jpg;base64," + Convert.ToBase64String(bfoto);
+                string Direccion = "data:Image/png;base64," + Convert.ToBase64String(bfoto);
                 Personajes.Add(new Personaje(Convert.ToInt32(elLector["idPersona"]), Convert.ToString(elLector["Nombre"]), null, Convert.ToInt32(elLector["idCategoria"]), Direccion, (byte[])elLector["Foto"]));
             }
             Desconectar(unaConexion);
