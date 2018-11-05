@@ -7,7 +7,7 @@
 @using (Html.BeginForm("AgregarPer", "BackOffice", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.Label("Nombre") @Html.TextBoxFor(P => P.Nombre, new {/* @class = "form-control",*/ required = "required" }) <br />
-    @Html.Label("Cargar Fotito nueva") @Html.TextBoxFor(x => x.Foto, new { type="image" })
+    @Html.Label("Cargar Fotito nueva") @Html.TextBoxFor(x => x.Foto, new { type="file" })
     @Html.Label("Categoria") @Html.DropDownListFor(P => P.idCategoria, new SelectList(ViewBag.ListaCat, "Id", "Nombre")) <br />
     int i = 0;
     Model.Preguntas = new List<Preg>();
