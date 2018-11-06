@@ -15,6 +15,7 @@ namespace QEQ.Controllers
         // GET: BackOffice
         public ActionResult Index()
         {
+            Session["Admin"] = "Admin";
            return View();
         }
 
