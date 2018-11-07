@@ -19,7 +19,7 @@
         @Html.Label("No")<br />
         foreach (Preg pregunta in ViewBag.PregsxGrupo[Grupo])
         {
-            @Html.RadioButtonFor(P => P.Preguntas[i], pregunta)
+            @Html.RadioButtonFor(P => P.Preguntas[i], pregunta,new { @checked= BD.CompararPreg(pregunta, ViewBag.ListaRtaXPer) })
             @Html.Label(pregunta.Texto)<br />
 
         }
@@ -27,18 +27,6 @@
         {
             i++;
         }
-        else
-        {
-            Model.Preguntas.Remove(Model.Preguntas[i]);
-        }
     }
     <input type="submit" value="Proceder" />
 }
-<script>
-    function ponerImagen() {
-        var foto = document.getElementById("Foto");
-        var imagen = document.getElementById("imagen");
-        imagen.src = foto.value;
-    }
-
-</script>

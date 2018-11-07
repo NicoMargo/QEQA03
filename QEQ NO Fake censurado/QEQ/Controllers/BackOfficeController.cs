@@ -272,6 +272,7 @@ namespace QEQ.Controllers
                 ViewBag.ListaCat = BD.Categorias;
                 ViewBag.PregsXGrupo = BD.PregsXGrupos;
                 ViewBag.Grupos = BD.Grupos;
+                ViewBag.RtaXPer = BD.CargarRxP(id);
                 return View(elpersonaje);
             }
         }
