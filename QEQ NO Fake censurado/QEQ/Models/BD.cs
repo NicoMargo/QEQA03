@@ -45,6 +45,7 @@ namespace QEQ.Models
             }
             return pregunta;
         }
+
         public static Personaje BuscarPersonaje(string Nombre)
         {
             Personaje personaje = null;
@@ -101,7 +102,17 @@ namespace QEQ.Models
             return grupo;
         }
 
+        public static bool CompararPreg(Preg pregunta, List<Preg> pregs) {
+            bool found = false;
+            int i = 0;
+            while (found && i < pregs.Count())
+            {
+                if (pregs[i] == pregunta) { found = true; }
+                else { i++; }
+            }
 
+            return found;
+        }
 
 
         //Action REsults------------------------------------------------------------------------------------------------------------------------------------
@@ -149,6 +160,7 @@ namespace QEQ.Models
             {
                 foreach (Preg pregunta in Per.Preguntas)
                 {
+                    if(pregunta != new Preg())
                     CargarRta(Per, pregunta);
                 }
             }
@@ -410,6 +422,21 @@ namespace QEQ.Models
                 Personajes.Add(new Personaje(Convert.ToInt32(elLector["idPersona"]), Convert.ToString(elLector["Nombre"]), null, Convert.ToInt32(elLector["idCategoria"]), Direccion, (byte[])elLector["Foto"]));
             }
             Desconectar(unaConexion);
+        }
+
+        public static List<Preg> CargarRxP(int idP) {
+            List<Preg> pregs = new List<Preg>();
+            SqlConnection unaConexion = Conectar();
+            SqlCommand laConsulta = unaConexion.CreateCommand();
+            laConsulta.CommandType = System.Data.CommandType.StoredProcedure;
+            laConsulta.CommandText = "spTraerRxP";
+            laConsulta.Parameters.AddWithValue("@idPersona",idP);
+            SqlDataReader elLector = laConsulta.ExecuteReader();
+            while (elLector.Read())
+            {
+                pregs.Add(new Preg(Convert.ToInt32(elLector["idPregunta"]),elLector["Texto"].ToString(), Convert.ToInt32(elLector["idPregunta"])));
+            }
+            return pregs;
         }
         public static void CargarPreguntas()
         {
