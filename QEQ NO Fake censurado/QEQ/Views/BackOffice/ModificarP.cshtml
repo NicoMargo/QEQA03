@@ -8,8 +8,8 @@
 {
     @Html.Label("Personaje: ")
     <label>@ViewBag.Nombre</label> <br />
-    @Html.Label("Nuevo nombre") @Html.TextBoxFor(P => P.Nombre, new { @required = "required" }) <br />
-    @Html.Label("Cargar Fotito nueva") <input type="file" name="Foto" /><br />
+    @Html.Label("Nuevo nombre") @Html.TextBoxFor(P => P.Nombre, new { @required = "required", value = Model.Nombre }) <br />
+    @Html.Label("Cargar Fotito nueva") @Html.TextBoxFor(x => x.Foto, new { type = "file", required = "required" })<br />
     @Html.Label("Categoria") @Html.DropDownListFor(P => P.idCategoria, new SelectList(ViewBag.ListaCat, "Id", "Nombre")) <br />
     int i = 0;
     Model.Preguntas = new List<Preg>();
@@ -17,7 +17,7 @@
     {
         @Html.Label(Grupo)<br />
         Model.Preguntas.Add(new Preg());
-        @Html.RadioButtonFor(P => P.Preguntas[i], new Preg())
+        @Html.RadioButtonFor(P => P.Preguntas[i], new Preg(-1, "fake", -1))
         @Html.Label("No")<br />
         foreach (Preg pregunta in ViewBag.PregsxGrupo[Grupo])
         {
@@ -25,13 +25,13 @@
             @Html.Label(pregunta.Texto)<br />
 
         }
-        if (Model.Preguntas[i] != new Preg())
+        if (Model.Preguntas[i] != new Preg(-1, "fake", -1))
         {
             i++;
         }
         else
         {
-            Model.Preguntas.Remove(Model.Preguntas[i]);
+            Model.Preguntas.RemoveAt(i);
         }
     }
     <input type="submit" value="Proceder" />

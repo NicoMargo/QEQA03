@@ -176,7 +176,7 @@ namespace QEQ.Controllers
         }
         public ActionResult AgregarP()
         {
-           
+            Session["Admin"] = "Admin";
             try
             {
                 if (Session["Admin"].ToString() != "Admin")
@@ -272,8 +272,7 @@ namespace QEQ.Controllers
             }
             else
             {
-                Personaje elpersonaje = new Personaje();
-                elpersonaje.Id = id;
+                Personaje elpersonaje = BD.BuscarPersonaje(id);
                 BD.CargarPreguntas();
                 BD.CargarCats();
                 //  Personaje mipersonaje = new Personaje(id, null, null,null, 0);
@@ -296,6 +295,10 @@ namespace QEQ.Controllers
             }
             else
             {
+                int tamaño = P.Foto.ContentLength;
+                byte[] ImagenOriginal = new byte[tamaño];
+                P.Foto.InputStream.Read(ImagenOriginal, 0, tamaño);
+                P.FotoByte = ImagenOriginal;
                 Session["Destino"] = "ABMPer";
                 Session["ABMMsg"] = BD.ModificarP(P);
                 return View("ABMMsg");
@@ -396,7 +399,7 @@ namespace QEQ.Controllers
                     return RedirectToAction("AD", "BackOffice");
                 }
                 ViewBag.Id =id;
-                ViewBag.tipo = tipo;
+                ViewBag.tipo = tipo.ToString();
                 Cat cat = new Cat(id, null);
                 BD.CargarCats();
                 return View(cat);
