@@ -221,13 +221,7 @@ namespace QEQ.Controllers
             }
         }
 
-        /* lista falsa para probar
-          List<Personaje> Personajes = new List<Personaje>();
-            Personajes.Add(new Personaje(1,"1","1","1"));
-            Personajes.Add(new Personaje(2, "2", "1", "1"));
-            Personajes.Add(new Personaje(3, "3", "1", "1"));
-            ViewBag.Personajes = Personajes;
-             */
+ 
         public ActionResult BorrarP(int id)
         {
             if (Session["Admin"].ToString() != "Admin")
