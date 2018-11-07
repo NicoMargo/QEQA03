@@ -92,11 +92,7 @@ namespace QEQ.Controllers
             return View();
         }
         public ActionResult ModificarUsu(string id)
-        {
-            if (Session["Admin"].ToString() != "Admin")
-            {
-                return RedirectToAction("AD", "BackOffice");
-            }
+           {      
             if (id != null)
             {
                 ViewBag.Estado = id;

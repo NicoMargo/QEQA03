@@ -12,9 +12,9 @@ namespace QEQ.Models
     {
 
 
-       // public static string connectionString = "Server=10.128.8.16;User=QEQA03;Password=QEQA03;Database=QEQA03"; //Ort
+        public static string connectionString = "Server=10.128.8.16;User=QEQA03;Password=QEQA03;Database=QEQA03"; //Ort
        //public static string connectionString = @"Server=DESKTOP-5P28OS5\SQLEXPRESS;Database=QEQA03;Trusted_Connection=True;"; //Anush
-       public static string connectionString = @"Server=DESKTOP-P6PCH8N\SQLEXPRESS;Database=QEQA03B;Trusted_Connection=True;"; //Chino
+      // public static string connectionString = @"Server=DESKTOP-P6PCH8N\SQLEXPRESS;Database=QEQA03B;Trusted_Connection=True;"; //Chino
                        
         public static string msg;
         public static List<Preg> Preguntas;//sp Traer Preguntas
@@ -364,6 +364,8 @@ namespace QEQ.Models
         }
         public static void CargarPersonajes()
         {
+            byte[] foto;
+            string Direccion;
             Personajes = new List<Personaje>();
             SqlConnection unaConexion = Conectar();
             SqlCommand laConsulta = unaConexion.CreateCommand();
@@ -373,9 +375,16 @@ namespace QEQ.Models
          
             SqlDataReader elLector = laConsulta.ExecuteReader();
             while (elLector.Read())
-            {                
-                byte[] foto = (byte[])elLector["Foto"];
-                string Direccion = "data:Image/png;base64," + Convert.ToBase64String(foto);
+            {      try
+                {
+                    foto = (byte[])elLector["Foto"];
+                    Direccion = "data:Image/png;base64," + Convert.ToBase64String(foto);
+                }  catch(NullReferenceException)
+                {
+                    foto = null;
+                    Direccion = "";
+                }
+               
                 Personajes.Add(new Personaje(Convert.ToInt32(elLector["idPersona"]), Convert.ToString(elLector["Nombre"]), null, Convert.ToInt32(elLector["idCategoria"]),Direccion, (byte[])elLector["Foto"]));
 
             }
