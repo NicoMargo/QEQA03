@@ -7,14 +7,7 @@
 @using (Html.BeginForm("AgregarPer", "BackOffice", FormMethod.Post, new { enctype = "multipart/form-data", id = "formu" }))
 {
     @Html.Label("Nombre") @Html.TextBoxFor(P => P.Nombre, new {/* @class = "form-control",*/ required = "required" }) <br />
-<<<<<<< HEAD
     @Html.Label("Cargar Fotito nueva") @Html.TextBoxFor(x => x.Foto, new { type="file" })
-=======
-    @Html.Label("Cargar Fotito nueva") @Html.TextBoxFor(x => x.Foto, new { type = "file", required = "required" })<br />
-
-    <input type="file" name="Foto" id="Foto" onchange="ponerImagen()" /><br />
-    <img id="imagen" src="~/Content/Unknown.png" width="300" height="200"><br />
->>>>>>> master
     @Html.Label("Categoria") @Html.DropDownListFor(P => P.idCategoria, new SelectList(ViewBag.ListaCat, "Id", "Nombre")) <br />
     int i = 0;
     Model.Preguntas = new List<Preg>();

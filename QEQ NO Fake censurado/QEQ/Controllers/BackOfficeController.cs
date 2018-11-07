@@ -349,12 +349,12 @@ namespace QEQ.Controllers
             else
             {
                 ViewBag.Id = id;
-                ViewBag.Tipo = tipo;
+                ViewBag.Tipo = tipo.ToString();
                 return View();
             }
         }
         [HttpPost]
-        public ActionResult BorrarCat(string Confirmacion, int id)
+        public ActionResult BorrarCat(string Confirmacion, int id,string tipo)
         {
             if (Session["Admin"].ToString() != "Admin")
             {
@@ -362,10 +362,14 @@ namespace QEQ.Controllers
             }
             else
             {
+                List<Cat> lista;
+                bool Tipo = Convert.ToBoolean(tipo);
+                if (Tipo) { lista = BD.Categorias; }
+                else { lista = BD.Grupos; }
                 Session["Destino"] = "ABMCat";
                 if (Confirmacion == "Si")
                 {
-                    Session["ABMMsg"] = BD.BorrarCat(BD.BuscarCat(id,BD.Categorias),true);
+                    Session["ABMMsg"] = BD.BorrarCat(BD.BuscarCat(id,lista), Tipo);
                 }
                 else
                 {

@@ -4,7 +4,7 @@
 }
 @using QEQ.Models
 
-@if (ViewBag.tipo) {<h2> Borrar la Categoria @BD.BuscarCat(ViewBag.Id, BD.Categorias).Nombre</h2>}
+@if (Convert.ToBoolean(ViewBag.tipo)) {<h2> Borrar la Categoria @BD.BuscarCat(ViewBag.Id, BD.Categorias).Nombre</h2>}
 else {
     <h2>Borrar el Grupo @BD.BuscarCat(ViewBag.Id, BD.Grupos).Nombre</h2>
 }
@@ -13,6 +13,7 @@ else {
 Estas Seguro?
 <form method="post" action="@Url.Action("BorrarCat", "BackOffice")">
     <input type="hidden" name="id" value="@ViewBag.Id" />
+    <input type="hidden" name="tipo" value="@ViewBag.Tipo" />
     <input type="submit" name="Confirmacion" value="Si" />
     <input type="submit" name="Confirmacion" value="No" />
 </form>
