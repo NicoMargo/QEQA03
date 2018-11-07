@@ -1,10 +1,10 @@
 ﻿
+@model QEQ.Models.Cat
+@using QEQ.Models
 @{
     ViewBag.Title = "ModificarCat";
 }
-@model QEQ.Models.Cat
-@using QEQ.Models
-@if (ViewBag.tipo)
+@if (Convert.ToBoolean(ViewBag.tipo))
 {<h2> Modificar la Categoria @BD.BuscarCat(ViewBag.Id, BD.Categorias).Nombre</h2>}
 else
 {
@@ -13,11 +13,8 @@ else
 
 @using (Html.BeginForm("ModificarCat", "BackOffice", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    @Html.TextBoxFor(x => x.Nombre, new { @required = "required" })
+    @Html.TextBoxFor(x => x.Nombre, new { @required = "required"})
     @Html.ValidationMessageFor(x => x.Nombre) <br />
-    @Html.RadioButton("tipo", "true", true)
-    @Html.Label("Categoria(de Personajes)") <br />
-    @Html.RadioButton("tipo", "false")
-    @Html.Label("Grupo(de preguntas)") <br />
+    <input type="hidden" name="tipo" value="@ViewBag.tipo" />
     <input type="submit" name="cargar" value="Cargar" />
 }
