@@ -19,14 +19,13 @@ namespace QEQ.Models
         public Personaje()
         { }
 
-        public Personaje(int id, string nombre, HttpPostedFileBase foto, int idcategoria, string direccion, byte[] fotoByte /*List<Preg> preguntas,*/ )
+        public Personaje(int id, string nombre, HttpPostedFileBase foto, int idcategoria, string direccion, byte[] fotoByte )
         {
             _id = id;
             _nombre = nombre;
             _foto = foto;
             _idcategoria = idcategoria;
-            _fotoByte = fotoByte;
-            /*_preguntas = preguntas;*/
+            _fotoByte = fotoByte;            
             _direccion = direccion;
         }
 

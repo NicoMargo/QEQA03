@@ -4,10 +4,10 @@
     ViewBag.Title = "Creacion de Personaje";
 }
 <h2>Crea un personaje </h2>
-@using (Html.BeginForm("AgregarPer", "BackOffice", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("AgregarPer", "BackOffice", FormMethod.Post, new { enctype = "multipart/form-data", id = "formu" }))
 {
     @Html.Label("Nombre") @Html.TextBoxFor(P => P.Nombre, new {/* @class = "form-control",*/ required = "required" }) <br />
-    @Html.Label("Cargar Fotito nueva") @Html.TextBoxFor(x => x.Foto, new { type="file" })
+
     @Html.Label("Categoria") @Html.DropDownListFor(P => P.idCategoria, new SelectList(ViewBag.ListaCat, "Id", "Nombre")) <br />
     int i = 0;
     Model.Preguntas = new List<Preg>();
@@ -19,7 +19,7 @@
         @Html.Label("No")<br />
         foreach (Preg pregunta in ViewBag.PregsxGrupo[Grupo])
         {
-            @Html.RadioButtonFor(P => P.Preguntas[i], pregunta)
+            @Html.RadioButtonFor(P => P.Preguntas[i], pregunta,new { @checked= BD.CompararPreg(pregunta, ViewBag.ListaRtaXPer) })
             @Html.Label(pregunta.Texto)<br />
 
         }
