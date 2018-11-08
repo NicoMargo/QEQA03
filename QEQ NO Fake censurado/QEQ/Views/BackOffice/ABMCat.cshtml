@@ -1,10 +1,20 @@
 ﻿@using QEQ.Models
 @{
     ViewBag.Title = "ABMCat";
+    if (Session["Msg"].ToString() != "")
+    {
+        <input type="hidden" value="@Session["Msg"].ToString()" id="mensaje" />
+        <script type="text/javascript">
+            var hiden = document.getElementById("mensaje");
+            var mensaje = hiden.getAttribute("value");
+            alert(mensaje);
+        </script>
+        Session["Msg"] = "";
+    }
 }
 
 <h2>Menu ABM de Categorias</h2>
-@Html.ActionLink("Agregar una nueva categoria", "AgregarCat", "BackOffice") <br />
+<a href="@Url.Action("AgregarCat", "BackOffice")"><img src="~/Content/Agregar-elemento.png" height="30" /></a><br /><br />
 <label>Categorias (Clasificacion de Personajes)</label><br />
 <table border="1" align="center">
     <tr>
@@ -18,8 +28,12 @@
         <tr>
             <td>@Html.Label(Categoria.Id.ToString())</td>
             <td>@Html.Label(Categoria.Nombre)</td>
-            <td>@Html.ActionLink("Modificar", "ModificarCat", "BackOffice", new { id = Categoria.Id,tipo = true },null)</td>
-            <td>@Html.ActionLink("Borrar", "BorrarCat", "BackOffice", new { id = Categoria.Id,tipo = true },null)</td>
+            <td>
+                <a href="@Url.Action("ModificarCat", "BackOffice", new { id = Categoria.Id, tipo = true })"><img src="~/Content/Lapiz Mod.png" height="30" /></a>
+            </td>
+            <td>
+                <a href="@Url.Action("BorrarCat", "BackOffice", new { id = Categoria.Id, tipo = true })"><img src="~/Content/Cruz-Borrar.png" height="30" /></a>
+            </td>
         </tr>
     }
 </table>
@@ -36,8 +50,12 @@
         <tr>
             <td>@Html.Label(Grupo.Id.ToString())</td>
             <td>@Html.Label(Grupo.Nombre)</td>
-            <td>@Html.ActionLink("Modificar", "ModificarCat", "BackOffice", new { id = Grupo.Id,tipo = false }, null)</td>
-            <td>@Html.ActionLink("Borrar", "BorrarCat", "BackOffice", new { id = Grupo.Id,tipo = false }, null)</td>
+            <td>
+                <a href="@Url.Action("ModificarCat", "BackOffice", new { id = Grupo.Id, tipo = false })"><img src="~/Content/Lapiz Mod.png" height="30" /></a>
+            </td>
+            <td>
+                <a href="@Url.Action("BorrarCat", "BackOffice", new { id = Grupo.Id, tipo = false })"><img src="~/Content/Cruz-Borrar.png" height="30" /></a>
+            </td>
         </tr>
     }
 </table>

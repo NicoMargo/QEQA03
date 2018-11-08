@@ -221,9 +221,13 @@
     <Content Include="Content\ABMCar.png" />
     <Content Include="Content\ABMCat.png" />
     <Content Include="Content\ABMPer.png" />
+    <Content Include="Content\Agregar-elemento.png" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Binker.jpg" />
+    <Content Include="Content\Cruz-Agregar.png" />
+    <Content Include="Content\Cruz-Borrar.png" />
+    <Content Include="Content\Lapiz Mod.png" />
     <Content Include="Content\LOGO.png" />
     <Content Include="Content\MiCSS.css" />
     <Content Include="Content\Nope.png" />

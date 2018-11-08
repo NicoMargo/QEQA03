@@ -1,11 +1,21 @@
 ﻿
 @{
     ViewBag.Title = "ABMCar";
+    if (Session["Msg"].ToString() != "")
+    {
+        <input type="hidden" value="@Session["Msg"].ToString()" id="mensaje" />
+        <script type="text/javascript">
+            var hiden = document.getElementById("mensaje");
+            var mensaje = hiden.getAttribute("value");
+            alert(mensaje);
+        </script>
+        Session["Msg"] = "";
+    }
 }
 
 <h2>Menu de ABM de Caracteristicas</h2>
 @using QEQ.Models
-@Html.ActionLink("Agregar una caracteristica", "AgregarCar", "BackOffice") <br />
+<a href="@Url.Action("AgregarCar", "BackOffice")"><img src="~/Content/Agregar-elemento.png" height="30" /></a><br /><br />
 <table border="1" align="center">
     <tr>
         <td>Id</td>
@@ -19,9 +29,13 @@
         <tr>
             <td>@Html.Label(pregutna.Id.ToString())</td>
             <td>@Html.Label(pregutna.Texto)</td>
-            <td>@Html.Label(BD.BuscarCat(pregutna.idGrupo,BD.Grupos).Nombre)</td>
-            <td>@Html.ActionLink("Modificar", "ModificarCar", "BackOffice", new { id = pregutna.Id },null)</td>
-            <td>@Html.ActionLink("Borrar", "BorrarCar", "BackOffice", new { id = pregutna.Id },null)</td>
+            <td>@Html.Label(BD.BuscarCat(pregutna.idGrupo, BD.Grupos).Nombre)</td>
+            <td>
+                <a href="@Url.Action("ModificarCar", "BackOffice", new { id = pregutna.Id })"><img src="~/Content/Lapiz Mod.png" height="30" /></a>
+            </td>
+            <td>
+                <a href="@Url.Action("BorrarCar", "BackOffice", new { id = pregutna.Id })"><img src="~/Content/Cruz-Borrar.png" height="30" /></a>
+            </td>
         </tr>
     }
 </table>
