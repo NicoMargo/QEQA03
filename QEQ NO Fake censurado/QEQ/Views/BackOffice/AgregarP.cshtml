@@ -7,26 +7,24 @@
 @using (Html.BeginForm("AgregarPer", "BackOffice", FormMethod.Post, new { enctype = "multipart/form-data", id = "formu" }))
 {
     @Html.Label("Nombre") @Html.TextBoxFor(P => P.Nombre, new {required = "required" }) <br />
-    @Html.Label("Cargar Fotito nueva") @Html.TextBoxFor(x => x.Foto, new { type="file", accept="image/" })
+
     @Html.Label("Categoria") @Html.DropDownListFor(P => P.idCategoria, new SelectList(ViewBag.ListaCat, "Id", "Nombre")) <br />
+     @Html.Label("Cargar Fotito nueva") @Html.TextBoxFor(x => x.Foto, new { type="file", accept="image/" })
     int i = 0;
     Model.Preguntas = new List<Preg>();
     foreach (string Grupo in ViewBag.PregsXGrupo.Keys)
     {
         @Html.Label(Grupo)<br />
         Model.Preguntas.Add(new Preg());
-        @Html.RadioButtonFor(P => P.Preguntas[i], new Preg())
+        @Html.RadioButtonFor(P => P.Preguntas[i].Id, -1, new { @checked = "checked" })
         @Html.Label("No")<br />
         foreach (Preg pregunta in ViewBag.PregsxGrupo[Grupo])
         {
-            @Html.RadioButtonFor(P => P.Preguntas[i], pregunta,new { @checked= BD.CompararPreg(pregunta, ViewBag.ListaRtaXPer) })
+            @Html.RadioButtonFor(P => P.Preguntas[i].Id, pregunta.Id)
             @Html.Label(pregunta.Texto)<br />
 
         }
-        if (Model.Preguntas[i] != new Preg())
-        {
-            i++;
-        }
+        i++;
     }
     <input type="submit" value="Proceder" />
 }

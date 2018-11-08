@@ -12,6 +12,7 @@ namespace QEQ.Models
     {
 
 
+
         public static string connectionString = "Server=10.128.8.16;User=QEQA03;Password=QEQA03;Database=QEQA03"; //Ort
 
        // public static string connectionString = @"Server=DESKTOP-5P28OS5\SQLEXPRESS;Database=QEQA03;Trusted_Connection=True;"; //Anush
@@ -19,7 +20,7 @@ namespace QEQ.Models
 
 
        
-    
+            
 
         public static string msg;
         public static List<Preg> Preguntas;//sp Traer Preguntas
@@ -110,9 +111,9 @@ namespace QEQ.Models
         public static bool CompararPreg(Preg pregunta, List<Preg> pregs) {
             bool found = false;
             int i = 0;
-            while (found && i < pregs.Count())
+            while (!found && i < pregs.Count())
             {
-                if (pregs[i] == pregunta) { found = true; }
+                if (pregs[i].Id == pregunta.Id) { found = true; }
                 else { i++; }
             }
 
@@ -138,7 +139,7 @@ namespace QEQ.Models
             SqlCommand laConsulta = unaConexion.CreateCommand();
             laConsulta.CommandType = System.Data.CommandType.StoredProcedure;
             laConsulta.CommandText = "spCargarRespuestas";
-            laConsulta.Parameters.AddWithValue("@idPersona", Per.Id);
+            laConsulta.Parameters.AddWithValue("@idPersonaje", Per.Id);
             laConsulta.Parameters.AddWithValue("@idPregunta", pregunta.Id);
             laConsulta.ExecuteNonQuery();
             Desconectar(unaConexion);
@@ -147,7 +148,7 @@ namespace QEQ.Models
         public static string AgregarP(Personaje Per)
         {
             string msg = "";
-
+            int id = -1;    
             SqlConnection unaConexion = Conectar();
             SqlCommand laConsulta = unaConexion.CreateCommand();
             laConsulta.CommandType = System.Data.CommandType.StoredProcedure;
@@ -159,14 +160,16 @@ namespace QEQ.Models
             while (elLector.Read())
             {
                 msg = Convert.ToString(elLector["msg"]);
+                id = Convert.ToInt32(elLector["idPersona"]);
             }
             Desconectar(unaConexion);
             if (msg == "")
             {
+
+                Per.Id = id;
                 foreach (Preg pregunta in Per.Preguntas)
                 {
-                    if(pregunta != new Preg())
-                    CargarRta(Per, pregunta);
+                    if (pregunta.Id != -1) { CargarRta(Per, pregunta); }
                 }
             }
             return msg;
@@ -190,11 +193,11 @@ namespace QEQ.Models
                 msg = Convert.ToString(elLector["msg"]);
             }
             Desconectar(unaConexion);
-            if (msg == "")
+            if (msg != "La id no Corresponde a ningun personaje")
             {
                 foreach (Preg pregunta in Per.Preguntas)
                 {
-                    CargarRta(Per, pregunta);
+                    if (pregunta.Id != -1) { CargarRta(Per, pregunta); }
                 }
             }
             return msg;

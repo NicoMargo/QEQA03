@@ -16,6 +16,7 @@ namespace QEQ.Controllers
         public ActionResult Index()
         {
             Session["Admin"] = "Admin";
+            Session["Msg"] = "";
            return View();
         }
 
@@ -212,9 +213,8 @@ namespace QEQ.Controllers
                 P.Foto.InputStream.Read(ImagenOriginal, 0, tamaño);
                 P.FotoByte = ImagenOriginal;
                 
-                Session["Destino"] = "ABMPer";
-                Session["ABMMsg"] = BD.AgregarP(P);
-                return View("ABMMsg");
+                Session["Msg"] = BD.AgregarP(P);
+                return RedirectToAction("ABMPer", "BackOffice");
             }
         }
 
@@ -240,17 +240,16 @@ namespace QEQ.Controllers
             }
             else
             {
-                Session["Destino"] = "ABMPer";
                 if (Confirmacion == "Si")
                 {
-                    Session["ABMMsg"] = BD.BorrarP(id);
+                    Session["Msg"] = BD.BorrarP(id);
                 }
                 else
                 {
-                    Session["ABMMsg"] = "Ha decidido no Eliminar Personajes";
+                    Session["Msg"] = "Ha decidido no Eliminar Personajes";
 
                 }
-                return View("ABMMsg");
+                return RedirectToAction("ABMPer", "BackOffice");
             }
         }
 
@@ -290,9 +289,8 @@ namespace QEQ.Controllers
                 byte[] ImagenOriginal = new byte[tamaño];
                 P.Foto.InputStream.Read(ImagenOriginal, 0, tamaño);
                 P.FotoByte = ImagenOriginal;
-                Session["Destino"] = "ABMPer";
-                Session["ABMMsg"] = BD.ModificarP(P);
-                return View("ABMMsg");
+                Session["Msg"] = BD.ModificarP(P);
+                return RedirectToAction("ABMPer", "BackOffice");
             }
         }
         //ABMPersonajes : FIn------------------------------------------------------------------------------------------------
@@ -350,9 +348,8 @@ namespace QEQ.Controllers
             }
             else
             {
-                Session["Destino"] = "ABMCat";
-                Session["ABMMsg"] = BD.AgregarCat(Cat, Convert.ToBoolean(tipo));
-                return View("ABMMsg");
+                Session["Msg"] = BD.AgregarCat(Cat, Convert.ToBoolean(tipo));
+                return RedirectToAction("ABMCat", "BackOffice");
             }
             }
             catch (NullReferenceException)
@@ -371,7 +368,9 @@ namespace QEQ.Controllers
             else
             {
                 ViewBag.Id = id;
-                ViewBag.Tipo = tipo.ToString();
+
+                ViewBag.tipo = tipo.ToString();
+
                 return View();
             }
             }
@@ -381,7 +380,9 @@ namespace QEQ.Controllers
             }
         }
         [HttpPost]
+
         public ActionResult BorrarCat(string Confirmacion, int id,string tipo)
+
         {
             try { 
             if (Session["Admin"].ToString() != "Admin")
@@ -390,21 +391,22 @@ namespace QEQ.Controllers
             }
             else
             {
-                List<Cat> lista;
                 bool Tipo = Convert.ToBoolean(tipo);
-                if (Tipo) { lista = BD.Categorias; }
-                else { lista = BD.Grupos; }
-                Session["Destino"] = "ABMCat";
+                List<Cat> lista;
+    
                 if (Confirmacion == "Si")
                 {
-                    Session["ABMMsg"] = BD.BorrarCat(BD.BuscarCat(id,lista), Tipo);
+                    if (Tipo) { lista = BD.Categorias; }
+                    else { lista = BD.Grupos; }
+                    Session["Msg"] = BD.BorrarCat(BD.BuscarCat(id,lista),Tipo);
+
                 }
                 else
                 {
-                    Session["ABMMsg"] = "Ha decidido no Eliminar Personajes";
+                    Session["Msg"] = "Ha decidido no Eliminar Personajes";
 
                 }
-                return View("ABMMsg");
+                return RedirectToAction("ABMCat", "BackOffice");
             }
             }
             catch (NullReferenceException)
@@ -449,9 +451,8 @@ namespace QEQ.Controllers
             }
             else
             {
-                Session["Destino"] = "ABMCat";
-                Session["ABMMsg"] = BD.ModificarCat(cat, Convert.ToBoolean(tipo));
-                return View("ABMMsg");
+                Session["Msg"] = BD.ModificarCat(cat, Convert.ToBoolean(tipo));
+                return RedirectToAction("ABMCat", "BackOffice");
             }
             }
             catch (NullReferenceException)
@@ -515,9 +516,8 @@ namespace QEQ.Controllers
             }
             else
             {
-                Session["Destino"] = "ABMCar";
-                Session["ABMMsg"] = BD.AgregarCar(preg);
-                return View("ABMMsg");
+                Session["Msg"] = BD.AgregarCar(preg);
+                return RedirectToAction("ABMCar", "BackOffice");
             }
             }
             catch (NullReferenceException)
@@ -556,17 +556,16 @@ namespace QEQ.Controllers
             }
             else
             {
-                Session["Destino"] = "ABMCar";
                 if (Confirmacion == "Si")
                 {
-                    Session["ABMMsg"] = BD.BorrarCar(BD.BuscarPregunta(id));
+                    Session["Msg"] = BD.BorrarCar(BD.BuscarPregunta(id));
                 }
                 else
                 {
-                    Session["ABMMsg"] = "Ha decidido no Eliminar Personajes";
+                    Session["Msg"] = "Ha decidido no Eliminar Personajes";
 
                 }
-                return View("ABMMsg");
+                return RedirectToAction("ABMCar", "BackOffice");
             }
             }
             catch (NullReferenceException)
@@ -606,9 +605,8 @@ namespace QEQ.Controllers
             }
             else
             {
-                Session["Destino"] = "ABMCar";
-                Session["ABMMsg"] = BD.ModificarCar(caracteristica);
-                return View("ABMMsg");
+                Session["Msg"] = BD.ModificarCar(caracteristica);
+                return RedirectToAction("ABMCar", "BackOffice");
             }
             }
             catch (NullReferenceException)
