@@ -1,4 +1,4 @@
-﻿
+﻿<link href="~/Content/MiCSS.css" type="text/css" rel="stylesheet">
 @model QEQ.Models.Cat
 @using QEQ.Models
 @{
@@ -13,7 +13,7 @@ else
 
 @using (Html.BeginForm("ModificarCat", "BackOffice", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    @Html.TextBoxFor(x => x.Nombre, new { @required = "required"})
+    @Html.TextBoxFor(x => x.Nombre, new { @required = "required", @class = "inputext" })
     @Html.ValidationMessageFor(x => x.Nombre) <br />
     <input type="hidden" name="tipo" value="@ViewBag.tipo" />
     <input type="submit" name="cargar" value="Cargar" />

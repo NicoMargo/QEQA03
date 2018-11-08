@@ -299,6 +299,8 @@ namespace QEQ.Controllers
         //ABMCategorias : Comienzo------------------------------------------------------------------------------------------------
         public ActionResult ABMCat()
         {
+
+            try { 
             if (Session["Admin"].ToString() != "Admin")
             {
                 return RedirectToAction("AD", "BackOffice");
@@ -311,10 +313,16 @@ namespace QEQ.Controllers
                 ViewBag.Grupos = BD.Grupos;
                 return View();
             }
+            }
+            catch (NullReferenceException)
+            {
+                return RedirectToAction("AD", "BackOffice");
+            }
         }
         
         public ActionResult AgregarCat()
         {
+            try { 
             if (Session["Admin"].ToString() != "Admin")
             {
                 return RedirectToAction("AD", "BackOffice");
@@ -324,11 +332,18 @@ namespace QEQ.Controllers
                 BD.CargarCats();
                 return View();
             }
+            }
+            catch (NullReferenceException)
+            {
+                return RedirectToAction("AD", "BackOffice");
+            }
         }
 
         [HttpPost]
         public ActionResult AgregarCat(string Cat, string tipo)
         {
+
+            try { 
             if (Session["Admin"].ToString() != "Admin")
             {
                 return RedirectToAction("AD", "BackOffice");
@@ -339,10 +354,16 @@ namespace QEQ.Controllers
                 Session["ABMMsg"] = BD.AgregarCat(Cat, Convert.ToBoolean(tipo));
                 return View("ABMMsg");
             }
+            }
+            catch (NullReferenceException)
+            {
+                return RedirectToAction("AD", "BackOffice");
+            }
         }
         
         public ActionResult BorrarCat(int id, bool tipo)
         {
+            try { 
             if (Session["Admin"].ToString() != "Admin")
             {
                 return RedirectToAction("AD", "BackOffice");
@@ -353,10 +374,16 @@ namespace QEQ.Controllers
                 ViewBag.Tipo = tipo.ToString();
                 return View();
             }
+            }
+            catch (NullReferenceException)
+            {
+                return RedirectToAction("AD", "BackOffice");
+            }
         }
         [HttpPost]
         public ActionResult BorrarCat(string Confirmacion, int id,string tipo)
         {
+            try { 
             if (Session["Admin"].ToString() != "Admin")
             {
                 return RedirectToAction("AD", "BackOffice");
@@ -379,10 +406,16 @@ namespace QEQ.Controllers
                 }
                 return View("ABMMsg");
             }
+            }
+            catch (NullReferenceException)
+            {
+                return RedirectToAction("AD", "BackOffice");
+            }
         }
 
         public ActionResult ModificarCat(int id, bool tipo)
         {
+            try { 
             if (Session["Admin"].ToString() != "Admin")
             {
                 return RedirectToAction("AD", "BackOffice");
@@ -399,11 +432,17 @@ namespace QEQ.Controllers
                 BD.CargarCats();
                 return View(cat);
             }
+            }
+            catch (NullReferenceException)
+            {
+                return RedirectToAction("AD", "BackOffice");
+            }
         }
 
         [HttpPost]
         public ActionResult ModificarCat(Cat cat, string tipo)
         {
+            try { 
             if (Session["Admin"].ToString() != "Admin")
             {
                 return RedirectToAction("AD", "BackOffice");
@@ -414,42 +453,62 @@ namespace QEQ.Controllers
                 Session["ABMMsg"] = BD.ModificarCat(cat, Convert.ToBoolean(tipo));
                 return View("ABMMsg");
             }
+            }
+            catch (NullReferenceException)
+            {
+                return RedirectToAction("AD", "BackOffice");
+            }
         }
         //ABMCategorias : fin------------------------------------------------------------------------------------------------
         //ABMCaracteristicas o preguntas : Comienzo------------------------------------------------------------------------------------------------
 
         public ActionResult ABMCar()
         {
-            if (Session["Admin"].ToString() != "Admin")
+            try
+            {
+                if (Session["Admin"].ToString() != "Admin")
+                {
+                    return RedirectToAction("AD", "BackOffice");
+                }
+                else
+                {
+                    BD.CargarPreguntas();
+                    ViewBag.Preguntas = BD.Preguntas;
+                    return View();
+                }
+            }
+            catch (NullReferenceException)
             {
                 return RedirectToAction("AD", "BackOffice");
-            }
-            else
-            {
-                BD.CargarPreguntas();
-                ViewBag.Preguntas = BD.Preguntas;
-                return View();
             }
         }
         public ActionResult AgregarCar()
         {
-            if (Session["Admin"].ToString() != "Admin")
+            try
+            {
+                if (Session["Admin"].ToString() != "Admin")
+                {
+                    return RedirectToAction("AD", "BackOffice");
+                }
+                else
+                {
+                    BD.CargarPreguntas();
+                    BD.CargarGrupos();
+                    Preg lapregunta = new Preg();
+                    ViewBag.Grupos = BD.Grupos;
+                    return View(lapregunta);
+                }
+            }
+            catch (NullReferenceException)
             {
                 return RedirectToAction("AD", "BackOffice");
-            }
-            else
-            {
-                BD.CargarPreguntas();
-                BD.CargarGrupos();
-                Preg lapregunta = new Preg();
-                ViewBag.Grupos = BD.Grupos;
-                return View(lapregunta);
             }
         }
 
         [HttpPost]
         public ActionResult AgregarCar(Preg preg)
         {
+            try { 
             if (Session["Admin"].ToString() != "Admin")
             {
                 return RedirectToAction("AD", "BackOffice");
@@ -460,9 +519,15 @@ namespace QEQ.Controllers
                 Session["ABMMsg"] = BD.AgregarCar(preg);
                 return View("ABMMsg");
             }
+            }
+            catch (NullReferenceException)
+            {
+                return RedirectToAction("AD", "BackOffice");
+            }
         }
         public ActionResult BorrarCar(int id)
         {
+            try { 
             if (Session["Admin"].ToString() != "Admin")
             {
                 return RedirectToAction("AD", "BackOffice");
@@ -472,10 +537,19 @@ namespace QEQ.Controllers
                 ViewBag.Id = id;
                 return View();
             }
+            }
+            catch (NullReferenceException)
+            {
+                return RedirectToAction("AD", "BackOffice");
+            }
         }
         [HttpPost]
         public ActionResult BorrarCar(string Confirmacion, int id)
         {
+            try
+            {
+
+            
             if (Session["Admin"].ToString() != "Admin")
             {
                 return RedirectToAction("AD", "BackOffice");
@@ -494,10 +568,16 @@ namespace QEQ.Controllers
                 }
                 return View("ABMMsg");
             }
+            }
+            catch (NullReferenceException)
+            {
+                return RedirectToAction("AD", "BackOffice");
+            }
         }
 
         public ActionResult ModificarCar(int id)
         {
+            try { 
             if (Session["Admin"].ToString() != "Admin")
             {
                 return RedirectToAction("AD", "BackOffice");
@@ -509,11 +589,17 @@ namespace QEQ.Controllers
                 Preg caracteristica = new Preg(id, null, 0);
                 return View(caracteristica);
             }
+            }
+            catch (NullReferenceException)
+            {
+                return RedirectToAction("AD", "BackOffice");
+            }
         }
 
         [HttpPost]
         public ActionResult ModificarCar(Preg caracteristica)
         {
+            try { 
             if (Session["Admin"].ToString() != "Admin")
             {
                 return RedirectToAction("AD", "BackOffice");
@@ -524,18 +610,29 @@ namespace QEQ.Controllers
                 Session["ABMMsg"] = BD.ModificarCar(caracteristica);
                 return View("ABMMsg");
             }
+            }
+            catch (NullReferenceException)
+            {
+                return RedirectToAction("AD", "BackOffice");
+            }
         }
         //ABMCaracteristicas o preguntas : Fin------------------------------------------------------------------------------------------------
         //Area 51----------------------Area 51----------------------Area 51----------------------Area 51----------------------Area 51----------------------
         
         public ActionResult MostrarLista()
         {
+            try { 
             if (Session["Admin"].ToString() != "Admin")
             {
                 return RedirectToAction("AD", "BackOffice");
             }
             //Lista = BD.TraerPersonajes();            
-            return View();            
+            return View();
+            }
+            catch (NullReferenceException)
+            {
+                return RedirectToAction("AD", "BackOffice");
+            }
         }
     }
 }
