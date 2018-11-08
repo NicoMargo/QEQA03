@@ -17,7 +17,7 @@ namespace QEQ.Controllers
         {
             Session["Admin"] = "Admin";
             Session["Msg"] = "";
-           return View();
+            return View();
         }
 
 
@@ -62,6 +62,21 @@ namespace QEQ.Controllers
             }
             return RedirectToAction("LogIn", "BackOffice");
         }
+        public ActionResult OlvidoPass()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult OlvidoPass(string Usuario,string Contraseña)
+        {
+            if (Usuario!= "" && Contraseña != "")
+            {
+                Usuario usu;
+                usu = BD.OlvidoPass(Usuario, C+ontraseña);
+            }
+            return RedirectToAction("OlvidoPass","BackOficce")
+        }
+
         public ActionResult Register()
         {
             return View();
