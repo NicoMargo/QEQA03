@@ -2,6 +2,13 @@
     background-color: lightblue;
 }
 
+.TextLoginReg {
+    
+    margin: 30px 50px;
+    padding: 0;
+    font-size: 15px;
+}
+
 h2.ATitle {
     color: red;
     text-align: center;
@@ -16,10 +23,11 @@ p.AText {
 }
 
 .btnClassS {
-    padding: 19px 39px 18px 39px;
+    margin: 10px 20px ;
+    padding: 10px 1px 10px 10px;
     color: #FFF;
     background-color: #4bc970;
-    font-size: 12px;
+    font-size: 19px;
     text-align: center;
     font-style: normal;
     border-radius: 5px;
@@ -38,7 +46,20 @@ p.AText {
     padding: 10px 10px;
 }
 
+.loginBox {
+    margin:auto;    
+    box-sizing: border-box;
+    box-shadow: 0 5px 4px 0 rgba(181,181,181,.7);
+    width: 360px;
+    right: 10px;
+    min-height: 350px;
+    z-index: 1;
+    padding: 20px 15px;
+    border-top: 1px solid #f1f1f5;
+}
+
 .inputext {
+    margin: 10px 27px;
     border-top: 0.3px solid #909090;
     border-bottom: 0.3px solid #909090;
     border-right: 0.3px solid #909090;
@@ -46,5 +67,5 @@ p.AText {
     margin-bottom: 10px;
     box-sizing: initial;
     width: 100%;
-    padding: 20px;
+    padding: 10px 10px 10px 10px;
 }
