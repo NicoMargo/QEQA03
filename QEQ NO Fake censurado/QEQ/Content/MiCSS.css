@@ -1,12 +1,11 @@
-﻿
-.FondoAbout {
+﻿.FondoAbout {
     background-color: lightblue;
 }
+
 h2.ATitle {
     color: red;
     text-align: center;
     font-family: verdana;
-    
 }
 
 p.AText {
@@ -14,4 +13,38 @@ p.AText {
     max-width: 370px;
     font-family: verdana;
     font-size: 18px;
+}
+
+.btnClassS {
+    padding: 19px 39px 18px 39px;
+    color: #FFF;
+    background-color: #4bc970;
+    font-size: 12px;
+    text-align: center;
+    font-style: normal;
+    border-radius: 5px;
+    width: 100%;
+    border: 1px solid #3ac162;
+    border-width: 1px 1px 3px;
+    box-shadow: 0 -1px 0 rgba(255,255,255,0.1) inset;
+    margin-bottom: 10px;
+}
+
+
+
+.Title {
+    background-color: #3CBC8D;
+    color: white;
+    padding: 10px 10px;
+}
+
+.inputext {
+    border-top: 0.3px solid #909090;
+    border-bottom: 0.3px solid #909090;
+    border-right: 0.3px solid #909090;
+    border-left: 6px solid #007407;
+    margin-bottom: 10px;
+    box-sizing: initial;
+    width: 100%;
+    padding: 20px;
 }

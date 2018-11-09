@@ -1,8 +1,8 @@
-﻿
+﻿<link href="~/Content/MiCSS.css" type="text/css" rel="stylesheet">
 @model QEQ.Models.Cat
 @using QEQ.Models
 @{
-    ViewBag.Title = "ModificarCat";
+    ViewBag.Title = "ModificarCat"
 }
 @if (Convert.ToBoolean(ViewBag.tipo))
 {<h2> Modificar la Categoria @BD.BuscarCat(ViewBag.Id, BD.Categorias).Nombre</h2>}
@@ -13,7 +13,7 @@ else
 
 @using (Html.BeginForm("ModificarCat", "BackOffice", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    @Html.TextBoxFor(x => x.Nombre, new { @required = "required"})
+    @Html.TextBoxFor(x => x.Nombre, new { @required = "required", @class = "inputext" })
     @Html.ValidationMessageFor(x => x.Nombre) <br />
     <input type="hidden" name="tipo" value="@ViewBag.tipo" />
     <input type="submit" name="cargar" value="Cargar" />
