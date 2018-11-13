@@ -1,18 +1,20 @@
-﻿
-@{
-    ViewBag.Title = "ModificarCat";
-}
+﻿<link href="~/Content/MiCSS.css" type="text/css" rel="stylesheet">
 @model QEQ.Models.Cat
 @using QEQ.Models
-<h2>Modifica la Categoria @BD.BuscarCat(Model.Id,BD.Categorias).Nombre </h2>
+@{
+    ViewBag.Title = "ModificarCat"
+}
+@if (Convert.ToBoolean(ViewBag.tipo))
+{<h2> Modificar la Categoria @BD.BuscarCat(ViewBag.Id, BD.Categorias).Nombre</h2>}
+else
+{
+<h2>Modificar el Grupo @BD.BuscarCat(ViewBag.Id, BD.Grupos).Nombre</h2>
+}
 
 @using (Html.BeginForm("ModificarCat", "BackOffice", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    @Html.TextBoxFor(x => x.Nombre, new { @required = "required" })  
+    @Html.TextBoxFor(x => x.Nombre, new { @required = "required", @class = "inputext" })
     @Html.ValidationMessageFor(x => x.Nombre) <br />
-    @Html.RadioButton("tipo", "true",true)
-    @Html.Label("Categoria(de Personajes)") <br />
-    @Html.RadioButton("tipo", "false")
-    @Html.Label("Grupo(de preguntas)") <br />
-    <input type="submit" name="cargar" value="Cargar" /> 
+    <input type="hidden" name="tipo" value="@ViewBag.tipo" />
+    <input type="submit" name="cargar" value="Cargar" />
 }

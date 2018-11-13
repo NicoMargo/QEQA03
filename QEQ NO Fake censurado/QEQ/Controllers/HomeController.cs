@@ -11,6 +11,10 @@ namespace QEQ.Controllers
     {
         public ActionResult Index(string id = null)
         {
+            if (Session["Usu"] == null)
+            {
+                Session["Usu"] = new Usuario(true);
+            }
             if (id == "1")
             {
                 ViewBag.estado = 1;

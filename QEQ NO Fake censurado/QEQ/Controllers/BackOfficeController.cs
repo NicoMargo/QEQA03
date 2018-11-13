@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Drawing;
 using QEQ.Models;
 using System.Net;
 
@@ -14,7 +15,8 @@ namespace QEQ.Controllers
         // GET: BackOffice
         public ActionResult Index()
         {
-           return View();
+            Session["Msg"] = "";
+            return View();
         }
 
 
@@ -23,7 +25,8 @@ namespace QEQ.Controllers
             return View();
         }
 
-        public ActionResult ABMMsg() {
+        public ActionResult ABMMsg()
+        {
             return View();
         }
 
@@ -40,7 +43,7 @@ namespace QEQ.Controllers
             string Host = Dns.GetHostName(), Ip, Mac;
             IPAddress[] ip = Dns.GetHostAddresses(Host);
             Ip = ip[0].ToString();
-            Mac = ip[3].ToString();
+            Mac = ip[0].ToString();
             if (contraseña != "" && Usuario != "")
             {
                 Usuario usu;
@@ -59,6 +62,21 @@ namespace QEQ.Controllers
             }
             return RedirectToAction("LogIn", "BackOffice");
         }
+        public ActionResult OlvidoPass()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult OlvidoPass(string Usuario, string Contraseña)
+        {
+            if (Usuario != "" && Contraseña != "")
+            {
+                Usuario usu;
+               // usu = BD.spOlvidoPass(Usuario, Contraseña);
+            }
+            return RedirectToAction("OlvidoPass", "BackOfice");
+        }
+
         public ActionResult Register()
         {
             return View();
@@ -71,7 +89,7 @@ namespace QEQ.Controllers
             string Host = Dns.GetHostName();
             IPAddress[] ip = Dns.GetHostAddresses(Host);
             Usu.Ip = ip[0].ToString();
-            Usu.Mac = ip[3].ToString();
+            Usu.Mac = ip[0].ToString();
             if (Usu.Admin && Pin != "1")
             {
                 Usu.Admin = false;
@@ -91,10 +109,6 @@ namespace QEQ.Controllers
         }
         public ActionResult ModificarUsu(string id)
         {
-            if (Session["Admin"].ToString() != "Admin")
-            {
-                return RedirectToAction("AD", "BackOffice");
-            }
             if (id != null)
             {
                 ViewBag.Estado = id;
@@ -110,7 +124,7 @@ namespace QEQ.Controllers
                 string Host = Dns.GetHostName();
                 IPAddress[] ip = Dns.GetHostAddresses(Host);
                 usu.Ip = ip[0].ToString();
-                usu.Mac = ip[3].ToString();
+                usu.Mac = ip[0].ToString();
                 if (usu.Pass == null)
                 {
                     return Modificarusuaux(usu, PassVieja);
@@ -153,48 +167,75 @@ namespace QEQ.Controllers
         //ABMPersonajes : Comienzo------------------------------------------------------------------------------------------------
         public ActionResult ABMPer()
         {
-            if (Session["Admin"].ToString() != "Admin")
+            try
+            {
+                if (Session["Admin"].ToString() != "Admin")
+                {
+                    return RedirectToAction("AD", "BackOffice");
+                }
+                else
+                {
+                    BD.CargarCats();
+                    BD.CargarPersonajes();
+                    ViewBag.Personajes = BD.Personajes;
+                    return View();
+                }
+            }
+            catch (NullReferenceException)
             {
                 return RedirectToAction("AD", "BackOffice");
-            }
-            else
-            {
-                BD.CargarPersonajes();
-                ViewBag.Personajes = BD.Personajes;
-                return View();
             }
         }
         public ActionResult AgregarP()
         {
-            if (Session["Admin"].ToString() != "Admin")
+
+            try
+            {
+                if (Session["Admin"].ToString() != "Admin")
+                {
+                    return RedirectToAction("AD", "BackOffice");
+                }
+                else
+                {
+                    BD.CargarPreguntas();
+                    BD.CargarCats();
+                    Personaje mipersonaje = new Personaje();
+                    //mipersonaje = buscar en la lista y traer el personaje
+                    //ViewBag.ListaCat = ModelBinderDictionary.TraerCategorias();
+                    ViewBag.ListaCat = BD.Categorias;
+                    ViewBag.PregsXGrupo = BD.PregsXGrupos;
+                    ViewBag.Grupos = BD.Grupos;
+                    return View(mipersonaje);
+                }
+            }
+            catch (NullReferenceException)
             {
                 return RedirectToAction("AD", "BackOffice");
-            }
-            else
-            {
-                BD.CargarPreguntas();
-                BD.CargarCats();
-                Personaje mipersonaje = new Personaje();
-                //mipersonaje = buscar en la lista y traer el personaje
-                //ViewBag.ListaCat = ModelBinderDictionary.TraerCategorias();
-                ViewBag.ListaCat = BD.Categorias;
-                ViewBag.PregsXGrupo = BD.PregsXGrupos;
-                ViewBag.Grupos = BD.Grupos;
-                return View(mipersonaje);
             }
         }
         [HttpPost]
         public ActionResult AgregarPer(Personaje P)
         {
-            if (Session["Admin"].ToString() != "Admin")
+            try
+            {
+                if (Session["Admin"].ToString() != "Admin")
+                {
+                    return RedirectToAction("AD", "BackOffice");
+                }
+                else
+                {
+                    int tamaño = P.Foto.ContentLength;
+                    byte[] ImagenOriginal = new byte[tamaño];
+                    P.Foto.InputStream.Read(ImagenOriginal, 0, tamaño);
+                    P.FotoByte = ImagenOriginal;
+
+                    Session["Msg"] = BD.AgregarP(P);
+                    return RedirectToAction("ABMPer", "BackOffice");
+                }
+            }
+            catch (NullReferenceException)
             {
                 return RedirectToAction("AD", "BackOffice");
-            }
-            else
-            {
-                Session["Destino"] = "ABMPer";
-                Session["ABMMsg"] = BD.AgregarP(P);
-                return View("ABMMsg");
             }
         }
 
@@ -207,186 +248,271 @@ namespace QEQ.Controllers
              */
         public ActionResult BorrarP(int id)
         {
-            if (Session["Admin"].ToString() != "Admin")
+            try
+            {
+                if (Session["Admin"].ToString() != "Admin")
+                {
+                    return RedirectToAction("AD", "BackOffice");
+                }
+                else
+                {
+                    ViewBag.Id = id;
+                    return View();
+                }
+            }
+            catch (NullReferenceException)
             {
                 return RedirectToAction("AD", "BackOffice");
-            }
-            else
-            {
-                ViewBag.Id = id;
-                return View();
             }
         }
         [HttpPost]
         public ActionResult BorrarPer(string Confirmacion, int id)
         {
-            if (Session["Admin"].ToString() != "Admin")
+            try
             {
-                return RedirectToAction("AD", "BackOffice");
-            }
-            else
-            {
-                Session["Destino"] = "ABMPer";
-                if (Confirmacion == "Si")
+                if (Session["Admin"].ToString() != "Admin")
                 {
-                    Session["ABMMsg"] = BD.BorrarP(id);
+                    return RedirectToAction("AD", "BackOffice");
                 }
                 else
                 {
-                    Session["ABMMsg"] = "Ha decidido no Eliminar Personajes";
+                    if (Confirmacion == "Si")
+                    {
+                        Session["Msg"] = BD.BorrarP(id);
+                    }
+                    else
+                    {
+                        Session["Msg"] = "Ha decidido no Eliminar Personajes";
 
+                    }
+                    return RedirectToAction("ABMPer", "BackOffice");
                 }
-                return View("ABMMsg");
+            }
+            catch (NullReferenceException)
+            {
+                return RedirectToAction("AD", "BackOffice");
             }
         }
 
         public ActionResult ModificarP(int id)
         {
-            if (Session["Admin"].ToString() != "Admin")
+            try
+            {
+                if (Session["Admin"].ToString() != "Admin")
+                {
+                    return RedirectToAction("AD", "BackOffice");
+                }
+                else
+                {
+                    Personaje elpersonaje = BD.BuscarPersonaje(id);
+                    BD.CargarPreguntas();
+                    BD.CargarCats();
+                    //  Personaje mipersonaje = new Personaje(id, null, null,null, 0);
+                    ViewBag.Nombre = BD.BuscarPersonaje(id).Nombre;
+                    //mipersonaje = buscar en la lista y traer el personaje
+                    //ViewBag.ListaCat = ModelBinderDictionary.TraerCategorias();
+                    ViewBag.ListaCat = BD.Categorias;
+                    ViewBag.PregsXGrupo = BD.PregsXGrupos;
+                    ViewBag.Grupos = BD.Grupos;
+                    ViewBag.RtaXPer = BD.CargarRxP(id);
+                    return View(elpersonaje);
+                }
+            }
+            catch (NullReferenceException)
             {
                 return RedirectToAction("AD", "BackOffice");
-            }
-            else
-            {
-                BD.CargarPreguntas();
-                BD.CargarCats();
-                Personaje mipersonaje = new Personaje(id, null, null, 0);
-                ViewBag.Nombre = BD.BuscarPersonaje(id).Nombre;
-                //mipersonaje = buscar en la lista y traer el personaje
-                //ViewBag.ListaCat = ModelBinderDictionary.TraerCategorias();
-                ViewBag.ListaCat = BD.Categorias;
-                ViewBag.PregsXGrupo = BD.PregsXGrupos;
-                ViewBag.Grupos = BD.Grupos;
-                return View(mipersonaje);
             }
         }
 
         [HttpPost]
         public ActionResult ModificarP(Personaje P)
         {
-            if (Session["Admin"].ToString() != "Admin")
+            try
+            {
+                if (Session["Admin"].ToString() != "Admin")
+                {
+                    return RedirectToAction("AD", "BackOffice");
+                }
+                else
+                {
+                    int tamaño = P.Foto.ContentLength;
+                    byte[] ImagenOriginal = new byte[tamaño];
+                    P.Foto.InputStream.Read(ImagenOriginal, 0, tamaño);
+                    P.FotoByte = ImagenOriginal;
+                    Session["Msg"] = BD.ModificarP(P);
+                    return RedirectToAction("ABMPer", "BackOffice");
+                }
+            }
+            catch (NullReferenceException)
             {
                 return RedirectToAction("AD", "BackOffice");
-            }
-            else
-            {
-                Session["Destino"] = "ABMPer";
-                Session["ABMMsg"] = BD.ModificarP(P);
-                return View("ABMMsg");
             }
         }
         //ABMPersonajes : FIn------------------------------------------------------------------------------------------------
         //ABMCategorias : Comienzo------------------------------------------------------------------------------------------------
         public ActionResult ABMCat()
         {
-            if (Session["Admin"].ToString() != "Admin")
+            try
+            {
+                if (Session["Admin"].ToString() != "Admin")
+                {
+                    return RedirectToAction("AD", "BackOffice");
+                }
+                else
+                {
+                    BD.CargarCats();
+                    BD.CargarGrupos();
+                    ViewBag.Categorias = BD.Categorias;
+                    ViewBag.Grupos = BD.Grupos;
+                    return View();
+                }
+            }
+            catch (NullReferenceException)
             {
                 return RedirectToAction("AD", "BackOffice");
-            }
-            else
-            {
-                BD.CargarCats();
-                BD.CargarGrupos();
-                ViewBag.Categorias = BD.Categorias;
-                ViewBag.Grupos = BD.Grupos;
-                return View();
             }
         }
-        
+
         public ActionResult AgregarCat()
         {
-            if (Session["Admin"].ToString() != "Admin")
+            try
+            {
+                if (Session["Admin"].ToString() != "Admin")
+                {
+                    return RedirectToAction("AD", "BackOffice");
+                }
+                else
+                {
+                    BD.CargarCats();
+                    return View();
+                }
+            }
+            catch (NullReferenceException)
             {
                 return RedirectToAction("AD", "BackOffice");
-            }
-            else
-            {
-                BD.CargarCats();
-                return View();
             }
         }
 
         [HttpPost]
         public ActionResult AgregarCat(string Cat, string tipo)
         {
-            if (Session["Admin"].ToString() != "Admin")
-            {
-                return RedirectToAction("AD", "BackOffice");
-            }
-            else
-            {
-                Session["Destino"] = "ABMCat";
-                Session["ABMMsg"] = BD.AgregarCat(Cat, Convert.ToBoolean(tipo));
-                return View("ABMMsg");
-            }
-        }
-        
-        public ActionResult BorrarCat(int id)
-        {
-            if (Session["Admin"].ToString() != "Admin")
-            {
-                return RedirectToAction("AD", "BackOffice");
-            }
-            else
-            {
-                ViewBag.Id = id;
-                return View();
-            }
-        }
-        [HttpPost]
-        public ActionResult BorrarCat(string Confirmacion, int id)
-        {
-            if (Session["Admin"].ToString() != "Admin")
-            {
-                return RedirectToAction("AD", "BackOffice");
-            }
-            else
-            {
-                Session["Destino"] = "ABMCat";
-                if (Confirmacion == "Si")
-                {
-                    Session["ABMMsg"] = BD.BorrarCat(BD.BuscarCat(id,BD.Categorias),true);
-                }
-                else
-                {
-                    Session["ABMMsg"] = "Ha decidido no Eliminar Personajes";
-
-                }
-                return View("ABMMsg");
-            }
-        }
-
-        public ActionResult ModificarCat(int id)
-        {
-            if (Session["Admin"].ToString() != "Admin")
-            {
-                return RedirectToAction("AD", "BackOffice");
-            }
-            else
+            try
             {
                 if (Session["Admin"].ToString() != "Admin")
                 {
                     return RedirectToAction("AD", "BackOffice");
                 }
-                ViewBag.Id =id;
-                Cat cat = new Cat(id, null);
-                BD.CargarCats();
-                return View(cat);
+                else
+                {
+                    Session["Msg"] = BD.AgregarCat(Cat, Convert.ToBoolean(tipo));
+                    return RedirectToAction("ABMCat", "BackOffice");
+                }
+            }
+            catch (NullReferenceException)
+            {
+                return RedirectToAction("AD", "BackOffice");
+            }
+        }
+
+        public ActionResult BorrarCat(int id, bool tipo)
+        {
+            try
+            {
+                if (Session["Admin"].ToString() != "Admin")
+                {
+                    return RedirectToAction("AD", "BackOffice");
+                }
+                else
+                {
+                    ViewBag.Id = id;
+                    ViewBag.tipo = tipo.ToString();
+                    return View();
+                }
+            }
+            catch (NullReferenceException)
+            {
+                return RedirectToAction("AD", "BackOffice");
+            }
+        }
+        [HttpPost]
+        public ActionResult BorrarCat(string Confirmacion, int id, string tipo)
+        {
+            try
+            {
+                if (Session["Admin"].ToString() != "Admin")
+                {
+                    return RedirectToAction("AD", "BackOffice");
+                }
+                else
+                {
+                    bool Tipo = Convert.ToBoolean(tipo);
+                    List<Cat> lista;
+
+                    if (Confirmacion == "Si")
+                    {
+                        if (Tipo) { lista = BD.Categorias; }
+                        else { lista = BD.Grupos; }
+                        Session["Msg"] = BD.BorrarCat(BD.BuscarCat(id, lista), Tipo);
+                    }
+                    else
+                    {
+                        Session["Msg"] = "Ha decidido no Eliminar Personajes";
+
+                    }
+                    return RedirectToAction("ABMCat", "BackOffice");
+                }
+            }
+            catch (NullReferenceException)
+            {
+                return RedirectToAction("AD", "BackOffice");
+            }
+        }
+
+        public ActionResult ModificarCat(int id, bool tipo)
+        {
+            try
+            {
+                if (Session["Admin"].ToString() != "Admin")
+                {
+                    return RedirectToAction("AD", "BackOffice");
+                }
+                else
+                {
+                    if (Session["Admin"].ToString() != "Admin")
+                    {
+                        return RedirectToAction("AD", "BackOffice");
+                    }
+                    ViewBag.Id = id;
+                    ViewBag.tipo = tipo.ToString();
+                    Cat cat = new Cat(id, null);
+                    BD.CargarCats();
+                    return View(cat);
+                }
+            }
+            catch (NullReferenceException)
+            {
+                return RedirectToAction("AD", "BackOffice");
             }
         }
 
         [HttpPost]
         public ActionResult ModificarCat(Cat cat, string tipo)
         {
-            if (Session["Admin"].ToString() != "Admin")
+            try
+            {
+                if (Session["Admin"].ToString() != "Admin")
+                {
+                    return RedirectToAction("AD", "BackOffice");
+                }
+                else
+                {
+                    Session["Msg"] = BD.ModificarCat(cat, Convert.ToBoolean(tipo));
+                    return RedirectToAction("ABMCat", "BackOffice");
+                }
+            }
+            catch (NullReferenceException)
             {
                 return RedirectToAction("AD", "BackOffice");
-            }
-            else
-            {
-                Session["Destino"] = "ABMCat";
-                Session["ABMMsg"] = BD.ModificarCat(cat, Convert.ToBoolean(tipo));
-                return View("ABMMsg");
             }
         }
         //ABMCategorias : fin------------------------------------------------------------------------------------------------
@@ -394,121 +520,178 @@ namespace QEQ.Controllers
 
         public ActionResult ABMCar()
         {
-            if (Session["Admin"].ToString() != "Admin")
+            try
+            {
+                if (Session["Admin"].ToString() != "Admin")
+                {
+                    return RedirectToAction("AD", "BackOffice");
+                }
+                else
+                {
+                    BD.CargarPreguntas();
+                    ViewBag.Preguntas = BD.Preguntas;
+                    return View();
+                }
+            }
+            catch (NullReferenceException)
             {
                 return RedirectToAction("AD", "BackOffice");
-            }
-            else
-            {
-                BD.CargarPreguntas();
-                ViewBag.Preguntas = BD.Preguntas;
-                return View();
             }
         }
         public ActionResult AgregarCar()
         {
-            if (Session["Admin"].ToString() != "Admin")
+            try
+            {
+                if (Session["Admin"].ToString() != "Admin")
+                {
+                    return RedirectToAction("AD", "BackOffice");
+                }
+                else
+                {
+                    BD.CargarPreguntas();
+                    BD.CargarGrupos();
+                    Preg lapregunta = new Preg();
+                    ViewBag.Grupos = BD.Grupos;
+                    return View(lapregunta);
+                }
+            }
+            catch (NullReferenceException)
             {
                 return RedirectToAction("AD", "BackOffice");
-            }
-            else
-            {
-                BD.CargarPreguntas();
-                BD.CargarGrupos();
-                Preg lapregunta = new Preg();
-                ViewBag.Grupos = BD.Grupos;
-                return View(lapregunta);
             }
         }
 
         [HttpPost]
         public ActionResult AgregarCar(Preg preg)
         {
-            if (Session["Admin"].ToString() != "Admin")
+            try
+            {
+                if (Session["Admin"].ToString() != "Admin")
+                {
+                    return RedirectToAction("AD", "BackOffice");
+                }
+                else
+                {
+                    Session["Msg"] = BD.AgregarCar(preg);
+                    return RedirectToAction("ABMCar", "BackOffice");
+                }
+            }
+            catch (NullReferenceException)
             {
                 return RedirectToAction("AD", "BackOffice");
-            }
-            else
-            {
-                Session["Destino"] = "ABMCar";
-                Session["ABMMsg"] = BD.AgregarCar(preg);
-                return View("ABMMsg");
             }
         }
         public ActionResult BorrarCar(int id)
         {
-            if (Session["Admin"].ToString() != "Admin")
+            try
+            {
+                if (Session["Admin"].ToString() != "Admin")
+                {
+                    return RedirectToAction("AD", "BackOffice");
+                }
+                else
+                {
+                    ViewBag.Id = id;
+                    return View();
+                }
+            }
+            catch (NullReferenceException)
             {
                 return RedirectToAction("AD", "BackOffice");
-            }
-            else
-            {
-                ViewBag.Id = id;
-                return View();
             }
         }
         [HttpPost]
         public ActionResult BorrarCar(string Confirmacion, int id)
         {
-            if (Session["Admin"].ToString() != "Admin")
+            try
             {
-                return RedirectToAction("AD", "BackOffice");
-            }
-            else
-            {
-                Session["Destino"] = "ABMCar";
-                if (Confirmacion == "Si")
+                if (Session["Admin"].ToString() != "Admin")
                 {
-                    Session["ABMMsg"] = BD.BorrarCar(BD.BuscarPregunta(id));
+                    return RedirectToAction("AD", "BackOffice");
                 }
                 else
                 {
-                    Session["ABMMsg"] = "Ha decidido no Eliminar Personajes";
+                    if (Confirmacion == "Si")
+                    {
+                        Session["Msg"] = BD.BorrarCar(BD.BuscarPregunta(id));
+                    }
+                    else
+                    {
+                        Session["Msg"] = "Ha decidido no Eliminar Personajes";
 
+                    }
+                    return RedirectToAction("ABMCar", "BackOffice");
                 }
-                return View("ABMMsg");
+            }
+
+            catch (NullReferenceException)
+            {
+                return RedirectToAction("AD", "BackOffice");
             }
         }
 
         public ActionResult ModificarCar(int id)
         {
-            if (Session["Admin"].ToString() != "Admin")
+            try
+            {
+                if (Session["Admin"].ToString() != "Admin")
+                {
+                    return RedirectToAction("AD", "BackOffice");
+                }
+                else
+                {
+                    ViewBag.Id = id;
+                    ViewBag.Grupos = BD.Grupos;
+                    Preg caracteristica = new Preg(id, null, 0);
+                    return View(caracteristica);
+                }
+            }
+            catch (NullReferenceException)
             {
                 return RedirectToAction("AD", "BackOffice");
             }
-            else
-            {
-                ViewBag.Id = id;
-                Preg caracteristica = new Preg(id, null, 0);
-                return View(caracteristica);
-            }
         }
+
 
         [HttpPost]
         public ActionResult ModificarCar(Preg caracteristica)
         {
-            if (Session["Admin"].ToString() != "Admin")
+            try
+            {
+                if (Session["Admin"].ToString() != "Admin")
+                {
+                    return RedirectToAction("AD", "BackOffice");
+                }
+                else
+                {
+                    Session["Msg"] = BD.ModificarCar(caracteristica);
+                    return RedirectToAction("ABMCar", "BackOffice");
+                }
+            }
+            catch (NullReferenceException)
             {
                 return RedirectToAction("AD", "BackOffice");
-            }
-            else
-            {
-                Session["Destino"] = "ABMPer";
-                Session["ABMMsg"] = BD.ModificarCar(caracteristica);
-                return View("ABMMsg");
             }
         }
         //ABMCaracteristicas o preguntas : Fin------------------------------------------------------------------------------------------------
         //Area 51----------------------Area 51----------------------Area 51----------------------Area 51----------------------Area 51----------------------
-        
+
         public ActionResult MostrarLista()
         {
-            if (Session["Admin"].ToString() != "Admin")
+            try
+            {
+                if (Session["Admin"].ToString() != "Admin")
+                {
+                    return RedirectToAction("AD", "BackOffice");
+                }
+                //Lista = BD.TraerPersonajes();            
+                return View();
+            }
+            catch (NullReferenceException)
             {
                 return RedirectToAction("AD", "BackOffice");
             }
-            //Lista = BD.TraerPersonajes();            
-            return View();            
         }
     }
 }
+    

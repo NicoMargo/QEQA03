@@ -1,0 +1,15 @@
+﻿
+@using QEQ.Models
+@{
+    ViewBag.Title = "Comienzo";
+}
+
+<h2>Agregar una nueva Categoria</h2>
+
+@using (Html.BeginForm("Start1", "Game", FormMethod.Post))
+{
+   <input type="hidden" name="usuario" value="@Session["Usu"]" />
+    @Html.Label("Elije la Categoría de Personajes")<br />
+    @Html.DropDownList("idCategoria",new SelectList(ViewBag.Cats, "Id", "Nombre")) <br />
+    <input type="submit" name="cargar" value="Empezar" />
+}

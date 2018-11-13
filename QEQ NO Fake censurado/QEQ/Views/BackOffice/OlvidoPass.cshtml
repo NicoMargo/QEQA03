@@ -1,7 +1,17 @@
 ﻿
-@{
-    ViewBag.Title = "OlvidoPass";
-}
+
+   <h2>Olvido Contraseña</h2>
+    @using QEQ.Models;
+    @using (@Html.BeginForm("OlvidoPass", "Backoffice", FormMethod.Post))
+    { 
+    <br/>
+<form action="Url.action(" OlvidoPass","Backoffice")", method="post">
+    <input placeholder="Usuario" type="text" name="Usuario" required /> <br />
+    <input placeholder="Nueva Contraseña" type="password" name="NuevaContraseña" required /><br />
+    <input type="submit" value="enviar" /><br />
+</form>
+    }
+    
 
 <h2>OlvidoPass</h2>
 

@@ -7,7 +7,7 @@
 
 @using (Html.BeginForm("AgregarCat", "BackOffice", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    @Html.TextBox("Cat", new { @required = "required" }) <br />
+    @Html.TextBox("Cat", "", new { @required = "required" }) <br />
     @Html.RadioButton("tipo", "true", true)
     @Html.Label("Categoria(de Personajes)") <br />
     @Html.RadioButton("tipo", "false")

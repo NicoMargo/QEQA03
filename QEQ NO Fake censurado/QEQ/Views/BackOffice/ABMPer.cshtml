@@ -2,16 +2,26 @@
 @model QEQ.Models.Personaje
 @{
     ViewBag.Title = "ABMPer";
+    if (Session["Msg"].ToString()!="")
+    {
+        <input type="hidden" value="@Session["Msg"].ToString()" id="mensaje" />
+        <script type="text/javascript">
+            var hiden = document.getElementById("mensaje");
+            var mensaje = hiden.getAttribute("value");
+            alert(mensaje);
+        </script>
+        Session["Msg"] = "";
+    }
 }
 
 <h2>Menu ABM de Personajes</h2>
-@Html.ActionLink("Agregar un nuevo personaje", "AgregarP", "BackOffice"); <br/>
-<table border="1"  align="center" >
+<a href="@Url.Action("AgregarP", "BackOffice")"><img src="~/Content/Agregar-elemento.png" height="30" /></a><br /><br />
+<table border="1" align="center">
     <tr>
         <td>Id</td>
         <td>Nombre</td>
         <td>Categoria</td>
-        <td>Imagn</td>
+        <td>Imagen</td>
         <td>Modificar</td>
         <td>Borrar</td>
     </tr>
@@ -20,11 +30,15 @@
         <tr>
             <td>@Html.Label(personaje.Id.ToString())</td>
             <td>@Html.Label(personaje.Nombre)</td>
-            <td>@Html.Label(BD.BuscarCat(personaje.idCategoria,BD.Categorias).Nombre)</td>
-            <!--<td@Html.Label(personaje.Img);</td>-->
-            <td>@Html.ActionLink("Modificar", "ModificarP", "BackOffice", new { Id = personaje.Id });</td>
-            <td>@Html.ActionLink("Borrar", "BorrarP", "BackOffice", new { Id = personaje.Id });</td>
+            <td>@Html.Label(BD.BuscarCat(personaje.idCategoria, BD.Categorias).Nombre)</td>
+            <td> <img class="img-responsive" src="@personaje.Direccion" width="135" /></td>
+            <td>
+                <a href="@Url.Action("ModificarP", "BackOffice", new { id = personaje.Id })"><img src="~/Content/Lapiz Mod.png" height="30" /></a>
+            </td>
+            <td>
+                <a href="@Url.Action("BorrarP", "BackOffice", new { id = personaje.Id })"><img src="~/Content/Cruz-Borrar.png" height="30" /></a>
+            </td>
         </tr>
     }
 </table>
-@Html.ActionLink("Volver al BackOffice Index", "Index", "BackOffice"); <br />
+@Html.ActionLink("Volver al BackOffice Index", "Index", "BackOffice") <br />
