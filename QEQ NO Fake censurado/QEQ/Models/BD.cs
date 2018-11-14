@@ -12,9 +12,9 @@ namespace QEQ.Models
     {
 
 
-        //public static string connectionString = "Server=10.128.8.16;User=QEQA03;Password=QEQA03;Database=QEQA03"; //Ort
+        public static string connectionString = "Server=10.128.8.16;User=QEQA03;Password=QEQA03;Database=QEQA03"; //Ort
         //public static string connectionString = @"Server=DESKTOP-5P28OS5\SQLEXPRESS;Database=QEQA03;Trusted_Connection=True;"; //Anush
-        public static string connectionString = @"Server=DESKTOP-P6PCH8N\SQLEXPRESS;Database=QEQA03;Trusted_Connection=True;"; //Chino
+        //public static string connectionString = @"Server=DESKTOP-P6PCH8N\SQLEXPRESS;Database=QEQA03;Trusted_Connection=True;"; //Chino
         
         public static string msg;
         public static List<Preg> Preguntas;//sp Traer Preguntas
@@ -444,7 +444,7 @@ namespace QEQ.Models
             SqlDataReader elLector = laConsulta.ExecuteReader();
             while (elLector.Read())
             {
-                pregs.Add(new Preg(Convert.ToInt32(elLector["idPregunta"]), elLector["Texto"].ToString(), Convert.ToInt32(elLector["idPregunta"])));
+                pregs.Add(new Preg(Convert.ToInt32(elLector["idPregunta"]), elLector["Texto"].ToString(), Convert.ToInt32(elLector["idPregunta"]), Convert.ToInt32(elLector["Puntos"])));
             }
             return pregs;
         }
@@ -460,7 +460,7 @@ namespace QEQ.Models
             SqlDataReader elLector = laConsulta.ExecuteReader();
             while (elLector.Read())
             {
-                Preg Pregunta = new Preg(Convert.ToInt32(elLector["idPregunta"]), Convert.ToString(elLector["Texto"]), Convert.ToInt32(elLector["idGrupo"]));
+                Preg Pregunta = new Preg(Convert.ToInt32(elLector["idPregunta"]), Convert.ToString(elLector["Texto"]), Convert.ToInt32(elLector["idGrupo"]),Convert.ToInt32(elLector["Puntos"]));
                 Preguntas.Add(Pregunta);
                 PregsXGrupos[BuscarCat(Pregunta.idGrupo, Grupos).Nombre].Add(Pregunta);
             }

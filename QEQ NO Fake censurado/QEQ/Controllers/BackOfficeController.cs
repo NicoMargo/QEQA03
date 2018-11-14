@@ -15,6 +15,8 @@ namespace QEQ.Controllers
         // GET: BackOffice
         public ActionResult Index()
         {
+
+            Session["Admin"] = "Admin";
             Session["Msg"] = "";
             return View();
         }
@@ -71,7 +73,7 @@ namespace QEQ.Controllers
         {
             if (Usuario != "" && Contraseña != "")
             {
-                Usuario usu;
+                //Usuario usu;
                // usu = BD.spOlvidoPass(Usuario, Contraseña);
             }
             return RedirectToAction("OlvidoPass", "BackOfice");
@@ -642,7 +644,7 @@ namespace QEQ.Controllers
                 {
                     ViewBag.Id = id;
                     ViewBag.Grupos = BD.Grupos;
-                    Preg caracteristica = new Preg(id, null, 0);
+                    Preg caracteristica = new Preg(id, null, 0, 0);
                     return View(caracteristica);
                 }
             }

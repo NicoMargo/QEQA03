@@ -17,15 +17,15 @@ namespace QEQ.Models
         private bool _ganador;
         private DateTime _fecha;
 
-        public int Id { get => _id; set => _id = value; }
-        public int Usuario1 { get => _usuario1; set => _usuario1 = value; }
-        public int Usuario2 { get => _usuario2; set => _usuario2 = value; }
-        public string Ip1 { get => _ip1; set => _ip1 = value; }
-        public string Ip2 { get => _ip2; set => _ip2 = value; }
-        public int CantPreguntas { get => _cantPreguntas; set => _cantPreguntas = value; }
-        public bool Multijugador { get => _multijugador; }
-        public bool Ganador { get => _ganador; }
-        public DateTime Fecha { get => _fecha; set => _fecha = value; }
+        public int Id { get { return _id; } set { _id = value; } }
+        public int Usuario1 { get { return _usuario1; } set { _usuario1 = value; } }
+        public int Usuario2 { get { return _usuario2; } set { _usuario2 = value; } }
+        public string Ip1 { get { return _ip1; } set { _ip1 = value; } }
+        public string Ip2 { get { return _ip2; } set { _ip2 = value; } }
+        public int CantPreguntas { get { return _cantPreguntas; } set { _cantPreguntas = value; } }
+        public bool Multijugador { get { return _multijugador; } }
+        public bool Ganador { get { return _ganador; } }
+        public DateTime Fecha { get { return _fecha; } set { _fecha = value; } }
 
         public Partida() {}
         public Partida(int Host, string ipH, bool multi)

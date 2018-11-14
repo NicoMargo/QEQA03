@@ -114,7 +114,11 @@ namespace QEQ.Models
             }
         }
 
-        public int Id { get => _id; set => _id = value; }
+        public int Id
+        {
+            get { return _id; }
+            set { _id = value; }
+        }
 
         public Usuario(int id,string nombre, string username, string pass, int puntos, string ip, string email, string mac, bool admin)
         {
