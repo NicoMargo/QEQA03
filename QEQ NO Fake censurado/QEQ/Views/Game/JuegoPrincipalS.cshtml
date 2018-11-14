@@ -1,0 +1,14 @@
+﻿@using QEQ.Models
+@model QEQ.Models.Preg
+@{
+    ViewBag.Title = "JuegoPrincipalS";
+}
+
+@ViewBag.Preg
+
+@Html.DropDownList("idpreg", new SelectList(ViewBag.Preg, "Id", "Texto")) <br />
+
+@Html.ActionLink("Volver al BackOffice Index", "Index", "BackOffice") <br />
+
+<h2>JuegoPrincipalS</h2>
+
