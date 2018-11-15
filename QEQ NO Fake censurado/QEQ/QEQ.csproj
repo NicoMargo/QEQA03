@@ -221,8 +221,13 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Binker.jpg" />
+    <Content Include="Content\facha de jon.jpg" />
+    <Content Include="Content\goku.png" />
     <Content Include="Content\LOGO.png" />
+    <Content Include="Content\margo.jpg" />
     <Content Include="Content\MiCSS.css" />
+    <Content Include="Content\who is who.jpg" />
+    <Content Include="Content\zeky.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
