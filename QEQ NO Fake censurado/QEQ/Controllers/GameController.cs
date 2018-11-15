@@ -33,8 +33,16 @@ namespace QEQ.Controllers
 
         public ActionResult JuegoPrincipalS()
         {
+            BD.CargarCats();
+            BD.CargarPersonajes();
+            ViewBag.Personajes = BD.Personajes;
             ViewBag.Preg = BD.Preguntas;
             return View();
+        }
+     
+        public ActionResult RiskS(int id)
+        {
+            return RedirectToAction("JuegoPrincipalS", "Game");
         }
 
         [HttpPost]

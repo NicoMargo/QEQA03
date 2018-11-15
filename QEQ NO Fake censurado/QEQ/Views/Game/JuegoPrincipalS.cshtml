@@ -1,12 +1,28 @@
 ﻿@using QEQ.Models
-@model QEQ.Models.Preg
+@model QEQ.Models.Personaje
 @{
     ViewBag.Title = "JuegoPrincipalS";
 }
 
-@ViewBag.Preg
 
-@Html.DropDownList("idpreg", new SelectList(ViewBag.Preg, "Id", "Texto")) <br />
+
+
+
+@using (Html.BeginForm("Start1", "Game", FormMethod.Post))
+{
+    @Html.Label("Seleccione que quiere preguntar para adivinar mi personaje")<br />
+    @Html.DropDownList("idpreg", new SelectList(ViewBag.Preg, "Id", "Texto")) <br />
+    <input type="submit" name="cargar" value="Preguntar" />
+}
+
+@using (Html.BeginForm("Start1", "Game", FormMethod.Post))
+{
+    foreach (Personaje personaje in ViewBag.Personajes)
+    {                   
+        <a href="@Url.Action("RiskS", "Game", new { id = personaje.Id })" ><img class="img-responsive" src="@personaje.Direccion" width="135" /></a >
+    }
+}
+
 
 @Html.ActionLink("Volver al BackOffice Index", "Index", "BackOffice") <br />
 
