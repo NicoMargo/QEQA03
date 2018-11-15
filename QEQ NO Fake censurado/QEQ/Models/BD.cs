@@ -15,7 +15,7 @@ namespace QEQ.Models
         public static string connectionString = "Server=10.128.8.16;User=QEQA03;Password=QEQA03;Database=QEQA03"; //Ort
        //public static string connectionString = @"Server=DESKTOP-5P28OS5\SQLEXPRESS;Database=QEQA03;Trusted_Connection=True;"; //Anush
         //public static string connectionString = @"Server=DESKTOP-P6PCH8N\SQLEXPRESS;Database=QEQA03;Trusted_Connection=True;"; //Chino
-                       
+
         public static string msg;
         public static List<Preg> Preguntas;//sp Traer Preguntas
         public static List<Personaje> Personajes;//Sp traer personajes
@@ -25,9 +25,7 @@ namespace QEQ.Models
         public static List<Cat> Grupos;//sp Traer grupos
         public static List<Rta> Respuestas;//sp traer Ras
         public static Dictionary<string, List<Preg>> PregsXGrupos;
-       
 
-        
         public static Preg BuscarPregunta(int id)
         {
             Preg pregunta = null;
@@ -83,7 +81,7 @@ namespace QEQ.Models
             }
             return personaje;
         }
-        public static Cat BuscarCat(int id,List<Cat> Cats)
+        public static Cat BuscarCat(int id, List<Cat> Cats)
         {
             Cat grupo = null;
             int i = 0;
@@ -116,7 +114,7 @@ namespace QEQ.Models
 
 
         //Action REsults------------------------------------------------------------------------------------------------------------------------------------
-            public static SqlConnection Conectar()
+        public static SqlConnection Conectar()
         {
             SqlConnection laConexion = new SqlConnection(connectionString);
             laConexion.Open();
@@ -127,7 +125,7 @@ namespace QEQ.Models
         {
             laConexion.Close();
         }
-        public static void CargarRta(Personaje Per, Preg pregunta)
+        public static void CrearRta(Personaje Per, Preg pregunta)
         {
             SqlConnection unaConexion = Conectar();
             SqlCommand laConsulta = unaConexion.CreateCommand();
@@ -142,7 +140,7 @@ namespace QEQ.Models
         public static string AgregarP(Personaje Per)
         {
             string msg = "";
-            int id = -1;    
+            int id = -1;
             SqlConnection unaConexion = Conectar();
             SqlCommand laConsulta = unaConexion.CreateCommand();
             laConsulta.CommandType = System.Data.CommandType.StoredProcedure;
@@ -163,7 +161,7 @@ namespace QEQ.Models
                 Per.Id = id;
                 foreach (Preg pregunta in Per.Preguntas)
                 {
-                    if (pregunta.Id != -1) { CargarRta(Per, pregunta); }
+                    if (pregunta.Id != -1) { CrearRta(Per, pregunta); }
                 }
             }
             return msg;
@@ -191,7 +189,7 @@ namespace QEQ.Models
             {
                 foreach (Preg pregunta in Per.Preguntas)
                 {
-                    if (pregunta.Id != -1) { CargarRta(Per, pregunta); }
+                    if (pregunta.Id != -1) { CrearRta(Per, pregunta); }
                 }
             }
             return msg;
@@ -300,6 +298,7 @@ namespace QEQ.Models
             laConsulta.CommandText = "spCrearPregunta";
             laConsulta.Parameters.AddWithValue("@Texto", Pre.Texto);
             laConsulta.Parameters.AddWithValue("@idGrupo", Pre.idGrupo);
+            laConsulta.Parameters.AddWithValue("@Puntos", Pre.Puntos);
             SqlDataReader elLector = laConsulta.ExecuteReader();
             if (elLector.Read())
             {
@@ -320,6 +319,7 @@ namespace QEQ.Models
             laConsulta.Parameters.AddWithValue("@idPregunta", Car.Id);
             laConsulta.Parameters.AddWithValue("@idGrupo", Car.idGrupo);
             laConsulta.Parameters.AddWithValue("@nuevoTexto", Car.Texto);
+            laConsulta.Parameters.AddWithValue("@Puntos", Car.Puntos);
             SqlDataReader elLector = laConsulta.ExecuteReader();
             if (elLector.Read())
             {
@@ -346,6 +346,7 @@ namespace QEQ.Models
             return msg;
         }
 
+        //Cargar=================================================================================================================================
         public static void CargarCats()
         {
             Categorias = new List<Cat>();
@@ -356,7 +357,7 @@ namespace QEQ.Models
             SqlDataReader elLector = laConsulta.ExecuteReader();
             while (elLector.Read())
             {
-                Categorias.Add(new Cat(Convert.ToInt32(elLector["idCategoria"]),Convert.ToString(elLector["Categoria"])));
+                Categorias.Add(new Cat(Convert.ToInt32(elLector["idCategoria"]), Convert.ToString(elLector["Categoria"])));
             }
             Desconectar(unaConexion);
         }
@@ -389,18 +390,18 @@ namespace QEQ.Models
          
             SqlDataReader elLector = laConsulta.ExecuteReader();
             while (elLector.Read())
-            {      try
+            { try
                 {
                     foto = (byte[])elLector["Foto"];
                     Direccion = "data:Image/png;base64," + Convert.ToBase64String(foto);
                 }  catch(NullReferenceException)
+
                 {
                     foto = null;
                     Direccion = "";
                 }
-               
                 Personajes.Add(new Personaje(Convert.ToInt32(elLector["idPersona"]), Convert.ToString(elLector["Nombre"]), null, Convert.ToInt32(elLector["idCategoria"]),Direccion, (byte[])elLector["Foto"]));
-
+                
             }
 
             Desconectar(unaConexion);
@@ -427,7 +428,7 @@ namespace QEQ.Models
                 {
                     bfoto = null;
                     sfoto = "";
-                }  
+                }
                 Personajes.Add(new Personaje(Convert.ToInt32(elLector["idPersona"]), Convert.ToString(elLector["Nombre"]), null, Convert.ToInt32(elLector["idCategoria"]), sfoto, (byte[])elLector["Foto"]));
             }
             Desconectar(unaConexion);
@@ -439,11 +440,11 @@ namespace QEQ.Models
             SqlCommand laConsulta = unaConexion.CreateCommand();
             laConsulta.CommandType = System.Data.CommandType.StoredProcedure;
             laConsulta.CommandText = "spTraerRxP";
-            laConsulta.Parameters.AddWithValue("@idPersona",idP);
+            laConsulta.Parameters.AddWithValue("@idPersona", idP);
             SqlDataReader elLector = laConsulta.ExecuteReader();
             while (elLector.Read())
             {
-                pregs.Add(new Preg(Convert.ToInt32(elLector["idPregunta"]),elLector["Texto"].ToString(), Convert.ToInt32(elLector["idPregunta"])));
+                pregs.Add(new Preg(Convert.ToInt32(elLector["idPregunta"]), elLector["Texto"].ToString(), Convert.ToInt32(elLector["idGrupo"]), Convert.ToInt32(elLector["Puntos"])));
             }
             return pregs;
         }
@@ -459,9 +460,9 @@ namespace QEQ.Models
             SqlDataReader elLector = laConsulta.ExecuteReader();
             while (elLector.Read())
             {
-                Preg Pregunta = new Preg(Convert.ToInt32(elLector["idPregunta"]), Convert.ToString(elLector["Texto"]), Convert.ToInt32(elLector["idGrupo"]));
+                Preg Pregunta = new Preg(Convert.ToInt32(elLector["idPregunta"]), Convert.ToString(elLector["Texto"]), Convert.ToInt32(elLector["idGrupo"]),Convert.ToInt32(elLector["Puntos"]));
                 Preguntas.Add(Pregunta);
-                PregsXGrupos[BuscarCat(Pregunta.idGrupo,Grupos).Nombre].Add(Pregunta);
+                PregsXGrupos[BuscarCat(Pregunta.idGrupo, Grupos).Nombre].Add(Pregunta);
             }
             Desconectar(unaConexion);
         }
@@ -469,6 +470,7 @@ namespace QEQ.Models
         public static Usuario Login(string User, string Pass, string Ip, string mac)
         {
             string Nombre = "", email = "", pass = "", username = "", Mac = "", IpPublica = "";
+            int id = 0;
             int Puntos = 0, regs;
             bool Admin = false;
             SqlConnection unaConexion = Conectar();
@@ -486,6 +488,7 @@ namespace QEQ.Models
             {
                 if (elLector["msg"].ToString() == "OK")
                 {
+                    id = Convert.ToInt32(elLector["idUsuarios"]);
                     Nombre = (elLector["Nombre"].ToString());
                     msg = (elLector["msg"].ToString());
                     email = (elLector["Mail"].ToString());
@@ -494,18 +497,18 @@ namespace QEQ.Models
                     username = (elLector["Username"].ToString());
                     Admin = Convert.ToBoolean(elLector["Administrador"]);
                     Puntos = Convert.ToInt32(elLector["Puntos"]);
-                    
-                    
+
+
                 }
                 else if (elLector["msg"].ToString() != "OK")
 
                 {
                     msg = (elLector["msg"].ToString());
-                }                
+                }
             }
             elLector.Close();
             regs = laConsulta.ExecuteNonQuery();
-            Usuario Usu = new Usuario(Nombre, username, pass, Puntos, IpPublica, email, Mac, Admin);
+            Usuario Usu = new Usuario(id, Nombre, username, pass, Puntos, IpPublica, email, Mac, Admin);
 
 
             Desconectar(unaConexion);
@@ -516,16 +519,16 @@ namespace QEQ.Models
         public static int ModificarUsu(Usuario usu, string usuviejo, string PassVieja)
         {
             int regs;
-            Usuario usuViejo = BD.Login(usuviejo, PassVieja,usu.Ip, usu.Mac);
+            Usuario usuViejo = BD.Login(usuviejo, PassVieja, usu.Ip, usu.Mac);
             if (usuViejo.Username != "")
             {
                 SqlConnection unaConexion = Conectar();
-            SqlCommand laConsulta = unaConexion.CreateCommand();
-            laConsulta.CommandType = System.Data.CommandType.StoredProcedure;
-            laConsulta.CommandText = "spModificarUsuario";
-            laConsulta.Parameters.AddWithValue("@Username", usuviejo);
-            
-            
+                SqlCommand laConsulta = unaConexion.CreateCommand();
+                laConsulta.CommandType = System.Data.CommandType.StoredProcedure;
+                laConsulta.CommandText = "spModificarUsuario";
+                laConsulta.Parameters.AddWithValue("@Username", usuviejo);
+
+
                 if (usu.Username == null)
                 {
                     laConsulta.Parameters.AddWithValue("@nuevoUsername", usuViejo.Username);
@@ -566,18 +569,18 @@ namespace QEQ.Models
             } else
             {
                 regs = -2;
-            }  
-                      
+            }
+
             return regs;
         }
 
 
-           public static int Register(Usuario usu)
-           {           
-               SqlConnection unaConexion = Conectar();
-               SqlCommand laConsulta = unaConexion.CreateCommand();
-               laConsulta.CommandType = System.Data.CommandType.StoredProcedure;
-               laConsulta.CommandText = "spRegister";
+        public static int Register(Usuario usu)
+        {
+            SqlConnection unaConexion = Conectar();
+            SqlCommand laConsulta = unaConexion.CreateCommand();
+            laConsulta.CommandType = System.Data.CommandType.StoredProcedure;
+            laConsulta.CommandText = "spRegister";
             laConsulta.Parameters.AddWithValue("@Username", usu.Username);
             laConsulta.Parameters.AddWithValue("@Password", usu.Pass);
             laConsulta.Parameters.AddWithValue("@Nomb", usu.Nombre);
@@ -585,10 +588,40 @@ namespace QEQ.Models
             laConsulta.Parameters.AddWithValue("@Admin", usu.Admin);
             laConsulta.Parameters.AddWithValue("@mac", usu.Mac);
             laConsulta.Parameters.AddWithValue("@Ip1", usu.Ip);
-            int  regs = laConsulta.ExecuteNonQuery();                   
-               Desconectar(unaConexion);
-               return regs;
-           }
+            int regs = laConsulta.ExecuteNonQuery();
+            Desconectar(unaConexion);
+            return regs;
+        }
+
+        //Game=============================================================================================================================
+        public static void GuardarPartida1(Partida partida) {
+            SqlConnection unaConexion = Conectar();
+            SqlCommand laConsulta = unaConexion.CreateCommand();
+            laConsulta.CommandType = System.Data.CommandType.StoredProcedure;
+            laConsulta.CommandText = "spGuardarPartida1";
+            laConsulta.Parameters.AddWithValue("@Usuario", partida.Usuario1);
+            laConsulta.Parameters.AddWithValue("@cantPregunta", partida.CantPreguntas);
+            laConsulta.Parameters.AddWithValue("@fecha", partida.Fecha);
+            laConsulta.Parameters.AddWithValue("@ip", partida.Ip1);
+            int regs = laConsulta.ExecuteNonQuery();
+            Desconectar(unaConexion);
+        }
+        public static void CargarRtas(int idCat)
+        {
+            Respuestas = new List<Rta>();
+            SqlConnection unaConexion = Conectar();
+            SqlCommand laConsulta = unaConexion.CreateCommand();
+            laConsulta.CommandType = System.Data.CommandType.StoredProcedure;
+            laConsulta.CommandText = "spTraerRespuestas";
+            laConsulta.Parameters.AddWithValue("@idCategoria", idCat);
+            SqlDataReader elLector = laConsulta.ExecuteReader();
+            while (elLector.Read())
+            {
+                Respuestas.Add(new Rta(Convert.ToInt32(elLector["idRespuestas"]), Convert.ToInt32(elLector["idPregunta"]), Convert.ToInt32(elLector["idPersona"])));
+
+            }
+            Desconectar(unaConexion);
+        }
     }
 
 

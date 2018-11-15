@@ -9,7 +9,8 @@ namespace QEQ.Controllers
 {
     public class GameController : Controller
     {
-       // GET: Game
+        Partida laPartida;
+        // GET: Game
         public ActionResult Index()
         {
             return View();
@@ -23,7 +24,7 @@ namespace QEQ.Controllers
             ViewBag.Cats.Add(new Cat(0,"Todos"));
             return View();
         }
-
+        
         [HttpPost]
         public ActionResult Start1(int idCategoria)
         {
@@ -31,13 +32,37 @@ namespace QEQ.Controllers
             //CargarRtas(idCategoria);
             return View();
         }
-
+        
         [HttpPost]
-        public ActionResult Index(string hola)
+        public ActionResult Start1(int idCategoria, Usuario usuario)
         {
-            return RedirectToAction("LogIn", "BackOffice");
-            
+            BD.CargarPersonajes(idCategoria);
+            BD.CargarRtas(idCategoria);
+            laPartida = new Partida(usuario.Id, usuario.Ip,false);
+            Session["Game"] = laPartida;
+            return View("Tablero1");
         }
+
+        public ActionResult Tablero1()
+        {
+            return View();
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         public ActionResult Desarrolladores()
         {
             return View();

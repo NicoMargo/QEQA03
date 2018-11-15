@@ -210,6 +210,7 @@
     <Compile Include="Models\IA.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Partida.cs" />
     <Compile Include="Models\Personaje.cs" />
     <Compile Include="Models\Preg.cs" />
     <Compile Include="Models\Rta.cs" />
@@ -295,6 +296,7 @@
     <Content Include="Views\BackOffice\BorrarCar.cshtml" />
     <Content Include="Views\BackOffice\AD.cshtml" />
     <Content Include="Views\Game\Start1.cshtml" />
+    <Content Include="Views\Game\Tablero1.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

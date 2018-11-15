@@ -72,7 +72,7 @@ namespace QEQ.Controllers
         {
             if (Usuario != "" && Contraseña != "")
             {
-                Usuario usu;
+                //Usuario usu;
                // usu = BD.spOlvidoPass(Usuario, Contraseña);
             }
             return RedirectToAction("OlvidoPass", "BackOfice");
@@ -485,8 +485,17 @@ namespace QEQ.Controllers
                     }
                     ViewBag.Id = id;
                     ViewBag.tipo = tipo.ToString();
-                    Cat cat = new Cat(id, null);
-                    BD.CargarCats();
+                    Cat cat;
+                    if (tipo)
+                    {
+                        cat = BD.BuscarCat(id, BD.Categorias);
+                        BD.CargarCats();
+                    }
+                    else
+                    {
+                        cat = BD.BuscarCat(id, BD.Grupos);
+                        BD.CargarGrupos();
+                    }
                     return View(cat);
                 }
             }
@@ -643,7 +652,7 @@ namespace QEQ.Controllers
                 {
                     ViewBag.Id = id;
                     ViewBag.Grupos = BD.Grupos;
-                    Preg caracteristica = new Preg(id, null, 0);
+                    Preg caracteristica = BD.BuscarPregunta(id);
                     return View(caracteristica);
                 }
             }
