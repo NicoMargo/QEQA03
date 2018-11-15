@@ -19,18 +19,32 @@ namespace QEQ.Controllers
         public ActionResult Start1()
         {
             BD.CargarCats();
-            BD.CargarPreguntas();
-            ViewBag.Cats = BD.Categorias;
+            ViewBag.Cats = BD.Categorias;            
             ViewBag.Cats.Add(new Cat(0,"Todos"));
+            return View();
+        }
+       
+
+
+        public ActionResult TypeGame()
+        {
+            
+            return View();
+        }
+
+        public ActionResult JuegoPrincipalS()
+        {
+            ViewBag.Preg = BD.Preguntas;
             return View();
         }
         
         [HttpPost]
         public ActionResult Start1(int idCategoria)
         {
+            BD.CargarPreguntas();
             BD.CargarPersonajes(idCategoria);
-            //CargarRtas(idCategoria);
-            return View();
+            //BD.CargarRtas(idCategoria);
+            return RedirectToAction("JuegoPrincipalS", "Game");
         }
         
         [HttpPost]
