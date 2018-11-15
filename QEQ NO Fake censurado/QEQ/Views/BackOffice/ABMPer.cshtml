@@ -2,7 +2,7 @@
 @model QEQ.Models.Personaje
 @{
     ViewBag.Title = "ABMPer";
-    if (Session["Msg"].ToString()!="")
+    if (Session["Msg"].ToString() != "")
     {
         <input type="hidden" value="@Session["Msg"].ToString()" id="mensaje" />
         <script type="text/javascript">
@@ -15,6 +15,7 @@
 }
 
 <h2>Menu ABM de Personajes</h2>
+@Html.ActionLink("Volver al BackOffice Index", "Index", "BackOffice") <br />
 <a href="@Url.Action("AgregarP", "BackOffice")"><img src="~/Content/Agregar-elemento.png" height="30" /></a><br /><br />
 <table border="1" align="center">
     <tr>

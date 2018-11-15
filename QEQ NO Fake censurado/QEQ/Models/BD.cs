@@ -300,6 +300,7 @@ namespace QEQ.Models
             laConsulta.CommandText = "spCrearPregunta";
             laConsulta.Parameters.AddWithValue("@Texto", Pre.Texto);
             laConsulta.Parameters.AddWithValue("@idGrupo", Pre.idGrupo);
+            laConsulta.Parameters.AddWithValue("@Puntos", Pre.Puntos);
             SqlDataReader elLector = laConsulta.ExecuteReader();
             if (elLector.Read())
             {
@@ -320,6 +321,7 @@ namespace QEQ.Models
             laConsulta.Parameters.AddWithValue("@idPregunta", Car.Id);
             laConsulta.Parameters.AddWithValue("@idGrupo", Car.idGrupo);
             laConsulta.Parameters.AddWithValue("@nuevoTexto", Car.Texto);
+            laConsulta.Parameters.AddWithValue("@Puntos", Car.Puntos);
             SqlDataReader elLector = laConsulta.ExecuteReader();
             if (elLector.Read())
             {

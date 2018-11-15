@@ -2,7 +2,7 @@
 @model QEQ.Models.Cat
 @using QEQ.Models
 @{
-    ViewBag.Title = "ModificarCat"
+    ViewBag.Title = "ModificarCat";
 }
 @if (Convert.ToBoolean(ViewBag.tipo))
 {<h2> Modificar la Categoria @BD.BuscarCat(ViewBag.Id, BD.Categorias).Nombre</h2>}

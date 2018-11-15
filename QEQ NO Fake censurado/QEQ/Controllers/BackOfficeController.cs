@@ -486,8 +486,9 @@ namespace QEQ.Controllers
                     }
                     ViewBag.Id = id;
                     ViewBag.tipo = tipo.ToString();
-                    Cat cat = new Cat(id, null);
-                    BD.CargarCats();
+                    Cat cat;
+                    if (tipo) { cat = BD.BuscarCat(id,BD.Categorias); }
+                    else { cat = BD.BuscarCat(id, BD.Grupos); }
                     return View(cat);
                 }
             }
@@ -644,7 +645,7 @@ namespace QEQ.Controllers
                 {
                     ViewBag.Id = id;
                     ViewBag.Grupos = BD.Grupos;
-                    Preg caracteristica = new Preg(id, null, 0, 0);
+                    Preg caracteristica = BD.BuscarPregunta(id);
                     return View(caracteristica);
                 }
             }
