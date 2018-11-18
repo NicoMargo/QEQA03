@@ -297,6 +297,7 @@
     <Content Include="Views\BackOffice\AD.cshtml" />
     <Content Include="Views\Game\Start1.cshtml" />
     <Content Include="Views\Game\Tablero1.cshtml" />
+    <Content Include="Views\Game\FinalizarS.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

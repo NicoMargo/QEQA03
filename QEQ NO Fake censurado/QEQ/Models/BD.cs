@@ -25,6 +25,7 @@ namespace QEQ.Models
         public static List<Cat> Grupos;//sp Traer grupos
         public static List<Rta> Respuestas;//sp traer Ras
         public static Dictionary<string, List<Preg>> PregsXGrupos;
+        public static Partida laPartida;
 
         public static Preg BuscarPregunta(int id)
         {
@@ -471,7 +472,7 @@ namespace QEQ.Models
         {
             string Nombre = "", email = "", pass = "", username = "", Mac = "", IpPublica = "";
             int id = 0;
-            int Puntos = 0, regs;
+            int regs;
             bool Admin = false;
             SqlConnection unaConexion = Conectar();
             SqlCommand laConsulta = unaConexion.CreateCommand();
@@ -496,7 +497,6 @@ namespace QEQ.Models
 
                     username = (elLector["Username"].ToString());
                     Admin = Convert.ToBoolean(elLector["Administrador"]);
-                    Puntos = Convert.ToInt32(elLector["Puntos"]);
 
 
                 }
@@ -508,7 +508,7 @@ namespace QEQ.Models
             }
             elLector.Close();
             regs = laConsulta.ExecuteNonQuery();
-            Usuario Usu = new Usuario(id, Nombre, username, pass, Puntos, IpPublica, email, Mac, Admin);
+            Usuario Usu = new Usuario(id, Nombre, username, pass, IpPublica, email, Mac, Admin);
 
 
             Desconectar(unaConexion);
@@ -603,6 +603,8 @@ namespace QEQ.Models
             laConsulta.Parameters.AddWithValue("@cantPregunta", partida.CantPreguntas);
             laConsulta.Parameters.AddWithValue("@fecha", partida.Fecha);
             laConsulta.Parameters.AddWithValue("@ip", partida.Ip1);
+            laConsulta.Parameters.AddWithValue("@Ganador", partida.Ganador);
+            laConsulta.Parameters.AddWithValue("@idPersonaje", partida.Personaje1.Id);
             int regs = laConsulta.ExecuteNonQuery();
             Desconectar(unaConexion);
         }

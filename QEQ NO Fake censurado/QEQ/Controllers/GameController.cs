@@ -9,7 +9,30 @@ namespace QEQ.Controllers
 {
     public class GameController : Controller
     {
-        Partida laPartida;
+        //Funciones para el game single
+        const int iRiskPenalty = 500;
+        public bool AskForOne(int idPer, int idPreg)
+        {
+            bool found = false;
+            int i = 0;
+            while (i < BD.Respuestas.Count() && !found)
+            {
+                if (BD.Respuestas[i].IdPersona == idPer && BD.Respuestas[i].IdPregunta == idPreg) { found = true; }
+                else { i++; }
+            }
+            return found;
+        }
+
+        public Partida AskForAll(Partida lapartida, int idPreg) {
+            bool rtaElPersonaje = AskForOne(lapartida.Personaje1.Id,idPreg);
+            for (int i = 0; i < lapartida.Personajes.Count(); i++) {
+                if (rtaElPersonaje != AskForOne(lapartida.Personajes[i].Id, idPreg)) {
+                    lapartida.Personajes.RemoveAt(i);
+                }
+            }
+            return lapartida;
+        }
+        
         // GET: Game
         public ActionResult Index()
         {
@@ -39,11 +62,26 @@ namespace QEQ.Controllers
             ViewBag.Personajes = BD.Personajes;
             ViewBag.Preg = BD.Preguntas;
             return View();
-        }     
-        public ActionResult RiskS(int id)
-        {
+        }
+
+        public ActionResult AskS(int idPreg) {
+            BD.laPartida = AskForAll(BD.laPartida, idPreg);
+            BD.laPartida.CantPreguntas++;
+            BD.laPartida.Puntos -= BD.BuscarPregunta(idPreg).Puntos;
             return RedirectToAction("JuegoPrincipalS", "Game");
         }
+        public ActionResult RiskS(int idPersonaje)
+        {
+            if (BD.laPartida.Personaje1.Id == idPersonaje) {
+                return RedirectToAction("Finalizar", "Game");
+            }
+            else
+            {
+                BD.laPartida.Puntos -= iRiskPenalty;
+                return RedirectToAction("JuegoPrincipalS", "Game");
+            }
+        }
+
         [HttpPost]
         public ActionResult Start1(int idCategoria)
         {
@@ -58,8 +96,7 @@ namespace QEQ.Controllers
         {
             BD.CargarPersonajes(idCategoria);
             BD.CargarRtas(idCategoria);
-            laPartida = new Partida(usuario.Id, usuario.Ip,false);
-            Session["Game"] = laPartida;
+            BD.laPartida = new Partida(usuario.Id, usuario.Ip,10000);
             return View("Tablero1");
         }
 
