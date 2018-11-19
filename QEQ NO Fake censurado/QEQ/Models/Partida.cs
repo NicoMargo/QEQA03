@@ -47,7 +47,14 @@ namespace QEQ.Models
             _cantPreguntas = 0;
             _multijugador = false;
             Random random = new Random();
-            _personaje1 = BD.Personajes[random.Next(0,BD.Personajes.Count()-1)];
+            if (BD.Personajes.Count != 0)
+            {
+                _personaje1 = BD.Personajes[random.Next(0, BD.Personajes.Count - 1)];
+            }else
+            {
+                _personaje1 = null;
+            }
+           
             _puntos = ipuntos;
         }
 

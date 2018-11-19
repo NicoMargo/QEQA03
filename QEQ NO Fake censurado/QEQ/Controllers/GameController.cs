@@ -72,35 +72,18 @@ namespace QEQ.Controllers
             }
             return lapartida;
         }
-        
-        // GET: Game
-        public ActionResult Index()
-        {
-            return View();
-        }
+            
 
         public ActionResult Start1()
-        {            
+        {
+            BD.CargarCats();
             ViewBag.Cats = BD.Categorias;
-            bool bul = true; int X = 0;
-            while (bul)
-            {
-                if (BD.Categorias[X].Nombre != "Todos")
-                {
-                    ViewBag.Cats.Add(new Cat(0, "Todos"));
-                    bul = false;
-                }
-                X += 1;
-            }
-            
             return View();
-        }
-       
+        }       
 
 
         public ActionResult TypeGame()
-        {
-            BD.CargarCats();
+        {            
             BD.CargarPreguntas();
             return View();
         }
@@ -109,14 +92,21 @@ namespace QEQ.Controllers
         {
             BD.CargarPersonajes(idCategoria);
             BD.CargarRtas(idCategoria);
+           
             BD.laPartida = new Partida(usuario.Id, usuario.Ip, 10000);
-            return RedirectToAction("JuegoPrincipalS", "Game");
-            return View("Tablero1");
+            if (BD.laPartida.Personaje1 == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            return RedirectToAction("JuegoPrincipalS", "Game");           
         }
 
         public ActionResult JuegoPrincipalS()
-        {           
-            
+        {
+            if (BD.Estado == 1)
+            {
+                ViewBag.Estado = 1;
+            }
             ViewBag.Personajes = BD.Personajes;
             ViewBag.Preg = BD.Preguntas;
             return View();
@@ -124,74 +114,92 @@ namespace QEQ.Controllers
         [HttpPost]
         public ActionResult JuegoPrincipalS(int idpreg)
         {
-            List<Preg> PregAux = new List<Preg>();
-            int X = 0, While = -1; ;
-
-            while (While == -1)
+            bool result = false;
+            int X = 0, While = -1;
+            if (BD.laPartida.Puntos > 500)
             {
-                if (BD.Preguntas[X].Id == idpreg)
+                while (While == -1)
                 {
-                    Preg unPreg;
-                    int Grupo = BD.Preguntas[X].idGrupo;
-                    While = 1;
-                    int ContPreg = BD.Preguntas.Count();
-                    /* foreach (Preg unPreg in BD.Preguntas)
-                     {
-                         if (unPreg.idGrupo == Grupo)
-                         {
-                             BD.Preguntas.Remove(unPreg);
-                             X =- 1;
-                         }
-                     }       */
-                    for (int Y = 0; Y < ContPreg; Y++)
+                    if (BD.Preguntas[X].Id == idpreg)
                     {
-                        unPreg = BD.Preguntas[Y];
-                        if (unPreg.idGrupo == Grupo)
+                        result = AskS(idpreg);
+                        if (!result)
                         {
-                            BD.Preguntas.Remove(unPreg);
-                            Y = -1;
-                            ContPreg -= 1;                            
+                            BD.Estado = 1;
                         }
+                        BD.Preguntas.RemoveAt(X);
+                        X--;
+                        While = 1;
                     }
-                    While = 1;                    
+                    X++;
                 }
-                X++;
-            }
+                bool CorrectPer = false;
+                foreach (Rta resp in BD.Respuestas)
+                {
+                    if (resp.IdPersona == BD.laPartida.Personaje1.Id && idpreg == resp.IdPregunta)
+                    {
+                        CorrectPer = true;
+                    }
+                }
+                for (int i = 0; i < BD.Personajes.Count; i++)
+                {
+                    int Z = 0;
+                    bool correct = false;
+                    while (Z < BD.Respuestas.Count)
+                    {
+                        if (BD.Personajes[i].Id == BD.Respuestas[Z].IdPersona && BD.Respuestas[Z].IdPregunta == idpreg)
+                        {
+                            correct = true;
+                        }
+                        Z++;
+                    }
+                    if ((correct == false && CorrectPer == true) || (correct == true && CorrectPer == false))
+                    {
+
+                        BD.Personajes.Remove(BD.Personajes[i]);
+                        i--;
+                    }
+                }
+                
+            }                      
             return RedirectToAction("JuegoPrincipalS", "Game");
         }
 
-        public ActionResult AskS(int idPreg) {
-            BD.laPartida = AskForAll(BD.laPartida, idPreg);
+        public static bool AskS(int idPreg) {
+           // BD.laPartida = AskForAll(BD.laPartida, idPreg);
             BD.laPartida.CantPreguntas++;
-            BD.laPartida.Puntos -= BD.BuscarPregunta(idPreg).Puntos;
-            BD.Preguntas.RemoveAt(BuscarPregunta(idPreg));
-            if (BD.laPartida.Puntos < iRiskPenalty)
+            int puntos = BD.BuscarPregunta(idPreg).Puntos;
+            BD.laPartida.Puntos -= puntos;
+            if (BD.laPartida.Puntos <= iRiskPenalty)
             {
                 BD.laPartida.Finalizar(false);
-                return RedirectToAction("Finalizar", "Game");
+                return false;
             }
             else
             {
-                return RedirectToAction("JuegoPrincipalS", "Game");
+                return true;
             }
         }
-        public ActionResult RiskS(int idPersonaje)
+        public ActionResult RiskS(int id)
         {
-            if (BD.laPartida.Personaje1.Id == idPersonaje||BD.laPartida.Puntos<iRiskPenalty) {
+            if (BD.laPartida.Personaje1.Id == id || BD.laPartida.Puntos<iRiskPenalty) {
                 BD.laPartida.Finalizar(!(BD.laPartida.Puntos < iRiskPenalty));
-                return RedirectToAction("Finalizar", "Game");
+                return RedirectToAction("FinalizarS", "Game");
             }
             else
             {
                 BD.laPartida.Puntos -= iRiskPenalty;
-                BD.Personajes.RemoveAt(BuscarPersonaje(idPersonaje));
+                BD.Personajes.RemoveAt(BuscarPersonaje(id));
                 return RedirectToAction("JuegoPrincipalS", "Game");
             }
         }
 
-       
+        public ActionResult FinalizarS()
+        {
+            return View();
+        }
 
-        public ActionResult Finalizar()
+            public ActionResult Finalizar()
         {
             if (BD.laPartida.Ganador)
             {

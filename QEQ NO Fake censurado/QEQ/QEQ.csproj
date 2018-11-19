@@ -281,7 +281,6 @@
     <Content Include="Views\BackOffice\ModificarUsu.cshtml" />
     <Content Include="Views\Game\About.cshtml" />
     <Content Include="Views\Game\Desarrolladores.cshtml" />
-    <Content Include="Views\Game\Index.cshtml" />
     <Content Include="Views\BackOffice\ABMPer.cshtml" />
     <Content Include="Views\BackOffice\ABMMsg.cshtml" />
     <Content Include="Views\BackOffice\ABMCat.cshtml" />
@@ -296,8 +295,9 @@
     <Content Include="Views\BackOffice\BorrarCar.cshtml" />
     <Content Include="Views\BackOffice\AD.cshtml" />
     <Content Include="Views\Game\Start1.cshtml" />
-    <Content Include="Views\Game\Tablero1.cshtml" />
     <Content Include="Views\Game\FinalizarS.cshtml" />
+    <Content Include="Views\Game\JuegoPrincipalS.cshtml" />
+    <Content Include="Views\Game\TypeGame.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
