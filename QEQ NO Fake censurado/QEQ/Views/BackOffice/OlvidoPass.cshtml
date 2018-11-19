@@ -1,17 +1,22 @@
 ﻿
 
-   <h2>Olvido Contraseña</h2>
-    @using QEQ.Models;
-    @using (@Html.BeginForm("OlvidoPass", "Backoffice", FormMethod.Post))
-    { 
-    <br/>
-<form action="Url.action(" OlvidoPass","Backoffice")", method="post">
-    <input placeholder="Usuario" type="text" name="Usuario" required /> <br />
-    <input placeholder="Nueva Contraseña" type="password" name="NuevaContraseña" required /><br />
-    <input type="submit" value="enviar" /><br />
-</form>
-    }
-    
+<h2>Olvido Contraseña</h2>
+<link href="~/Content/MiCSS.css" type="text/css" rel="stylesheet">
+@using QEQ.Models;
+@using (@Html.BeginForm("OlvidoPass", "Backoffice", FormMethod.Post))
+{
+	<h2 class="Title">Cambiar contraseña </h2>
+	<br />
+	<div class="loginBox">
+		<p class="text-info">Ingrese su usuario y nueva contraseña para cambiar la misma</p>
+		<br /><br />
+		<form action="@Url.Action("OlvidoPass","Backoffice")" method="post">
 
-<h2>OlvidoPass</h2>
+			<input placeholder="Usuario" type="text" name="Usuario" class="inputext" required /> <br />
+			<input placeholder="Nueva Contraseña" type="password" name="Contraseña" class="inputext" required /><br />
+			<input type="submit" value="Enviar" class="btnClassS" /><br />
+		</form>
+	</div>
+			}
+
 

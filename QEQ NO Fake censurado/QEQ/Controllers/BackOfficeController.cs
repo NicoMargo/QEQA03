@@ -68,14 +68,17 @@ namespace QEQ.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult OlvidoPass(string Usuario, string Contraseña)
+        public ActionResult OlvidoPass(Usuario usu)
         {
-            if (Usuario != "" && Contraseña != "")
+            if (usu.Username != "" && usu.Pass != "")
             {
-                //Usuario usu;
-               // usu = BD.spOlvidoPass(Usuario, Contraseña);
+               
+               int regsaf = BD.OlvidoPass(usu);
+                Session["Usu"] = usu.Username;
+                Session["Pass"] = usu.Pass;
             }
-            return RedirectToAction("OlvidoPass", "BackOfice");
+           
+            return RedirectToAction("OlvidoPass", "BackOffice");
         }
 
         public ActionResult Register()

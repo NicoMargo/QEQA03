@@ -622,6 +622,20 @@ namespace QEQ.Models
             }
             Desconectar(unaConexion);
         }
+        //OlvidoPass
+        public static int OlvidoPass (Usuario usu)
+        {
+            SqlConnection Conexion = Conectar();
+            SqlCommand consulta = Conexion.CreateCommand();
+            consulta.CommandType = System.Data.CommandType.StoredProcedure;
+            consulta.CommandText = "spOlvidoPass";
+            consulta.Parameters.AddWithValue("@Username", usu.Username);
+            consulta.Parameters.AddWithValue("@Pass", usu.Pass);
+            int regsafectados = consulta.ExecuteNonQuery();
+            Desconectar(Conexion);
+            return regsafectados;
+
+        }
     }
 
 
