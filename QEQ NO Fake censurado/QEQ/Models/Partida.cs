@@ -49,7 +49,6 @@ namespace QEQ.Models
             Random random = new Random();
             _personaje1 = BD.Personajes[random.Next(0,BD.Personajes.Count()-1)];
             _puntos = ipuntos;
-            _personajes = BD.Personajes;
         }
 
 

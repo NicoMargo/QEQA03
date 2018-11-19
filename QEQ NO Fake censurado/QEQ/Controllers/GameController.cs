@@ -17,17 +17,57 @@ namespace QEQ.Controllers
             int i = 0;
             while (i < BD.Respuestas.Count() && !found)
             {
-                if (BD.Respuestas[i].IdPersona == idPer && BD.Respuestas[i].IdPregunta == idPreg) { found = true; }
+                if (BD.Respuestas[i].IdPersona == idPer && BD.Respuestas[i].IdPregunta == idPreg)
+                {
+                    found = true;
+                    BD.Respuestas.RemoveAt(i);
+                }
                 else { i++; }
             }
             return found;
         }
 
+        public static int BuscarPersonaje(int id)
+        {
+            bool found = false;
+            int i = 0;
+            while (i < BD.Personajes.Count() && !found)
+            {
+                if (BD.Personajes[i].Id == id)
+                {
+                    found = true;
+                }
+                else
+                {
+                    i++;
+                }
+            }
+            return i;
+        }
+
+        public static int BuscarPregunta(int id)
+        {
+            Preg pregunta = null;
+            int i = 0;
+            while (i < BD.Preguntas.Count() && pregunta == null)
+            {
+                if (BD.Preguntas[i].Id == id)
+                {
+                    pregunta = BD.Preguntas[i];
+                }
+                else
+                {
+                    i++;
+                }
+            }
+            return i;
+        }
+
         public Partida AskForAll(Partida lapartida, int idPreg) {
             bool rtaElPersonaje = AskForOne(lapartida.Personaje1.Id,idPreg);
-            for (int i = 0; i < lapartida.Personajes.Count(); i++) {
-                if (rtaElPersonaje != AskForOne(lapartida.Personajes[i].Id, idPreg)) {
-                    lapartida.Personajes.RemoveAt(i);
+            for (int i = 0; i < BD.Personajes.Count(); i++) {
+                if (rtaElPersonaje != AskForOne(BD.Personajes[i].Id, idPreg)) {
+                    BD.Personajes.RemoveAt(i);
                 }
             }
             return lapartida;
@@ -68,16 +108,27 @@ namespace QEQ.Controllers
             BD.laPartida = AskForAll(BD.laPartida, idPreg);
             BD.laPartida.CantPreguntas++;
             BD.laPartida.Puntos -= BD.BuscarPregunta(idPreg).Puntos;
-            return RedirectToAction("JuegoPrincipalS", "Game");
+            BD.Preguntas.RemoveAt(BuscarPregunta(idPreg));
+            if (BD.laPartida.Puntos < iRiskPenalty)
+            {
+                BD.laPartida.Finalizar(false);
+                return RedirectToAction("Finalizar", "Game");
+            }
+            else
+            {
+                return RedirectToAction("JuegoPrincipalS", "Game");
+            }
         }
         public ActionResult RiskS(int idPersonaje)
         {
-            if (BD.laPartida.Personaje1.Id == idPersonaje) {
+            if (BD.laPartida.Personaje1.Id == idPersonaje||BD.laPartida.Puntos<iRiskPenalty) {
+                BD.laPartida.Finalizar(!(BD.laPartida.Puntos < iRiskPenalty));
                 return RedirectToAction("Finalizar", "Game");
             }
             else
             {
                 BD.laPartida.Puntos -= iRiskPenalty;
+                BD.Personajes.RemoveAt(BuscarPersonaje(idPersonaje));
                 return RedirectToAction("JuegoPrincipalS", "Game");
             }
         }
@@ -98,6 +149,18 @@ namespace QEQ.Controllers
             BD.CargarRtas(idCategoria);
             BD.laPartida = new Partida(usuario.Id, usuario.Ip,10000);
             return View("Tablero1");
+        }
+
+        public ActionResult Finalizar()
+        {
+            if (BD.laPartida.Ganador)
+            {
+                //los mensajes de victoria: estadisticas, cantidad de preguntas etc
+            }
+            else {
+                //mensajes de derrota: "xd" cantidad de preguntas etc...
+            }
+            return View();
         }
 
         public ActionResult Tablero1()
