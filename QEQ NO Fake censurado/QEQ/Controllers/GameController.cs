@@ -80,10 +80,19 @@ namespace QEQ.Controllers
         }
 
         public ActionResult Start1()
-        {
-            BD.CargarCats();
-            ViewBag.Cats = BD.Categorias;            
-            ViewBag.Cats.Add(new Cat(0,"Todos"));
+        {            
+            ViewBag.Cats = BD.Categorias;
+            bool bul = true; int X = 0;
+            while (bul)
+            {
+                if (BD.Categorias[X].Nombre != "Todos")
+                {
+                    ViewBag.Cats.Add(new Cat(0, "Todos"));
+                    bul = false;
+                }
+                X += 1;
+            }
+            
             return View();
         }
        
@@ -91,17 +100,64 @@ namespace QEQ.Controllers
 
         public ActionResult TypeGame()
         {
-            
+            BD.CargarCats();
+            BD.CargarPreguntas();
             return View();
+        }
+        [HttpPost]
+        public ActionResult Start1(int idCategoria, Usuario usuario)
+        {
+            BD.CargarPersonajes(idCategoria);
+            BD.CargarRtas(idCategoria);
+            BD.laPartida = new Partida(usuario.Id, usuario.Ip, 10000);
+            return RedirectToAction("JuegoPrincipalS", "Game");
+            return View("Tablero1");
         }
 
         public ActionResult JuegoPrincipalS()
-        {
-            BD.CargarCats();
-            BD.CargarPersonajes();
+        {           
+            
             ViewBag.Personajes = BD.Personajes;
             ViewBag.Preg = BD.Preguntas;
             return View();
+        }
+        [HttpPost]
+        public ActionResult JuegoPrincipalS(int idpreg)
+        {
+            List<Preg> PregAux = new List<Preg>();
+            int X = 0, While = -1; ;
+
+            while (While == -1)
+            {
+                if (BD.Preguntas[X].Id == idpreg)
+                {
+                    Preg unPreg;
+                    int Grupo = BD.Preguntas[X].idGrupo;
+                    While = 1;
+                    int ContPreg = BD.Preguntas.Count();
+                    /* foreach (Preg unPreg in BD.Preguntas)
+                     {
+                         if (unPreg.idGrupo == Grupo)
+                         {
+                             BD.Preguntas.Remove(unPreg);
+                             X =- 1;
+                         }
+                     }       */
+                    for (int Y = 0; Y < ContPreg; Y++)
+                    {
+                        unPreg = BD.Preguntas[Y];
+                        if (unPreg.idGrupo == Grupo)
+                        {
+                            BD.Preguntas.Remove(unPreg);
+                            Y = -1;
+                            ContPreg -= 1;                            
+                        }
+                    }
+                    While = 1;                    
+                }
+                X++;
+            }
+            return RedirectToAction("JuegoPrincipalS", "Game");
         }
 
         public ActionResult AskS(int idPreg) {
@@ -133,23 +189,7 @@ namespace QEQ.Controllers
             }
         }
 
-        [HttpPost]
-        public ActionResult Start1(int idCategoria)
-        {
-            BD.CargarPreguntas();
-            BD.CargarPersonajes(idCategoria);
-            //BD.CargarRtas(idCategoria);
-            return RedirectToAction("JuegoPrincipalS", "Game");
-        }
-        
-        [HttpPost]
-        public ActionResult Start1(int idCategoria, Usuario usuario)
-        {
-            BD.CargarPersonajes(idCategoria);
-            BD.CargarRtas(idCategoria);
-            BD.laPartida = new Partida(usuario.Id, usuario.Ip,10000);
-            return View("Tablero1");
-        }
+       
 
         public ActionResult Finalizar()
         {
