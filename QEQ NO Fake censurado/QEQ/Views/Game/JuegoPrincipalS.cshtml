@@ -7,7 +7,7 @@
 
 <p>@BD.laPartida.Puntos</p>
 
-@using (Html.BeginForm("JuegoPrincipalS", "Game", FormMethod.Post))
+@using (Html.BeginForm("AskS", "Game", FormMethod.Post))
 {
     @Html.Label("Seleccione que quiere preguntar para adivinar mi personaje")<br />
     @Html.DropDownList("idpreg", new SelectList(ViewBag.Preg, "Id", "Texto")) <br />
