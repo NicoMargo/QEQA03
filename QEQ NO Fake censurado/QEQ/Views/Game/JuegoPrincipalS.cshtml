@@ -17,13 +17,13 @@
 @{
     foreach (Personaje personaje in ViewBag.Personajes)
     {
-<a href='@Url.Action("RiskS", "Game", new { id=personaje.Id } )'><img class="img-responsive" src="@personaje.Direccion" width="135" /></a>
+<a href='@Url.Action("RiskS", "Game", new { idPersonaje = personaje.Id } )'><img class="img-responsive" src="@personaje.Direccion" width="135" /></a>
     }
 }
 @{
-    if (ViewBag.Estado == 1)
+    if (ViewBag.Estado)
     {
-<script type="text/javascript">alert('Ya no puedes preguntar mas. Tenes que arriesgar')</script>
+        <script type="text/javascript">alert('Ya no puedes preguntar mas. Tenes que arriesgar')</script>
     }
 }
 

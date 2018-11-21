@@ -64,33 +64,45 @@ namespace QEQ.Controllers
             }
             return found;
         }
-        public Partida AskForAll(Partida lapartida, int idPreg) {
-            bool rtaElPersonaje = AskForOne(lapartida.Personaje1.Id,idPreg,false);
-            for (int i = 0; i < BD.Personajes.Count(); i++) {
-                if (rtaElPersonaje != AskForOne(BD.Personajes[i].Id, idPreg,true)) {
-                    BD.Personajes.RemoveAt(i);
+        //Borra todas las respuestas y preguntas de la misma categoria de preguntas de la pregunta preguntada :v
+        public void EliminarporGrupo(int idPreg) {
+            int idGrupete = BD.BuscarPregunta(idPreg).idGrupo;
+            for (int i = 0; i < BD.Preguntas.Count(); i++) {
+                if (BD.Preguntas[i].idGrupo == idGrupete)
+                {
+                    for (int j = 0; j < BD.Respuestas.Count(); j++)
+                    {
+                        if (BD.Respuestas[j].IdPregunta == BD.Preguntas[i].Id) {
+                            BD.Respuestas.RemoveAt(j);
+                            j--;
+                        }
+                    }
+                    BD.Preguntas.RemoveAt(i);
+                    i--;
                 }
             }
-            return lapartida;
         }
-            
+
+        public ActionResult TypeGame()
+        {
+            return View();
+        }
 
         public ActionResult Start1()
         {
+            BD.CargarPreguntas();
             BD.CargarCats();
             ViewBag.Cats = BD.Categorias;
-            return View();
-        }       
-
-
-        public ActionResult TypeGame()
-        {            
-            BD.CargarPreguntas();
+            ViewBag.Cats.Add(new Cat(0, "Todos"));
+            Session["Estado"] = false;
             return View();
         }
+
+
         [HttpPost]
-        public ActionResult Start1(int idCategoria, Usuario usuario)
+        public ActionResult Start1(int idCategoria)
         {
+            Usuario usuario = BD.usuario;
             BD.CargarPersonajes(idCategoria);
             BD.CargarRtas(idCategoria);
            
@@ -104,10 +116,7 @@ namespace QEQ.Controllers
 
         public ActionResult JuegoPrincipalS()
         {
-            if (BD.Estado == 1)
-            {
-                ViewBag.Estado = 1;
-            }
+            ViewBag.Estado = (Convert.ToBoolean(Session["Estado"]));           
             ViewBag.Personajes = BD.Personajes;
             ViewBag.Preg = BD.Preguntas;
             return View();
@@ -116,63 +125,30 @@ namespace QEQ.Controllers
         [HttpPost]
         public ActionResult AskS(int idpreg)
         {
+            int cantDescartados = 0;
             if (BD.laPartida.Puntos > iRiskPenalty)
             {
-                /*
-                bool result = false;
-                result = AskOne(idpreg);*/
                 Session["Estado"] = (BD.laPartida.Puntos <= iRiskPenalty);
-                bool CorrectPer = AskForOne(BD.laPartida.Personaje1.Id, idpreg,false);
-                /*
-                foreach (Rta resp in BD.Respuestas)
-                {
-                    if (resp.IdPersona == BD.laPartida.Personaje1.Id && idpreg == resp.IdPregunta)
-                    {
-                        CorrectPer = true;
-                    }
-                }
-                */
+                bool CorrectPer = AskForOne(BD.laPartida.Personaje1.Id, idpreg, false);
                 for (int i = 0; i < BD.Personajes.Count; i++)
                 {
-                    /*
-                    bool correct = AskForOne(BD.Personajes[i].Id,idpreg);
-                    int Z = 0;
-                    while (Z < BD.Respuestas.Count)
+                    if (AskForOne(BD.Personajes[i].Id, idpreg, true) != CorrectPer)
                     {
-                        if (BD.Personajes[i].Id == BD.Respuestas[Z].IdPersona && BD.Respuestas[Z].IdPregunta == idpreg)
-                        {
-                            correct = true;
-                        }
-                        Z++;
-                    }*/
-                    if (AskForOne(BD.Personajes[i].Id, idpreg,true) != CorrectPer)
-                    {
-                        //BD.Personajes.Remove(BD.Personajes[i]);
+                        cantDescartados++;
                         BD.Personajes.RemoveAt(BuscarPersonaje(BD.Personajes[i].Id));
                         i--;
                     }
                 }//Fin For que recorre los personajes
                 BD.laPartida.CantPreguntas++;
                 BD.laPartida.Puntos -= BD.BuscarPregunta(idpreg).Puntos;
-                BD.Preguntas.RemoveAt(BuscarPregunta(idpreg));
+
+                if (CorrectPer) { EliminarporGrupo(idpreg); }
+                else { BD.Preguntas.RemoveAt(BuscarPregunta(idpreg)); }
+                BD.laPartida.Historial.Add(idpreg, cantDescartados); 
             }//fin del if puntos < iRiskPenalty
             return RedirectToAction("JuegoPrincipalS", "Game");
         }
-        /*
-        public static bool AskOne(int idPreg) {
-            BD.laPartida.CantPreguntas++;
-            BD.laPartida.Puntos -= BD.BuscarPregunta(idPreg).Puntos;
-            if (BD.laPartida.Puntos <= iRiskPenalty)
-            {
-                BD.laPartida.Finalizar(false);
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
-        */
+        
         public ActionResult RiskS(int idPersonaje)
         {
             if (BD.laPartida.Personaje1.Id == idPersonaje || BD.laPartida.Puntos<iRiskPenalty) {
@@ -189,25 +165,23 @@ namespace QEQ.Controllers
 
         public ActionResult FinalizarS()
         {
-            return View();
-        }
-
-            public ActionResult Finalizar()
-        {
+            BD.CargarUsuarios();
+            BD.CargarPreguntas();
             if (BD.laPartida.Ganador)
             {
+                ViewBag.Msg = "Usted ha Ganado con un puntaje de" + BD.laPartida.Puntos;
                 //los mensajes de victoria: estadisticas, cantidad de preguntas etc
+
             }
             else {
+                ViewBag.Msg = "Usted ha Perdido";
                 //mensajes de derrota: "xd" cantidad de preguntas etc...
             }
+            BD.GuardarPartida1(BD.laPartida);
+            BD.Rank();
             return View();
         }
-
-        public ActionResult Tablero1()
-        {
-            return View();
-        }
+        //esto deberia estar en el home controller wtf
         public ActionResult Desarrolladores()
         {
             return View();
