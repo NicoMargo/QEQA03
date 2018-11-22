@@ -107,6 +107,12 @@ namespace QEQ.Models
             set { _id = value; }
         }
 
+        public Usuario(int id, string nombre, string username) {
+            _id = id;
+            _nombre = nombre;
+            _username = username;
+        }
+
         public Usuario(int id,string nombre, string username, string pass, string ip, string email, string mac, bool admin)
         {
             _id = id;

@@ -12,10 +12,10 @@ namespace QEQ.Models
     {
 
 
-        public static string connectionString = "Server=10.128.8.16;User=QEQA03;Password=QEQA03;Database=QEQA03"; //Ort
-       //public static string connectionString = @"Server=DESKTOP-5P28OS5\SQLEXPRESS;Database=QEQA03;Trusted_Connection=True;"; //Anush
-        //public static string connectionString = @"Server=DESKTOP-P6PCH8N\SQLEXPRESS;Database=QEQA03;Trusted_Connection=True;"; //Chino
-
+       // public static string connectionString = "Server=10.128.8.16;User=QEQA03;Password=QEQA03;Database=QEQA03"; //Ort
+      //public static string connectionString = @"Server=DESKTOP-5P28OS5\SQLEXPRESS;Database=QEQA03;Trusted_Connection=True;"; //Anush
+        public static string connectionString = @"Server=DESKTOP-P6PCH8N\SQLEXPRESS;Database=QEQA03;Trusted_Connection=True;"; //Chino
+        public static Usuario usuario =new Usuario(0,"invitado","Guest","","","","",false);
         public static string msg;
         public static List<Preg> Preguntas;//sp Traer Preguntas
         public static List<Personaje> Personajes;//Sp traer personajes
@@ -26,13 +26,15 @@ namespace QEQ.Models
         public static List<Rta> Respuestas;//sp traer Ras
         public static Dictionary<string, List<Preg>> PregsXGrupos;
         public static Partida laPartida;
+        public static List<Partida> Ranking;
+        public static List<Usuario> Usuarios;
 
         //Funciones de utilidad================
         public static Preg BuscarPregunta(int id)
         {
             Preg pregunta = null;
             int i = 0;
-            while (i < Preguntas.Count() && pregunta == null)
+            while (i < Preguntas.Count && pregunta == null)
             {
                 if (Preguntas[i].Id == id)
                 {
@@ -100,6 +102,25 @@ namespace QEQ.Models
                 }
             }
             return grupo;
+        }
+
+        public static Usuario BuscarUsuario(int id)
+        {
+            Usuario user = null;
+            int i = 0;
+            while (i < Usuarios.Count() && user == null)
+            {
+                if (Usuarios[i].Id == id)
+                {
+                    user = Usuarios[i];
+                }
+
+                else
+                {
+                    i++;
+                }
+            }
+            return user;
         }
 
         public static bool CompararPreg(Preg pregunta, List<Preg> pregs) {
@@ -469,6 +490,21 @@ namespace QEQ.Models
             }
             Desconectar(unaConexion);
         }
+
+        public static void CargarUsuarios() {
+            Usuarios = new List<Usuario>();
+            SqlConnection unaConexion = Conectar();
+            SqlCommand laConsulta = unaConexion.CreateCommand();
+            laConsulta.CommandType = System.Data.CommandType.StoredProcedure;
+            laConsulta.CommandText = "spTraerUsuarios";
+            SqlDataReader elLector = laConsulta.ExecuteReader();
+            while (elLector.Read())
+            {
+                Usuarios.Add(new Usuario(Convert.ToInt32(elLector["idUsuarios"]),elLector["Username"].ToString(),elLector["Nombre"].ToString()));
+            }
+            Desconectar(unaConexion);
+        }
+
         //Manipulacion de Usuarios=====================================================================================
         public static Usuario Login(string User, string Pass, string Ip, string mac)
         {
@@ -595,7 +631,25 @@ namespace QEQ.Models
             return regs;
         }
 
-        //Game 1=============================================================================================================================
+        //Ranking
+        public static void Rank() {
+            SqlConnection unaConexion = Conectar();
+            SqlCommand laConsulta = unaConexion.CreateCommand();
+            laConsulta.CommandType = System.Data.CommandType.StoredProcedure;
+            laConsulta.CommandText = "spRanking";
+            SqlDataReader elLector = laConsulta.ExecuteReader();
+            Ranking = new List<Partida>();
+            while (elLector.Read())
+            {
+                Ranking.Add(new Partida(Convert.ToInt32(elLector["idPartida"]), Convert.ToInt32(elLector["idUsuario1"]),"", Convert.ToInt32(elLector["idPer1"]), Convert.ToInt32(elLector["Puntos"]), Convert.ToInt32(elLector["Preguntas"]), Convert.ToBoolean(elLector["Ganador"]), Convert.ToDateTime(elLector["Fecha"])));
+                int tinter = Convert.ToInt32(elLector["idPer1"]);
+            } 
+            Desconectar(unaConexion);
+        }
+    
+        //Fin del ranking
+        //Game1=============================================================================================================================
+
         public static void GuardarPartida1(Partida partida) {
             SqlConnection unaConexion = Conectar();
             SqlCommand laConsulta = unaConexion.CreateCommand();
@@ -607,6 +661,7 @@ namespace QEQ.Models
             laConsulta.Parameters.AddWithValue("@ip", partida.Ip1);
             laConsulta.Parameters.AddWithValue("@Ganador", partida.Ganador);
             laConsulta.Parameters.AddWithValue("@idPersonaje", partida.Personaje1.Id);
+            laConsulta.Parameters.AddWithValue("@Puntos", partida.Puntos);
             int regs = laConsulta.ExecuteNonQuery();
             Desconectar(unaConexion);
         }

@@ -10,7 +10,6 @@ namespace QEQ.Models
         private int id;
         private int idPregunta;
         private int idPersona;
-
         public int Id
         {
             get

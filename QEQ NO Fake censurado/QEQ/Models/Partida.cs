@@ -35,9 +35,22 @@ namespace QEQ.Models
         public Personaje Personaje1 { get { return _personaje1; } set { _personaje1 = value; } }
         public Personaje Personaje2 { get { return _personaje2; } set { _personaje2 = value; } }
         public int Puntos { get { return _puntos; } set { _puntos = value; } }
-        public List<Personaje> Personajes { get { return _personajes; } set { _personajes = value; } }
+        public Dictionary<int, int> Historial;
 
         public Partida() {}
+        //Constructor Ranking
+        public Partida(int id, int usuario1, string ip1, int idPersonaje,int puntos, int cantPreguntas, bool ganador, DateTime fecha)
+        {
+            _id = id;
+            _usuario1 = usuario1;
+            _ip1 = ip1;
+            BD.CargarPersonajes();
+            _personaje1 = BD.BuscarPersonaje(idPersonaje);
+            _puntos = puntos;
+            _cantPreguntas = cantPreguntas;
+            _ganador = ganador;
+            _fecha = fecha;
+        }
         //Constructor singleplayer
         public Partida(int idUsuario, string ip, int ipuntos)
         {
@@ -47,9 +60,16 @@ namespace QEQ.Models
             _cantPreguntas = 0;
             _multijugador = false;
             Random random = new Random();
-            _personaje1 = BD.Personajes[random.Next(0,BD.Personajes.Count()-1)];
+            if (BD.Personajes.Count != 0)
+            {
+                _personaje1 = BD.Personajes[random.Next(0, BD.Personajes.Count - 1)];
+            }else
+            {
+                _personaje1 = null;
+            }
+           
             _puntos = ipuntos;
-            _personajes = BD.Personajes;
+            Historial = new Dictionary<int, int>();
         }
 
 

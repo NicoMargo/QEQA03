@@ -45,6 +45,11 @@ namespace QEQ.Controllers
             IPAddress[] ip = Dns.GetHostAddresses(Host);
             Ip = ip[0].ToString();
             Mac = ip[0].ToString();
+            if (Ip == "")
+            {
+                Ip = "NoIp";
+                Mac = "NoIp";
+            }
             if (contraseña != "" && Usuario != "")
             {
                 Usuario usu;
@@ -52,6 +57,7 @@ namespace QEQ.Controllers
                 if (usu.Username != "")
                 {
                     Session["Usu"] = Usuario;
+                    BD.usuario = usu;
                     Session["msg"] = "";
                     if (usu.Admin)
                     {
@@ -98,6 +104,7 @@ namespace QEQ.Controllers
 
             int regs = BD.Register(Usu);
             Session["Usu"] = Usu.Username;
+            BD.usuario = Usu;
             if (Usu.Admin)
             {
                 Session["Admin"] = "Admin";
@@ -152,6 +159,7 @@ namespace QEQ.Controllers
                 if (usu.Username != null)
                 {
                     Session["Usu"] = usu.Username;
+                    BD.usuario = usu;
                 }
                 return RedirectToAction("Index", "Home", new { id = "1" });
             }
