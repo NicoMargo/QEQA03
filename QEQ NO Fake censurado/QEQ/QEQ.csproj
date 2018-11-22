@@ -229,10 +229,15 @@
     <Content Include="Content\Cruz-Agregar.png" />
     <Content Include="Content\Cruz-Borrar.png" />
     <Content Include="Content\Lapiz Mod.png" />
+    <Content Include="Content\facha de jon.jpg" />
+    <Content Include="Content\goku.png" />
     <Content Include="Content\LOGO.png" />
+    <Content Include="Content\margo.jpg" />
     <Content Include="Content\MiCSS.css" />
     <Content Include="Content\Nope.png" />
     <Content Include="Content\Unknown.png" />
+    <Content Include="Content\who is who.jpg" />
+    <Content Include="Content\zeky.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
