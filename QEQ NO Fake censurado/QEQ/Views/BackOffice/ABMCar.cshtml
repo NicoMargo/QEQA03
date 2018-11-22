@@ -14,6 +14,7 @@
 }
 
 <h2>Menu de ABM de Caracteristicas</h2>
+@Html.ActionLink("Volver al BackOffice Index", "Index", "BackOffice") <br />
 @using QEQ.Models
 <a href="@Url.Action("AgregarCar", "BackOffice")"><img src="~/Content/Agregar-elemento.png" height="30" /></a><br /><br />
 <table border="1" align="center">
@@ -21,6 +22,7 @@
         <td>Id</td>
         <td>Texto</td>
         <td>Grupo</td>
+        <td>Puntos</td>
         <td>Modificar</td>
         <td>Borrar</td>
     </tr>
@@ -30,6 +32,7 @@
             <td>@Html.Label(pregutna.Id.ToString())</td>
             <td>@Html.Label(pregutna.Texto)</td>
             <td>@Html.Label(BD.BuscarCat(pregutna.idGrupo, BD.Grupos).Nombre)</td>
+            <td>@Html.Label(pregutna.Puntos.ToString())</td>
             <td>
                 <a href="@Url.Action("ModificarCar", "BackOffice", new { id = pregutna.Id })"><img src="~/Content/Lapiz Mod.png" height="30" /></a>
             </td>

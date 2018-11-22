@@ -10,6 +10,7 @@ namespace QEQ.Models
         private int _id;
         private string _texto;
         private int _idgrupo;
+        private int _puntos;
 
         public int Id
         {
@@ -49,12 +50,15 @@ namespace QEQ.Models
                 _idgrupo = value;
             }
         }
-    
-        public Preg(int _id, string _texto, int _grupo)
+
+        public int Puntos { get { return _puntos; } set { _puntos = value; } }
+
+        public Preg(int _id, string _texto, int _grupo, int puntos)
         {
-            this.Id = _id;
-            this.Texto = _texto;
+            this._id= _id;
+            this._texto = _texto;
             this._idgrupo = _grupo;
+            this._puntos = puntos;
         }
         public Preg()
         {

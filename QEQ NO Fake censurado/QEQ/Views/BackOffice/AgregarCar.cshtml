@@ -11,5 +11,6 @@
 {
     @Html.Label("Texto") @Html.TextBoxFor(P => P.Texto, new { @required = "required" }) <br />
     @Html.Label("Grupo") @Html.DropDownListFor(P => P.idGrupo, new SelectList(ViewBag.Grupos, "Id", "Nombre")) <br />
+    @Html.TextBoxFor(P => P.Puntos, new { @type = "number", max="200", min="0", @required = "required" }) <br />
     <input type="submit" value="Proceder" />
 }
