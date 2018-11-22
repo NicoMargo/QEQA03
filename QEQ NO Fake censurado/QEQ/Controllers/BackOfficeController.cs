@@ -65,6 +65,8 @@ namespace QEQ.Controllers
         }
         public ActionResult OlvidoPass()
         {
+            Session["msg"] = BD.msg;
+            BD.msg = "";
             return View();
         }
         [HttpPost]
@@ -72,12 +74,18 @@ namespace QEQ.Controllers
         {
             if (usu.Username != "" && usu.Pass != "")
             {
-               
-               int regsaf = BD.OlvidoPass(usu);
-              
+                if (usu.Pass.Length > 5)
+                {
+                    int regsaf = BD.OlvidoPass(usu);
+                    Session["msg"] = "";
+                }
+                else
+                {
+                    return RedirectToAction("ModificarUsu", "BackOffice", new { id = "La contraseña debe tener 6 digitos o mas" });
+                }
             }
            
-            return RedirectToAction("OlvidoPass", "BackOffice");
+            return RedirectToAction("LogIn", "BackOffice");
         }
 
         public ActionResult Register()

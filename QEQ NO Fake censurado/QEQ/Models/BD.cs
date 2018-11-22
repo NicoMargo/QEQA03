@@ -496,7 +496,6 @@ namespace QEQ.Models
 
                     username = (elLector["Username"].ToString());
                     Admin = Convert.ToBoolean(elLector["Administrador"]);
-                    Puntos = Convert.ToInt32(elLector["Puntos"]);
 
 
                 }
@@ -625,12 +624,32 @@ namespace QEQ.Models
         //OlvidoPass
         public static int OlvidoPass (Usuario usu)
         {
+            string username = "";
             SqlConnection unaConexion = Conectar();
             SqlCommand LaConsulta = unaConexion.CreateCommand();
             LaConsulta.CommandType = System.Data.CommandType.StoredProcedure;
             LaConsulta.CommandText = "spOlvidoPass";
             LaConsulta.Parameters.AddWithValue("@Username", usu.Username);
             LaConsulta.Parameters.AddWithValue("@NuevaPass", usu.Pass);
+            SqlDataReader elLector = LaConsulta.ExecuteReader();
+            while (elLector.Read())
+            {
+                if (elLector["msg"].ToString() == "Ok")
+                {
+                   
+                    msg = (elLector["msg"].ToString());
+                    username = (elLector["Username"].ToString());
+                    
+
+
+                }
+                else if (elLector["msg"].ToString() != "Ok")
+
+                {
+                    msg = (elLector["msg"].ToString());
+                }
+            }
+            elLector.Close();
             int regsafectados = LaConsulta.ExecuteNonQuery();
             Desconectar(unaConexion);
             return regsafectados;

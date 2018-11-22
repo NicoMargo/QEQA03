@@ -6,18 +6,19 @@
 @using QEQ.Models;
 @using (@Html.BeginForm("OlvidoPass", "Backoffice", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-	<h2 class="Title">Cambiar contraseña </h2>
-	<br />
-	<div class="loginBox">
-		<p class="text-info">Ingrese su usuario y nueva contraseña para cambiar la misma</p>
-		<br /><br />
-              <form action="@Url.Action("OlvidoPass","Backoffice")" method="post">
+    <h2 class="Title">Cambiar contraseña </h2>
+    @Session["msg"]
+    <br />
+    <div class="loginBox">
+        <p class="text-info">Ingrese su usuario y nueva contraseña para cambiar la misma</p>
+        <br /><br />
+        <form action="@Url.Action("OlvidoPass","Backoffice")" method="post">
 
-                  @Html.Label("Usuario") @Html.TextBoxFor(U => U.Username) @Html.ValidationMessageFor(U => U.Username)<br />
-                  @Html.Label("Nueva Contraseña") @Html.TextBoxFor(U => U.Pass, new { type = "password", required = "required" }) @Html.ValidationMessageFor(U => U.Pass) <br />
-                  <input type="submit" value="Enviar" /><br />
-              </form>
-	</div>
-			}
+            @Html.Label("Usuario") @Html.TextBoxFor(U => U.Username, new { type = "text", required = "required" }) @Html.ValidationMessageFor(U => U.Username)<br />
+            @Html.Label("Nueva Contraseña") @Html.TextBoxFor(U => U.Pass, new { type = "password", required = "required" }) @Html.ValidationMessageFor(U => U.Pass) <br />
+            <input type="submit" value="Enviar" /><br />
+        </form>
+    </div>
+}
 
 
