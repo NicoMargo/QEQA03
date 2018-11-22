@@ -27,6 +27,7 @@ namespace QEQ.Models
         public static Dictionary<string, List<Preg>> PregsXGrupos;
         public static Partida laPartida;
 
+        //Funciones de utilidad================
         public static Preg BuscarPregunta(int id)
         {
             Preg pregunta = null;
@@ -114,7 +115,7 @@ namespace QEQ.Models
         }
 
 
-        //Action REsults------------------------------------------------------------------------------------------------------------------------------------
+        //Funciones para la bd=====================================================================================
         public static SqlConnection Conectar()
         {
             SqlConnection laConexion = new SqlConnection(connectionString);
@@ -126,6 +127,7 @@ namespace QEQ.Models
         {
             laConexion.Close();
         }
+        //Stores de ABM==============================================================================================
         public static void CrearRta(Personaje Per, Preg pregunta)
         {
             SqlConnection unaConexion = Conectar();
@@ -347,7 +349,7 @@ namespace QEQ.Models
             return msg;
         }
 
-        //Cargar=================================================================================================================================
+        //Stores que traen datos de la bd=================================================================================================================================
         public static void CargarCats()
         {
             Categorias = new List<Cat>();
@@ -467,7 +469,7 @@ namespace QEQ.Models
             }
             Desconectar(unaConexion);
         }
-
+        //Manipulacion de Usuarios=====================================================================================
         public static Usuario Login(string User, string Pass, string Ip, string mac)
         {
             string Nombre = "", email = "", pass = "", username = "", Mac = "", IpPublica = "";
@@ -593,7 +595,7 @@ namespace QEQ.Models
             return regs;
         }
 
-        //Game=============================================================================================================================
+        //Game 1=============================================================================================================================
         public static void GuardarPartida1(Partida partida) {
             SqlConnection unaConexion = Conectar();
             SqlCommand laConsulta = unaConexion.CreateCommand();
@@ -624,6 +626,8 @@ namespace QEQ.Models
             }
             Desconectar(unaConexion);
         }
+
+        //Game 2===============================================================================================================================
     }
 
 
