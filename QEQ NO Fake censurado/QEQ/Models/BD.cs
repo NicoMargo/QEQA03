@@ -625,14 +625,14 @@ namespace QEQ.Models
         //OlvidoPass
         public static int OlvidoPass (Usuario usu)
         {
-            SqlConnection Conexion = Conectar();
-            SqlCommand consulta = Conexion.CreateCommand();
-            consulta.CommandType = System.Data.CommandType.StoredProcedure;
-            consulta.CommandText = "spOlvidoPass";
-            consulta.Parameters.AddWithValue("@Username", usu.Username);
-            consulta.Parameters.AddWithValue("@Pass", usu.Pass);
-            int regsafectados = consulta.ExecuteNonQuery();
-            Desconectar(Conexion);
+            SqlConnection unaConexion = Conectar();
+            SqlCommand LaConsulta = unaConexion.CreateCommand();
+            LaConsulta.CommandType = System.Data.CommandType.StoredProcedure;
+            LaConsulta.CommandText = "spOlvidoPass";
+            LaConsulta.Parameters.AddWithValue("@Username", usu.Username);
+            LaConsulta.Parameters.AddWithValue("@NuevaPass", usu.Pass);
+            int regsafectados = LaConsulta.ExecuteNonQuery();
+            Desconectar(unaConexion);
             return regsafectados;
 
         }

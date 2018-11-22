@@ -74,8 +74,7 @@ namespace QEQ.Controllers
             {
                
                int regsaf = BD.OlvidoPass(usu);
-                Session["Usu"] = usu.Username;
-                Session["Pass"] = usu.Pass;
+              
             }
            
             return RedirectToAction("OlvidoPass", "BackOffice");

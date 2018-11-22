@@ -2,20 +2,21 @@
 
 <h2>Olvido Contraseña</h2>
 <link href="~/Content/MiCSS.css" type="text/css" rel="stylesheet">
+@model QEQ.Models.Usuario
 @using QEQ.Models;
-@using (@Html.BeginForm("OlvidoPass", "Backoffice", FormMethod.Post))
+@using (@Html.BeginForm("OlvidoPass", "Backoffice", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
 	<h2 class="Title">Cambiar contraseña </h2>
 	<br />
 	<div class="loginBox">
 		<p class="text-info">Ingrese su usuario y nueva contraseña para cambiar la misma</p>
 		<br /><br />
-		<form action="@Url.Action("OlvidoPass","Backoffice")" method="post">
+              <form action="@Url.Action("OlvidoPass","Backoffice")" method="post">
 
-			<input placeholder="Usuario" type="text" name="Usuario" class="inputext" required /> <br />
-			<input placeholder="Nueva Contraseña" type="password" name="Contraseña" class="inputext" required /><br />
-			<input type="submit" value="Enviar" class="btnClassS" /><br />
-		</form>
+                  @Html.Label("Usuario") @Html.TextBoxFor(U => U.Username) @Html.ValidationMessageFor(U => U.Username)<br />
+                  @Html.Label("Nueva Contraseña") @Html.TextBoxFor(U => U.Pass, new { type = "password", required = "required" }) @Html.ValidationMessageFor(U => U.Pass) <br />
+                  <input type="submit" value="Enviar" /><br />
+              </form>
 	</div>
 			}
 
