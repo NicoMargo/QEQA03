@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewBag.Title = "Listado de partidas";
+}
+@using QEQ.Models
+<h2>Partidas</h2>
+<a hrf="@Url.Action("StartM","Game")">Crear Partida</a>
+@if (ViewBag.Partidas.Count > 0)
+{
+    <table border="1">
+        <tr>
+            <td>Id</td>
+            <td>Host</td>
+            <td>Unirse</td>
+        </tr>
+        @foreach (Partida partida in ViewBag.Partidas) {
+        <tr>
+            <td>@partida.Id.ToString()</td>
+            <td>@BD.BuscarUsuario(partida.Usuario1).Nombre</td>
+            <td><a href="@Url.Action("WaitingRoomM","Game")">Unirse</a></td>
+        </tr>
+        }
+
+    </table>
+}
+else {
+    <h3> No se encontraron Partidas xd</h3>
+}
+

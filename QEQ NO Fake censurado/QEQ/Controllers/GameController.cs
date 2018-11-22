@@ -88,7 +88,7 @@ namespace QEQ.Controllers
             return View();
         }
 
-        public ActionResult Start1()
+        public ActionResult StartS()
         {
             BD.CargarPreguntas();
             BD.CargarCats();
@@ -100,7 +100,7 @@ namespace QEQ.Controllers
 
 
         [HttpPost]
-        public ActionResult Start1(int idCategoria)
+        public ActionResult StartS(int idCategoria)
         {
             Usuario usuario = BD.usuario;
             BD.CargarPersonajes(idCategoria);
@@ -181,6 +181,42 @@ namespace QEQ.Controllers
             BD.Rank();
             return View();
         }
+
+        //Game 2 =============================================================================================================
+        public ActionResult BuscarPartidasM() {
+            BD.CargarUsuarios();
+            BD.CargarPartidas();
+            ViewBag.Partidas = BD.Partidas;
+            return View();
+        }
+
+        public ActionResult StartM()
+        {
+            BD.CargarPreguntas();
+            BD.CargarCats();
+            ViewBag.Cats = BD.Categorias;
+            ViewBag.Cats.Add(new Cat(0, "Todos"));
+            return View();
+        }
+
+
+        [HttpPost]
+        public ActionResult StartM(int idCategoria)
+        {
+            BD.CargarPersonajes(idCategoria);
+            BD.CargarRtas(idCategoria);
+            BD.laPartida = new Partida(0,BD.usuario.Id, BD.usuario.Ip,idCategoria);
+            BD.CrearPartida(BD.laPartida);
+            return RedirectToAction("WaitingRoomM", "Game");
+        }
+
+        [HttpPost]
+        public ActionResult Unirse(int idPartida) {
+            
+            return RedirectToAction("PickCharM", "Game");
+        }
+
+
         //esto deberia estar en el home controller wtf
         public ActionResult Desarrolladores()
         {

@@ -8,6 +8,7 @@ namespace QEQ.Models
 {
     public class Partida
     {
+        private int _nroUsuario;//1 o 0
         private int _id;
         private int _usuario1;
         private int _usuario2;
@@ -20,7 +21,8 @@ namespace QEQ.Models
         private bool _multijugador;
         private bool _ganador;
         private DateTime _fecha;
-        private List<Personaje> _personajes;
+        private int _idcat;
+
 
         public int Id { get { return _id; } set { _id = value; } }
         public int Usuario1 { get { return _usuario1; } set { _usuario1 = value; } }
@@ -35,6 +37,9 @@ namespace QEQ.Models
         public Personaje Personaje1 { get { return _personaje1; } set { _personaje1 = value; } }
         public Personaje Personaje2 { get { return _personaje2; } set { _personaje2 = value; } }
         public int Puntos { get { return _puntos; } set { _puntos = value; } }
+        public int NroUsuario { get { return _nroUsuario; } set { _nroUsuario = value; } }
+        public int IdCat { get { return _idcat; } set { _idcat = value; } }
+
         public Dictionary<int, int> Historial;
 
         public Partida() {}
@@ -72,17 +77,22 @@ namespace QEQ.Models
             Historial = new Dictionary<int, int>();
         }
 
-
-        public Partida(int Host, string ipH, bool multi)
+        //constructores multiplayer
+        public Partida(int idPartida,int Host, string ipH,int idcat)
         {
+            _nroUsuario = 0;
+            _id = idPartida;
             _usuario1 = Host;
             _ip1 = ipH;
             _fecha = DateTime.Today;
             _cantPreguntas = 0;
-            _multijugador = multi;
+            _multijugador = true;
+            _idcat = idcat;
         }
+
         public void Unirse(int Guest, string ipG)
         {
+            _nroUsuario = 1;
             _usuario1 = Guest;
             _ip1 = ipG;
         }

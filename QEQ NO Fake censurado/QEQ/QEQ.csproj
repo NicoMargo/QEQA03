@@ -299,10 +299,12 @@
     <Content Include="Views\BackOffice\ModificarUsuOk.cshtml" />
     <Content Include="Views\BackOffice\BorrarCar.cshtml" />
     <Content Include="Views\BackOffice\AD.cshtml" />
-    <Content Include="Views\Game\Start1.cshtml" />
+    <Content Include="Views\Game\StartS.cshtml" />
     <Content Include="Views\Game\FinalizarS.cshtml" />
     <Content Include="Views\Game\JuegoPrincipalS.cshtml" />
     <Content Include="Views\Game\TypeGame.cshtml" />
+    <Content Include="Views\Game\BuscarPartidasM.cshtml" />
+    <Content Include="Views\Game\StartM.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

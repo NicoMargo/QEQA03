@@ -12,9 +12,9 @@ namespace QEQ.Models
     {
 
 
-       // public static string connectionString = "Server=10.128.8.16;User=QEQA03;Password=QEQA03;Database=QEQA03"; //Ort
-      //public static string connectionString = @"Server=DESKTOP-5P28OS5\SQLEXPRESS;Database=QEQA03;Trusted_Connection=True;"; //Anush
-        public static string connectionString = @"Server=DESKTOP-P6PCH8N\SQLEXPRESS;Database=QEQA03;Trusted_Connection=True;"; //Chino
+        public static string connectionString = "Server=10.128.8.16;User=QEQA03;Password=QEQA03;Database=QEQA03"; //Ort
+        //public static string connectionString = @"Server=DESKTOP-5P28OS5\SQLEXPRESS;Database=QEQA03;Trusted_Connection=True;"; //Anush
+        //public static string connectionString = @"Server=DESKTOP-P6PCH8N\SQLEXPRESS;Database=QEQA03;Trusted_Connection=True;"; //Chino
         public static Usuario usuario =new Usuario(0,"invitado","Guest","","","","",false);
         public static string msg;
         public static List<Preg> Preguntas;//sp Traer Preguntas
@@ -28,6 +28,7 @@ namespace QEQ.Models
         public static Partida laPartida;
         public static List<Partida> Ranking;
         public static List<Usuario> Usuarios;
+        public static List<Partida> Partidas; 
 
         //Funciones de utilidad================
         public static Preg BuscarPregunta(int id)
@@ -135,7 +136,23 @@ namespace QEQ.Models
             return found;
         }
 
+        public static Partida BuscarPartida(int id) {
+            Partida partida = new Partida();
+            int i = 0;
+            while (i < Partidas.Count() && partida == new Partida())
+            {
+                if (Partidas[i].Id == id)
+                {
+                    partida = Partidas[i];
+                }
 
+                else
+                {
+                    i++;
+                }
+            }
+            return partida;
+        }
         //Funciones para la bd=====================================================================================
         public static SqlConnection Conectar()
         {
@@ -370,7 +387,7 @@ namespace QEQ.Models
             return msg;
         }
 
-        //Stores que traen datos de la bd=================================================================================================================================
+        //Stores de cargado=================================================================================================================================
         public static void CargarCats()
         {
             Categorias = new List<Cat>();
@@ -683,6 +700,55 @@ namespace QEQ.Models
         }
 
         //Game 2===============================================================================================================================
+        public static void CargarPartidas()
+        {
+            Partidas = new List<Partida>();
+            SqlConnection unaConexion = Conectar();
+            SqlCommand laConsulta = unaConexion.CreateCommand();
+            laConsulta.CommandType = System.Data.CommandType.StoredProcedure;
+            laConsulta.CommandText = "spBuscarPartidas";
+            SqlDataReader elLector = laConsulta.ExecuteReader();
+            while (elLector.Read())
+            {
+                Partidas.Add(new Partida(Convert.ToInt32(elLector["idPartida"]), Convert.ToInt32(elLector["idUsuario1"]), elLector["idPersona"].ToString(),Convert.ToInt32(elLector["idCategoria"])));
+            }
+            Desconectar(unaConexion);
+        }
+
+        public static void CrearPartida(Partida partida)
+        {
+            SqlConnection unaConexion = Conectar();
+            SqlCommand laConsulta = unaConexion.CreateCommand();
+            laConsulta.CommandType = System.Data.CommandType.StoredProcedure;
+            laConsulta.CommandText = "spCrearPartida";
+            laConsulta.Parameters.AddWithValue("@IdUsuarioHost", partida.Usuario1);
+            laConsulta.Parameters.AddWithValue("@IpHost", partida.Ip1);
+            laConsulta.Parameters.AddWithValue("@idCat", partida.IdCat);
+            laConsulta.ExecuteNonQuery();
+            Desconectar(unaConexion);
+        }
+
+        public static void Unirse(int idPartida)
+        {
+            bool exito = false;
+            SqlConnection unaConexion = Conectar();
+            SqlCommand laConsulta = unaConexion.CreateCommand();
+            laConsulta.CommandType = System.Data.CommandType.StoredProcedure;
+            laConsulta.CommandText = "spUnirse";
+            laConsulta.Parameters.AddWithValue("@IdPartida", idPartida);
+            laConsulta.Parameters.AddWithValue("@IdUsuario2", usuario.Id);
+            laConsulta.Parameters.AddWithValue("@Ip2", usuario.Ip);
+            SqlDataReader elLector = laConsulta.ExecuteReader();
+            if (elLector.Read())
+            {
+                exito = Convert.ToBoolean(elLector["exito"]);
+            }
+            Desconectar(unaConexion);
+            if (exito) {
+                BD.CargarPartidas();
+                BD.laPartida = BuscarPartida(idPartida);
+            }
+        }
     }
 
 

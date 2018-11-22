@@ -1,0 +1,12 @@
+﻿
+@{
+    ViewBag.Title = "Creando Partida";
+}
+
+<h2>Creando Partida Multijugador</h2>
+@using (Html.BeginForm("StartM", "Game", FormMethod.Post))
+{
+    @Html.Label("Elije la Categoría de Personajes")<br />
+    @Html.DropDownList("idCategoria", new SelectList(ViewBag.Cats, "Id", "Nombre")) <br />
+    <input type="submit" name="cargar" value="Empezar" />
+}
