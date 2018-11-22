@@ -14,6 +14,6 @@ Pregunta: " @BD.BuscarPregunta(Model.Id).Texto? "
     @Html.Label("Texto") @Html.TextBoxFor(P => P.Texto, new { @required = "required", value= Model.Texto })
     @Html.Label("?") <br />
     @Html.Label("Grupo") @Html.DropDownListFor(P => P.idGrupo, new SelectList(ViewBag.Grupos, "Id", "Nombre")) <br />
-    @Html.TextBoxFor(P => P.Puntos, new { @type = "number", max = "200", min = "0", @required = "required", value = Model.Puntos }) <br />
+    @Html.TextBoxFor(P => P.Puntos, new { @type = "number", max = "500", min = "0", @required = "required", value = Model.Puntos }) <br />
     <input type="submit" value="Proceder" />
 }
