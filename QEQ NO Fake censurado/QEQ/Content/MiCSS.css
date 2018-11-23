@@ -83,21 +83,23 @@ p.AText {
     font-family: Verdana;
 }
 .galeria img {
-    width: 190px;
+    width: 185px;
     height: auto;
-    padding: 10px;
+    margin-top: 11px;
+    margin-left: 9px;
 }
 
-.galeria img:hover {
-    width: 215px;
-    height: auto;    
-}
+    .galeria img:hover {
+        width: 220px;
+        height: auto;
+        border: 2px solid black;
+    }
 
 .PregBox {
     box-sizing: border-box;
     box-shadow: 0 5px 4px 0 rgba(181,181,181,.7);
-    width: 30%;
-    height: 15000px;
+    width: 27%;
+    height: 2000px;
     padding: 20px 15px;
     border-top: 1px solid #f1f1f5;
     float: left;
