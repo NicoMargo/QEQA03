@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 16-11-2018 a las 18:58:28
+-- Tiempo de generación: 23-11-2018 a las 18:00:20
 -- Versión del servidor: 5.7.21
 -- Versión de PHP: 5.6.35
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `bdlogin`
+-- Base de datos: `bd login`
 --
 
 DELIMITER $$
@@ -72,6 +72,41 @@ THEN
 else 
 	select 'Usuario inexistente o password incorrecta';
 end if;
+end$$
+
+DROP PROCEDURE IF EXISTS `spModificarUsuario`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spModificarUsuario` (IN `Username` VARCHAR(100), IN `nuevoUsername` VARCHAR(100), IN `Pass` VARCHAR(100), IN `Apellido` VARCHAR(100), IN `Nombre` VARCHAR(100), IN `Mail` VARCHAR(100), IN `Perfil` VARCHAR(100))  NO SQL
+BEGIN
+    set @Existe  = (Select Usuarios.Username from Usuarios where Usuarios.Username like Username);
+    if exists(Select Usuarios.Username from Usuarios where Usuarios.Username = Username)
+    then 
+            update Usuarios set USUARIOS.Contraseña = MD5(Pass) where usuarios.Username = Username;
+            select 'Se ha actualizado el Pass';
+            update Usuarios set USUARIOS.Apellido = Apellido where Usuarios.username=username;
+            select 'Se ha actualizado el apellido';
+            update Usuarios set USUARIOS.Nombre =Nombre where Usuarios.username=username;
+            select 'Se ha actualizado el nombre';
+            update Usuarios set USUARIOS.Mail =mail where Usuarios.username=username;
+            select 'Se ha actualizado el correo electronico';
+            set @Existe = (Select Perfil.id from Perfil where Perfil.Tipo = Perfil);
+            if(@Existe is not null)
+            then 
+                update Usuarios set USUARIOS.idPerfil = @Existe where Usuarios.username=username;
+                select 'Ha ascendido/descendido de clase social';
+            else
+            select'perfil in@Existente';
+            end if;
+            set @Existe = (Select Usuarios.Username from Usuarios where Usuarios.Username = nuevoUsername);
+            if(@Existe is null)
+            then 
+                update Usuarios set USUARIOS.Username =nuevoUsername where Usuarios.Username like Username;
+                select 'Se ha actualizado el nombre de usuario' ;
+            else
+                select 'El username no se pudo actualizar porque ya @Existe un usuario con ese nombre';
+            end if;
+    else
+        select 'El usuario no @Existe o el campo de usuario esta vacio';
+    end if;
 end$$
 
 DROP PROCEDURE IF EXISTS `spRegisterUsuario`$$
@@ -136,7 +171,7 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
 
 INSERT INTO `usuarios` (`Nombre`, `Apellido`, `Username`, `Contraseña`, `mail`, `Id`, `idPerfil`) VALUES
 ('namae', 'surnamae', 'user', '1a1dc91c907325c69271ddf0c944bc72', 'a@a', 1, 3),
-('a', 'a', 'a', '0cc175b9c0f1b6a831c399e269772661', 'a', 2, 1);
+('e', 'e', 'e', 'e1671797c52e15f763380b45e841ec32', 'e', 2, 3);
 
 --
 -- Restricciones para tablas volcadas
