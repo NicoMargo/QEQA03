@@ -1,25 +1,28 @@
-﻿@using QEQ.Models
+﻿<link href="~/Content/MiCSS.css" type="text/css" rel="stylesheet">
+@using QEQ.Models
 @model QEQ.Models.Personaje
 @{
     ViewBag.Title = "JuegoPrincipalS";
 }
 
 
-<p>@BD.laPartida.Puntos</p>
-
-@using (Html.BeginForm("AskS", "Game", FormMethod.Post))
-{
-    @Html.Label("Seleccione que quiere preguntar para adivinar mi personaje")<br />
-    @Html.DropDownList("idpreg", new SelectList(ViewBag.Preg, "Id", "Texto")) <br />
-<input type="submit" name="cargar" value="Preguntar" />
-}
-
-@{
-    foreach (Personaje personaje in ViewBag.Personajes)
+<h2 class="TPuntos"> Puntos: @BD.laPartida.Puntos</h2>
+<div class="PregBox">
+    @using (Html.BeginForm("AskS", "Game", FormMethod.Post))
     {
-<a href='@Url.Action("RiskS", "Game", new { idPersonaje = personaje.Id } )'><img class="img-responsive" src="@personaje.Direccion" width="135" /></a>
+        @Html.Label("Seleccione que quiere preguntar para adivinar mi personaje")<br />
+        @Html.DropDownList("idpreg", new SelectList(ViewBag.Preg, "Id", "Texto"), new { style = "width: 700px;" }) <br />
+        <input type="submit" name="cargar" value="Preguntar" />
     }
-}
+</div>
+<div class="galeria">
+    @{
+        foreach (Personaje personaje in ViewBag.Personajes)
+        {
+            <a href='@Url.Action("RiskS", "Game", new { idPersonaje = personaje.Id } )'><img src="@personaje.Direccion" /></a>
+        }
+    }
+</div>
 @{
     if (ViewBag.Estado)
     {

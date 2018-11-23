@@ -128,7 +128,7 @@ namespace QEQ.Controllers
             int cantDescartados = 0;
             if (BD.laPartida.Puntos > iRiskPenalty)
             {
-                Session["Estado"] = (BD.laPartida.Puntos <= iRiskPenalty);
+               
                 bool CorrectPer = AskForOne(BD.laPartida.Personaje1.Id, idpreg, false);
                 for (int i = 0; i < BD.Personajes.Count; i++)
                 {
@@ -143,9 +143,15 @@ namespace QEQ.Controllers
                 BD.laPartida.Puntos -= BD.BuscarPregunta(idpreg).Puntos;
 
                 if (CorrectPer) { EliminarporGrupo(idpreg); }
-                else { BD.Preguntas.RemoveAt(BuscarPregunta(idpreg)); }
+                else {
+                    
+                    BD.Preguntas.RemoveAt(BuscarPregunta(idpreg)); }
                 BD.laPartida.Historial.Add(idpreg, cantDescartados); 
             }//fin del if puntos < iRiskPenalty
+            else
+            {
+                Session["Estado"] = true;
+            }
             return RedirectToAction("JuegoPrincipalS", "Game");
         }
         

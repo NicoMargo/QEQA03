@@ -38,8 +38,6 @@ p.AText {
     margin-bottom: 10px;
 }
 
-
-
 .Title {
     background-color: #3CBC8D;
     color: white;
@@ -68,4 +66,41 @@ p.AText {
     box-sizing: initial;
     width: 100%;
     padding: 10px 10px 10px 10px;
+}
+
+
+
+.TPuntos {
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    padding: 7px 7px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: black;
+    color: white;
+    background-color: tomato;
+    font-family: Verdana;
+}
+.galeria img {
+    width: 185px;
+    height: auto;
+    margin-top: 11px;
+    margin-left: 9px;
+}
+
+    .galeria img:hover {
+        width: 220px;
+        height: auto;
+        border: 2px solid black;
+    }
+
+.PregBox {
+    box-sizing: border-box;
+    box-shadow: 0 5px 4px 0 rgba(181,181,181,.7);
+    width: 27%;
+    height: 2000px;
+    padding: 20px 15px;
+    border-top: 1px solid #f1f1f5;
+    float: left;
 }
