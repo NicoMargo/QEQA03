@@ -49,7 +49,7 @@ namespace QEQ.Controllers
             return i;
         }
         //Se ingresa un id de persona y un id de pregunta, devuelve true si existe una respuesta con esas dos id
-        public bool AskForOne(int idPer, int idPreg, bool Borrar)
+        public bool AskForOne(int idPer, int idPreg, bool Borrar, bool BorrarDef = false)
         {
             bool found = false;
             int i = 0;
@@ -58,14 +58,14 @@ namespace QEQ.Controllers
                 if (BD.Respuestas[i].IdPersona == idPer && BD.Respuestas[i].IdPregunta == idPreg)
                 {
                     found = true;
-                    if(Borrar) BD.Respuestas.RemoveAt(i);
+                    if(Borrar && BorrarDef) BD.Respuestas.RemoveAt(i);
                 }
                 else { i++; }
             }
             return found;
         }
         //Borra todas las respuestas y preguntas de la misma categoria de preguntas de la pregunta preguntada :v
-        public void EliminarporGrupo(int idPreg) {
+    /*    public void EliminarporGrupo(int idPreg) {
             int idGrupete = BD.BuscarPregunta(idPreg).idGrupo;
             for (int i = 0; i < BD.Preguntas.Count(); i++) {
                 if (BD.Preguntas[i].idGrupo == idGrupete)
@@ -81,7 +81,7 @@ namespace QEQ.Controllers
                     i--;
                 }
             }
-        }
+        }*/
 
         public ActionResult TypeGame()
         {
@@ -114,9 +114,26 @@ namespace QEQ.Controllers
             return RedirectToAction("JuegoPrincipalS", "Game");           
         }
 
-        public ActionResult JuegoPrincipalS()
-        {
-            ViewBag.Estado = (Convert.ToBoolean(Session["Estado"]));           
+        public ActionResult JuegoPrincipalS(int idpreg = -1)
+        {                        
+             if ((Convert.ToBoolean(Session["Estado"])))
+            {
+                ViewBag.msgalert = "No tienes mas puntos para preguntar, solo podes arriesgar una vez mas";
+            }else if ( idpreg == -1)
+            {
+                ViewBag.msgalert = "Bienvenido Al Juego";
+            }
+            else if (AskForOne(BD.laPartida.Personaje1.Id, idpreg, false, true))
+            {
+                ViewBag.msgalert = "El personaje SI " + BD.BuscarPregunta(idpreg).Texto;
+                BD.Preguntas.RemoveAt(BuscarPregunta(idpreg));
+            } else
+            {
+                ViewBag.msgalert = "El personaje NO " + BD.BuscarPregunta(idpreg).Texto;
+                BD.Preguntas.RemoveAt(BuscarPregunta(idpreg));
+            }
+            
+                      
             ViewBag.Personajes = BD.Personajes;
             ViewBag.Preg = BD.Preguntas;
             return View();
@@ -127,8 +144,7 @@ namespace QEQ.Controllers
         {
             int cantDescartados = 0;
             if (BD.laPartida.Puntos > iRiskPenalty)
-            {
-               
+            {               
                 bool CorrectPer = AskForOne(BD.laPartida.Personaje1.Id, idpreg, false);
                 for (int i = 0; i < BD.Personajes.Count; i++)
                 {
@@ -142,17 +158,15 @@ namespace QEQ.Controllers
                 BD.laPartida.CantPreguntas++;
                 BD.laPartida.Puntos -= BD.BuscarPregunta(idpreg).Puntos;
 
-                if (CorrectPer) { EliminarporGrupo(idpreg); }
-                else {
-                    
-                    BD.Preguntas.RemoveAt(BuscarPregunta(idpreg)); }
+               // if (CorrectPer) { EliminarporGrupo(idpreg); }
+              
                 BD.laPartida.Historial.Add(idpreg, cantDescartados); 
             }//fin del if puntos < iRiskPenalty
             else
             {
                 Session["Estado"] = true;
             }
-            return RedirectToAction("JuegoPrincipalS", "Game");
+            return RedirectToAction("JuegoPrincipalS", "Game", new { idpreg });
         }
         
         public ActionResult RiskS(int idPersonaje)
