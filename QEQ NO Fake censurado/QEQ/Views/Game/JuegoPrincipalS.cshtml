@@ -6,7 +6,7 @@
 }
 
 
-<p>@BD.laPartida.Puntos</p>
+<h2 class="TPuntos"> Puntos: @BD.laPartida.Puntos</h2>
 <div class="PregBox">
     @using (Html.BeginForm("AskS", "Game", FormMethod.Post))
     {
@@ -15,26 +15,19 @@
         <input type="submit" name="cargar" value="Preguntar" />
     }
 </div>
-
-
+<div class="galeria">
     @{
         foreach (Personaje personaje in ViewBag.Personajes)
         {
-
-            <div class="responsive">
-                <div class="gallery">
-                    <a href='@Url.Action("RiskS", "Game", new { idPersonaje = personaje.Id } )'><img src="@personaje.Direccion" width="135" /></a>
-                </div>
-            </div>
-
+            <a href='@Url.Action("RiskS", "Game", new { idPersonaje = personaje.Id } )'><img src="@personaje.Direccion" /></a>
         }
     }
-
-            @{
-                if (ViewBag.Estado)
-                {
-                    <script type="text/javascript">alert('Ya no puedes preguntar mas. Tenes que arriesgar')</script>
-                }
-            }
+</div>
+@{
+    if (ViewBag.Estado)
+    {
+        <script type="text/javascript">alert('Ya no puedes preguntar mas. Tenes que arriesgar')</script>
+    }
+}
 
 

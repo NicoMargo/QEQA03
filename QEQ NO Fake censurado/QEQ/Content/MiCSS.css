@@ -68,23 +68,35 @@ p.AText {
     padding: 10px 10px 10px 10px;
 }
 
-div.gallery:hover {    
-    width: 110%;
-}
 
-div.gallery img {
-    width: 15%;
+
+.TPuntos {
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    padding: 7px 7px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: black;
+    color: white;
+    background-color: tomato;
+    font-family: Verdana;
+}
+.galeria img {
+    width: 190px;
     height: auto;
-    float:left;
-    padding-left: 30px;
-    padding-top: 30px;
+    padding: 10px;
 }
 
+.galeria img:hover {
+    width: 215px;
+    height: auto;    
+}
 
 .PregBox {
     box-sizing: border-box;
     box-shadow: 0 5px 4px 0 rgba(181,181,181,.7);
-    width: 45%;
+    width: 30%;
     height: 15000px;
     padding: 20px 15px;
     border-top: 1px solid #f1f1f5;
