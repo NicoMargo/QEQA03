@@ -12,14 +12,10 @@ namespace QEQ.Models
     {
 
 
-        public static string connectionString = "Server=10.128.8.16;User=QEQA03;Password=QEQA03;Database=QEQA03"; //Ort
-<<<<<<< HEAD
-        //public static string connectionString = @"Server=DESKTOP-5P28OS5\SQLEXPRESS;Database=QEQA03;Trusted_Connection=True;"; //Anush
+        //public static string connectionString = "Server=10.128.8.16;User=QEQA03;Password=QEQA03;Database=QEQA03"; //Ort
+        public static string connectionString = @"Server=DESKTOP-5P28OS5;Database=QEQA03;Trusted_Connection=True;"; //Anush
         //public static string connectionString = @"Server=DESKTOP-P6PCH8N\SQLEXPRESS;Database=QEQA03;Trusted_Connection=True;"; //Chino
-=======
-     // public static string connectionString = @"Server=DESKTOP-5P28OS5\SQLEXPRESS;Database=QEQA03;Trusted_Connection=True;"; //Anush
-      //  public static string connectionString = @"Server=DESKTOP-P6PCH8N\SQLEXPRESS;Database=QEQA03;Trusted_Connection=True;"; //Chino
->>>>>>> master
+
         public static Usuario usuario =new Usuario(0,"invitado","Guest","","","","",false);
         public static string msg;
         public static List<Preg> Preguntas;//sp Traer Preguntas
@@ -77,7 +73,7 @@ namespace QEQ.Models
         {
             Personaje personaje = null;
             int i = 0;
-            while (i < Personajes.Count() && personaje == null)
+            while (i < Personajes.Count && personaje == null)
             {
                 if (Personajes[i].Id == id)
                 {
@@ -95,7 +91,7 @@ namespace QEQ.Models
         {
             Cat grupo = null;
             int i = 0;
-            while (i < Cats.Count() && grupo == null)
+            while (i < Cats.Count && grupo == null)
             {
                 if (Cats[i].Id == id)
                 {
@@ -114,7 +110,7 @@ namespace QEQ.Models
         {
             Usuario user = null;
             int i = 0;
-            while (i < Usuarios.Count() && user == null)
+            while (i < Usuarios.Count && user == null)
             {
                 if (Usuarios[i].Id == id)
                 {
@@ -144,7 +140,7 @@ namespace QEQ.Models
         public static Partida BuscarPartida(int id) {
             Partida partida = new Partida();
             int i = 0;
-            while (i < Partidas.Count() && partida == new Partida())
+            while (i < Partidas.Count && partida == new Partida())
             {
                 if (Partidas[i].Id == id)
                 {

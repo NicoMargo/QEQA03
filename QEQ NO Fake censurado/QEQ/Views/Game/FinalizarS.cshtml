@@ -17,7 +17,7 @@
             <td>Gano?</td>
             <td>Personaje Jugado</td>
         </tr>
-        @while (i < 5 && i < BD.Ranking.Count()) { 
+        @while (i < 5 && i < BD.Ranking.Count) { 
             <tr>
                 <td>@BD.Ranking[i].Id.ToString()</td>
                 <td>@BD.BuscarUsuario(BD.Ranking[i].Usuario1).Nombre</td>

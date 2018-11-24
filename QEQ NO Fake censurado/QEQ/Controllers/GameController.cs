@@ -17,7 +17,7 @@ namespace QEQ.Controllers
         {
             bool found = false;
             int i = 0;
-            while (i < BD.Personajes.Count() && !found)
+            while (i < BD.Personajes.Count && !found)
             {
                 if (BD.Personajes[i].Id == id)
                 {
@@ -35,7 +35,7 @@ namespace QEQ.Controllers
         {
             Preg pregunta = null;
             int i = 0;
-            while (i < BD.Preguntas.Count() && pregunta == null)
+            while (i < BD.Preguntas.Count && pregunta == null)
             {
                 if (BD.Preguntas[i].Id == id)
                 {
@@ -49,28 +49,28 @@ namespace QEQ.Controllers
             return i;
         }
         //Se ingresa un id de persona y un id de pregunta, devuelve true si existe una respuesta con esas dos id
-        public bool AskForOne(int idPer, int idPreg, bool Borrar, bool BorrarDef = false)
+        public bool AskForOne(int idPer, int idPreg, bool BorrarDef = false)
         {
             bool found = false;
             int i = 0;
-            while (i < BD.Respuestas.Count() && !found)
+            while (i < BD.Respuestas.Count && !found)
             {
                 if (BD.Respuestas[i].IdPersona == idPer && BD.Respuestas[i].IdPregunta == idPreg)
                 {
                     found = true;
-                    if(Borrar && BorrarDef) BD.Respuestas.RemoveAt(i);
+                    if(BorrarDef) BD.Respuestas.RemoveAt(i);
                 }
                 else { i++; }
             }
             return found;
         }
         //Borra todas las respuestas y preguntas de la misma categoria de preguntas de la pregunta preguntada :v
-    /*    public void EliminarporGrupo(int idPreg) {
+        public void EliminarporGrupo(int idPreg) {
             int idGrupete = BD.BuscarPregunta(idPreg).idGrupo;
-            for (int i = 0; i < BD.Preguntas.Count(); i++) {
+            for (int i = 0; i < BD.Preguntas.Count; i++) {
                 if (BD.Preguntas[i].idGrupo == idGrupete)
                 {
-                    for (int j = 0; j < BD.Respuestas.Count(); j++)
+                    for (int j = 0; j < BD.Respuestas.Count; j++)
                     {
                         if (BD.Respuestas[j].IdPregunta == BD.Preguntas[i].Id) {
                             BD.Respuestas.RemoveAt(j);
@@ -81,7 +81,7 @@ namespace QEQ.Controllers
                     i--;
                 }
             }
-        }*/
+        }
 
         public ActionResult TypeGame()
         {
@@ -123,10 +123,10 @@ namespace QEQ.Controllers
             {
                 ViewBag.msgalert = "Bienvenido Al Juego";
             }
-            else if (AskForOne(BD.laPartida.Personaje1.Id, idpreg, false, true))
+            else if (AskForOne(BD.laPartida.Personaje1.Id, idpreg, true))
             {
                 ViewBag.msgalert = "El personaje SI " + BD.BuscarPregunta(idpreg).Texto;
-                BD.Preguntas.RemoveAt(BuscarPregunta(idpreg));
+                EliminarporGrupo(idpreg);            
             } else
             {
                 ViewBag.msgalert = "El personaje NO " + BD.BuscarPregunta(idpreg).Texto;
@@ -145,10 +145,10 @@ namespace QEQ.Controllers
             int cantDescartados = 0;
             if (BD.laPartida.Puntos > iRiskPenalty)
             {               
-                bool CorrectPer = AskForOne(BD.laPartida.Personaje1.Id, idpreg, false);
+                bool CorrectPer = AskForOne(BD.laPartida.Personaje1.Id, idpreg);
                 for (int i = 0; i < BD.Personajes.Count; i++)
                 {
-                    if (AskForOne(BD.Personajes[i].Id, idpreg, true) != CorrectPer)
+                    if (AskForOne(BD.Personajes[i].Id, idpreg) != CorrectPer)
                     {
                         cantDescartados++;
                         BD.Personajes.RemoveAt(BuscarPersonaje(BD.Personajes[i].Id));
@@ -158,7 +158,7 @@ namespace QEQ.Controllers
                 BD.laPartida.CantPreguntas++;
                 BD.laPartida.Puntos -= BD.BuscarPregunta(idpreg).Puntos;
 
-               // if (CorrectPer) { EliminarporGrupo(idpreg); }
+                
               
                 BD.laPartida.Historial.Add(idpreg, cantDescartados); 
             }//fin del if puntos < iRiskPenalty
