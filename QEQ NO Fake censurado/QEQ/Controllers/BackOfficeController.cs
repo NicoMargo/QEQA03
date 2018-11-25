@@ -41,19 +41,19 @@ namespace QEQ.Controllers
         [HttpPost]
         public ActionResult LogIn(string Usuario, string contraseña)
         {
-            string Host = Dns.GetHostName(), Ip, Mac;
+            string Host = Dns.GetHostName(), Ip ;
             IPAddress[] ip = Dns.GetHostAddresses(Host);
             Ip = ip[0].ToString();
-            Mac = ip[0].ToString();
+            
             if (Ip == "")
             {
                 Ip = "NoIp";
-                Mac = "NoIp";
+            
             }
             if (contraseña != "" && Usuario != "")
             {
                 Usuario usu;
-                usu = BD.Login(Usuario, contraseña, Ip, Mac);
+                usu = BD.Login(Usuario, contraseña, Ip);
                 if (usu.Username != "")
                 {
                     Session["Usu"] = Usuario;
@@ -96,7 +96,7 @@ namespace QEQ.Controllers
             string Host = Dns.GetHostName();
             IPAddress[] ip = Dns.GetHostAddresses(Host);
             Usu.Ip = ip[0].ToString();
-            Usu.Mac = ip[0].ToString();
+         
             if (Usu.Admin && Pin != "1")
             {
                 Usu.Admin = false;
@@ -132,7 +132,7 @@ namespace QEQ.Controllers
                 string Host = Dns.GetHostName();
                 IPAddress[] ip = Dns.GetHostAddresses(Host);
                 usu.Ip = ip[0].ToString();
-                usu.Mac = ip[0].ToString();
+                
                 if (usu.Pass == null)
                 {
                     return Modificarusuaux(usu, PassVieja);
@@ -247,14 +247,7 @@ namespace QEQ.Controllers
                 return RedirectToAction("AD", "BackOffice");
             }
         }
-
-        /* lista falsa para probar
-          List<Personaje> Personajes = new List<Personaje>();
-            Personajes.Add(new Personaje(1,"1","1","1"));
-            Personajes.Add(new Personaje(2, "2", "1", "1"));
-            Personajes.Add(new Personaje(3, "3", "1", "1"));
-            ViewBag.Personajes = Personajes;
-             */
+   
         public ActionResult BorrarP(int id)
         {
             try

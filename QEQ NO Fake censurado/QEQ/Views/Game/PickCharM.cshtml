@@ -1,0 +1,15 @@
+﻿@using QEQ.Models
+@model QEQ.Models.Personaje
+@{
+    ViewBag.Title = "Unirse Partida";
+}
+<link href="~/Content/MiCSS.css" rel="stylesheet" />
+<h2>Elija un personaje para su rival</h2> <br />
+    <div class="galeria">
+        @{
+            foreach (Personaje personaje in ViewBag.Personajes)
+            {
+                <a href='@Url.Action("UnirJ", "Game", new { idPersonaje = personaje.Id })'><img src="@personaje.Direccion" /></a>
+            }
+        }
+    </div>

@@ -23,6 +23,7 @@ namespace QEQ.Controllers
         {
             Session["Usu"] = null;
             Session["Admin"] = null;
+            BD.usuario = new Usuario(0, "invitado", "Guest", "", "", "", false);
             BD.msg = null;
             return RedirectToAction("Index", "Home");
         }

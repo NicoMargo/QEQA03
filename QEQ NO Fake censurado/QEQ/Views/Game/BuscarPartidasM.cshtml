@@ -1,29 +1,32 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Listado de partidas";
 }
 @using QEQ.Models
 <h2>Partidas</h2>
-<a hrf="@Url.Action("StartM","Game")">Crear Partida</a>
+<a href="@Url.Action("StartM","Game")">Crear Partida</a>
 @if (ViewBag.Partidas.Count > 0)
 {
-    <table border="1">
-        <tr>
-            <td>Id</td>
-            <td>Host</td>
-            <td>Unirse</td>
-        </tr>
-        @foreach (Partida partida in ViewBag.Partidas) {
-        <tr>
-            <td>@partida.Id.ToString()</td>
-            <td>@BD.BuscarUsuario(partida.Usuario1).Nombre</td>
-            <td><a href="@Url.Action("WaitingRoomM","Game")">Unirse</a></td>
-        </tr>
-        }
 
-    </table>
-}
-else {
-    <h3> No se encontraron Partidas xd</h3>
+
+        <table border="1">
+            <tr>
+                <td>  Numero de partida </td>
+                <td> Usuario Host </td>
+                <td> Unirse </td>
+                <td> Categoria </td>
+            </tr>
+            @foreach (Partida partida in ViewBag.Partidas)
+            {
+                <tr>
+                    <td>@partida.Id.ToString()</td>
+                    <td>@BD.BuscarUsuario(partida.Usuario1).Nombre </td>
+                    <td><a href="@Url.Action("Unirse", "Game", new { id = @partida.Id }, null)"><img width="87" src="~/Content/depositphotos_57092423-stock-illustration-red-join-now-button.jpg" /></a></td>
+                    <td>@partida.IdCat</td>
+                </tr>
+            }
+        </table>    
+}else
+{
+    <h3> No se encontraron Partidas xd</h3 >
 }
 

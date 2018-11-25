@@ -16,7 +16,7 @@ namespace QEQ.Models
         public static string connectionString = @"Server=DESKTOP-5P28OS5;Database=QEQA03;Trusted_Connection=True;"; //Anush
         //public static string connectionString = @"Server=DESKTOP-P6PCH8N\SQLEXPRESS;Database=QEQA03;Trusted_Connection=True;"; //Chino
 
-        public static Usuario usuario =new Usuario(0,"invitado","Guest","","","","",false);
+        public static Usuario usuario =new Usuario(0,"invitado","Guest","","","",false);
         public static string msg;
         public static List<Preg> Preguntas;//sp Traer Preguntas
         public static List<Personaje> Personajes;//Sp traer personajes
@@ -26,7 +26,7 @@ namespace QEQ.Models
         public static List<Cat> Grupos;//sp Traer grupos
         public static List<Rta> Respuestas;//sp traer Ras
         public static Dictionary<string, List<Preg>> PregsXGrupos;
-        public static Partida laPartida;
+        public static Partida laPartida = new Partida();
         public static List<Partida> Ranking;
         public static List<Usuario> Usuarios;
         public static List<Partida> Partidas; 
@@ -524,9 +524,9 @@ namespace QEQ.Models
         }
 
         //Manipulacion de Usuarios=====================================================================================
-        public static Usuario Login(string User, string Pass, string Ip, string mac)
+        public static Usuario Login(string User, string Pass, string Ip)
         {
-            string Nombre = "", email = "", pass = "", username = "", Mac = "", IpPublica = "";
+            string Nombre = "", email = "", pass = "", username = "", IpPublica = "";
             int id = 0;
             int regs;
             bool Admin = false;
@@ -536,7 +536,7 @@ namespace QEQ.Models
             laConsulta.CommandText = "spLogin";
             laConsulta.Parameters.AddWithValue("@Username", User);
             laConsulta.Parameters.AddWithValue("@Password", Pass);
-            laConsulta.Parameters.AddWithValue("@Mac", mac);
+            
             laConsulta.Parameters.AddWithValue("@Ip", Ip);
 
 
@@ -564,7 +564,7 @@ namespace QEQ.Models
             }
             elLector.Close();
             regs = laConsulta.ExecuteNonQuery();
-            Usuario Usu = new Usuario(id, Nombre, username, pass, IpPublica, email, Mac, Admin);
+            Usuario Usu = new Usuario(id, Nombre, username, pass, IpPublica, email, Admin);
 
 
             Desconectar(unaConexion);
@@ -575,7 +575,7 @@ namespace QEQ.Models
         public static int ModificarUsu(Usuario usu, string usuviejo, string PassVieja)
         {
             int regs;
-            Usuario usuViejo = BD.Login(usuviejo, PassVieja, usu.Ip, usu.Mac);
+            Usuario usuViejo = BD.Login(usuviejo, PassVieja, usu.Ip);
             if (usuViejo.Username != "")
             {
                 SqlConnection unaConexion = Conectar();
@@ -642,7 +642,7 @@ namespace QEQ.Models
             laConsulta.Parameters.AddWithValue("@Nomb", usu.Nombre);
             laConsulta.Parameters.AddWithValue("@Mail", usu.Email);
             laConsulta.Parameters.AddWithValue("@Admin", usu.Admin);
-            laConsulta.Parameters.AddWithValue("@mac", usu.Mac);
+            
             laConsulta.Parameters.AddWithValue("@Ip1", usu.Ip);
             int regs = laConsulta.ExecuteNonQuery();
             Desconectar(unaConexion);
@@ -675,7 +675,6 @@ namespace QEQ.Models
             laConsulta.CommandText = "spGuardarPartida1";
             laConsulta.Parameters.AddWithValue("@Usuario", partida.Usuario1);
             laConsulta.Parameters.AddWithValue("@cantPregunta", partida.CantPreguntas);
-            laConsulta.Parameters.AddWithValue("@fecha", partida.Fecha);
             laConsulta.Parameters.AddWithValue("@ip", partida.Ip1);
             laConsulta.Parameters.AddWithValue("@Ganador", partida.Ganador);
             laConsulta.Parameters.AddWithValue("@idPersonaje", partida.Personaje1.Id);
@@ -709,12 +708,19 @@ namespace QEQ.Models
             laConsulta.CommandType = System.Data.CommandType.StoredProcedure;
             laConsulta.CommandText = "spBuscarPartidas";
             SqlDataReader elLector = laConsulta.ExecuteReader();
-            while (elLector.Read())
+            try
             {
-                Partidas.Add(new Partida(Convert.ToInt32(elLector["idPartida"]), Convert.ToInt32(elLector["idUsuario1"]), elLector["idPersona"].ToString(),Convert.ToInt32(elLector["idCategoria"])));
+                while (elLector.Read())
+                {
+                    Partidas.Add(new Partida(Convert.ToInt32(elLector["idPartida"]), Convert.ToInt32(elLector["idUsuario1"]), elLector["Ip1"].ToString(), Convert.ToInt32(elLector["idCategoria"])));
+                }
+                Desconectar(unaConexion);
             }
-            Desconectar(unaConexion);
-        }
+            catch (System.IndexOutOfRangeException )
+            {
+                Partidas.Add(new Partida(-1,1, "0", 5));
+            }
+            }
 
         public static void CrearPartida(Partida partida)
         {
@@ -725,33 +731,119 @@ namespace QEQ.Models
             laConsulta.Parameters.AddWithValue("@IdUsuarioHost", partida.Usuario1);
             laConsulta.Parameters.AddWithValue("@IpHost", partida.Ip1);
             laConsulta.Parameters.AddWithValue("@idCat", partida.IdCat);
-            laConsulta.ExecuteNonQuery();
+            laConsulta.Parameters.AddWithValue("@idPer2", partida.Personaje2.Id);
+            SqlDataReader elLector = laConsulta.ExecuteReader();
+
+            if (elLector.Read())
+            {
+                BD.laPartida.Id = Convert.ToInt32(elLector["id"]);
+            }      
+           
             Desconectar(unaConexion);
         }
 
-        public static void Unirse(int idPartida)
+        public static void Unirse()
         {
             bool exito = false;
             SqlConnection unaConexion = Conectar();
             SqlCommand laConsulta = unaConexion.CreateCommand();
             laConsulta.CommandType = System.Data.CommandType.StoredProcedure;
             laConsulta.CommandText = "spUnirse";
-            laConsulta.Parameters.AddWithValue("@IdPartida", idPartida);
-            laConsulta.Parameters.AddWithValue("@IdUsuario2", usuario.Id);
-            laConsulta.Parameters.AddWithValue("@Ip2", usuario.Ip);
+            laConsulta.Parameters.AddWithValue("@IdPartida", laPartida.Id);
+            laConsulta.Parameters.AddWithValue("@IdUsuario2", laPartida.Usuario2);
+            laConsulta.Parameters.AddWithValue("@Ip2", laPartida.Ip2);
+            laConsulta.Parameters.AddWithValue("@Per1", laPartida.Personaje1.Id);
+
             SqlDataReader elLector = laConsulta.ExecuteReader();
             if (elLector.Read())
             {
                 exito = Convert.ToBoolean(elLector["exito"]);
             }
-            Desconectar(unaConexion);
-            if (exito) {
-                BD.CargarPartidas();
-                BD.laPartida = BuscarPartida(idPartida);
-            }
+            Desconectar(unaConexion);           
         }
+
+        public static bool Turnos( )
+        {
+            bool turno = BD.laPartida.Turno;
+            SqlConnection unaConexion = Conectar();
+            SqlCommand laConsulta = unaConexion.CreateCommand();
+            laConsulta.CommandType = System.Data.CommandType.StoredProcedure;
+            laConsulta.CommandText = "spTurno";
+            laConsulta.Parameters.AddWithValue("@IdPart", BD.laPartida.Id);
+            SqlDataReader elLector = laConsulta.ExecuteReader();
+            while (turno == BD.laPartida.Turno) {             
+                if (elLector.Read())
+                {
+                    turno = Convert.ToBoolean(elLector["Turno"]);
+                }
+            }
+            BD.laPartida.Turno = turno;
+            Desconectar(unaConexion);
+            return BD.laPartida.Turno;
+        }
+
+        public static bool CambiarTurnos()
+        {           
+            SqlConnection unaConexion = Conectar();
+            SqlCommand laConsulta = unaConexion.CreateCommand();
+            laConsulta.CommandType = System.Data.CommandType.StoredProcedure;
+            laConsulta.CommandText = "spCTurno";
+            laConsulta.Parameters.AddWithValue("@IdPartida", BD.laPartida.Id);
+            laConsulta.Parameters.AddWithValue("@Turno", !BD.laPartida.Turno);
+            int regs = laConsulta.ExecuteNonQuery();
+            if (regs ==1)
+            {
+                BD.laPartida.Turno = !BD.laPartida.Turno;
+            }
+            Desconectar(unaConexion);
+            return BD.laPartida.Turno;
+        }
+        /*
+                #region Delegate
+                public delegate void ResultChangedEventHandler(object sender, SqlNotificationEventArgs e);
+                #endregion
+                public class NewMessageNotifier
+                {
+                    #region Fields
+                    public event ResultChangedEventHandler NewMessage;
+                    string _connString;
+                    string _selectQuery;
+                    #endregion
+
+                    internal NewMessageNotifier()
+                    {
+                        _connString = @"Server=DESKTOP-5P28OS5;Database=QEQA03;Trusted_Connection=True;";
+                        _selectQuery = @"SELECT [Tuno] FROM [dbo].[Partidas] WHERE [Status] <> 0";
+                        RegisterForNotifications();
+                    }
+
+                    private void RegisterForNotifications()
+                    {
+
+                        using (var connection = new SqlConnection(@"Server=DESKTOP-5P28OS5;Database=QEQA03;Trusted_Connection=True;"))
+                        {
+                            using (SqlCommand command = new SqlCommand(@"SELECT [Turno] FROM [dbo].[Partidas]", connection))
+                            {
+                                command.Notification = null;
+                                SqlDependency dependency = new SqlDependency(command);
+                                dependency.OnChange += new OnChangeEventHandler(dependency_OnChange);
+                                if (connection.State == ConnectionState.Closed)
+                                    connection.Open();
+                                var reader = command.ExecuteReader();
+                            }
+                        }
+                    }
+                    private void dependency_OnChange(object sender, SqlNotificationEventArgs e)
+                    {
+                        if (NewMessage != null)
+                            NewMessage(sender, e);
+                        //subscribe again to notifier
+                        RegisterForNotifications();
+                    }
+                }*/
     }
 
-
-
 }
+
+
+

@@ -13,7 +13,7 @@ namespace QEQ.Models
         private string _pass;
         private string _ip;
         private string _email;
-        private string _mac;
+      
         private bool _admin;
 
         public string Nombre
@@ -76,18 +76,7 @@ namespace QEQ.Models
                 _email = value;
             }
         }
-        public string Mac
-        {
-            get
-            {
-                return _mac;
-            }
-
-            set
-            {
-                _mac = value;
-            }
-        }
+      
         public string Ip
         {
             get
@@ -113,7 +102,7 @@ namespace QEQ.Models
             _username = username;
         }
 
-        public Usuario(int id,string nombre, string username, string pass, string ip, string email, string mac, bool admin)
+        public Usuario(int id,string nombre, string username, string pass, string ip, string email, bool admin)
         {
             _id = id;
             Nombre = nombre;
@@ -121,7 +110,7 @@ namespace QEQ.Models
             Pass = pass;    
             Ip = ip;
             Email = email;
-            Mac = mac;
+           
             Admin = admin;
         }
 

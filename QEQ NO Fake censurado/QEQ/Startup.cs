@@ -1,5 +1,8 @@
 ﻿using Microsoft.Owin;
 using Owin;
+using System.Web.Services.Description;
+using System;
+using Microsoft.AspNet.SignalR;
 
 [assembly: OwinStartupAttribute(typeof(QEQ.Startup))]
 namespace QEQ
@@ -9,6 +12,10 @@ namespace QEQ
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
+            app.MapSignalR();
         }
+        
+        
+      
     }
 }

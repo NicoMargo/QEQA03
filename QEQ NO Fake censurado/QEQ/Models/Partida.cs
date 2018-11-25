@@ -22,6 +22,7 @@ namespace QEQ.Models
         private bool _ganador;
         private DateTime _fecha;
         private int _idcat;
+        private bool _turno;
 
 
         public int Id { get { return _id; } set { _id = value; } }
@@ -30,7 +31,7 @@ namespace QEQ.Models
         public string Ip1 { get { return _ip1; } set { _ip1 = value; } }
         public string Ip2 { get { return _ip2; } set { _ip2 = value; } }
         public int CantPreguntas { get { return _cantPreguntas; } set { _cantPreguntas = value; } }
-        public bool Multijugador { get { return _multijugador; } }
+        public bool Multijugador { get { return _multijugador; } set { _multijugador = value; } }
         public bool Ganador { get { return _ganador; } }
         public DateTime Fecha { get { return _fecha; } set { _fecha = value; } }
 
@@ -39,6 +40,9 @@ namespace QEQ.Models
         public int Puntos { get { return _puntos; } set { _puntos = value; } }
         public int NroUsuario { get { return _nroUsuario; } set { _nroUsuario = value; } }
         public int IdCat { get { return _idcat; } set { _idcat = value; } }
+
+
+        public bool Turno { get { return _turno; } set { _turno = value; } }
 
         public Dictionary<int, int> Historial;
 

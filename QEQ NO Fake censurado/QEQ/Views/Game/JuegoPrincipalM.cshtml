@@ -1,22 +1,26 @@
 ﻿<link href="~/Content/MiCSS.css" type="text/css" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="~/Scripts/alertify.js"></script>
 <script src="~/Scripts/alertify.min.js"></script>
 <link href="~/Content/alertify.bootstrap.css" rel="stylesheet" />
 <link href="~/Content/alertify.core.css" rel="stylesheet" />
 <link href="~/Content/alertify.default.css" rel="stylesheet" />
+
+
 @using QEQ.Models
 @model QEQ.Models.Personaje
 @{
-    ViewBag.Title = "JuegoPrincipalS";
+    ViewBag.Title = "JuegoPrincipalM";
 }
 
-<script type="text/javascript">
-    $(document).ready(function () {        
+    <script type="text/javascript">
+    $(document).ready(function () {
         alertify.alert('@ViewBag.msgalert');
     });
-</script>
-    
-<h2 class="TPuntos"> Puntos: @BD.laPartida.Puntos</h2>
+    </script>  
+
+
+<h2 class="TPuntos"> Quien Adivina Primero gana!!</h2>
 <div class="PregBox">
     @using (Html.BeginForm("AskS", "Game", FormMethod.Post))
     {
