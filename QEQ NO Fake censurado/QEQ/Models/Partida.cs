@@ -103,6 +103,7 @@ namespace QEQ.Models
             Historial = new Dictionary<int, int>();
         }
         public void Finalizar(int Ganador) {
+            Historial = new Dictionary<int, int>();
             _ganador = Ganador;
         }
 

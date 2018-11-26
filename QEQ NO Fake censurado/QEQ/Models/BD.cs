@@ -34,21 +34,37 @@ namespace QEQ.Models
         public static List<Personaje> Personajes2;//Personajes del usuario 2
 
         //Funciones de utilidad================
-        public static Preg BuscarPregunta(int id)
+        public static Preg BuscarPregunta(int id, bool host = true)
         {
             Preg pregunta = null;
             int i = 0;
-            while (i < Preguntas.Count && pregunta == null)
+            if (host)
             {
-                if (Preguntas[i].Id == id)
+                while (i < Preguntas.Count && pregunta == null)
                 {
-                    pregunta = Preguntas[i];
+                    if (Preguntas[i].Id == id)
+                    {
+                        pregunta = Preguntas[i];
+                    }
+                    else
+                    {
+                        i++;
+                    }
                 }
-                else
+            }else
+            {
+                while (i < Preguntas2.Count && pregunta == null)
                 {
-                    i++;
+                    if (Preguntas2[i].Id == id)
+                    {
+                        pregunta = Preguntas2[i];
+                    }
+                    else
+                    {
+                        i++;
+                    }
                 }
-            }
+            }            
             return pregunta;
         }
 
@@ -421,11 +437,12 @@ namespace QEQ.Models
             }
             Desconectar(unaConexion);
         }
-        public static void CargarPersonajes(int idcat = -1)
+        public static void CargarPersonajes(int idcat = 0)
         {
             byte[] foto;
             string Direccion;
             Personajes = new List<Personaje>();
+            Personajes2 = new List<Personaje>();
             SqlConnection unaConexion = Conectar();
             SqlCommand laConsulta = unaConexion.CreateCommand();
             laConsulta.CommandType = System.Data.CommandType.StoredProcedure;
@@ -444,41 +461,15 @@ namespace QEQ.Models
                 {
                     foto = null;
                     Direccion = "";
-                }
-                
+                }                
                     Personajes.Add(new Personaje(Convert.ToInt32(elLector["idPersona"]), Convert.ToString(elLector["Nombre"]), null, Convert.ToInt32(elLector["idCategoria"]), Direccion, (byte[])elLector["Foto"]));
-                    
+                    if (laPartida.Multijugador)
+                {
+                    Personajes2.Add(new Personaje(Convert.ToInt32(elLector["idPersona"]), Convert.ToString(elLector["Nombre"]), null, Convert.ToInt32(elLector["idCategoria"]), Direccion, (byte[])elLector["Foto"]));
+                }      
             }
             Desconectar(unaConexion);
-        }
-        public static void CargarPersonajesM(int idCategoria)
-        {
-            Personajes = new List<Personaje>();
-            SqlConnection unaConexion = Conectar();
-            SqlCommand laConsulta = unaConexion.CreateCommand();
-            laConsulta.CommandType = System.Data.CommandType.StoredProcedure;
-            laConsulta.CommandText = "spTraerPersonajes";
-            laConsulta.Parameters.AddWithValue("@idCategoria", idCategoria);
-            SqlDataReader elLector = laConsulta.ExecuteReader();
-            byte[] bfoto;
-            string sfoto;
-            while (elLector.Read())
-            {
-                try
-                {
-                    bfoto = (byte[])elLector["Foto"];
-                    sfoto = "data:Image/png;base64," + Convert.ToBase64String(bfoto);
-                }
-                catch (NullReferenceException)
-                {
-                    bfoto = null;
-                    sfoto = "";
-                }
-                Personajes2.Add(new Personaje(Convert.ToInt32(elLector["idPersona"]), Convert.ToString(elLector["Nombre"]), null, Convert.ToInt32(elLector["idCategoria"]), sfoto, (byte[])elLector["Foto"]));
-                Personajes.Add(new Personaje(Convert.ToInt32(elLector["idPersona"]), Convert.ToString(elLector["Nombre"]), null, Convert.ToInt32(elLector["idCategoria"]), sfoto, (byte[])elLector["Foto"]));
-            }
-            Desconectar(unaConexion);
-        }
+        }       
 
         public static List<Preg> CargarRxP(int idP) {
             List<Preg> pregs = new List<Preg>();
@@ -497,6 +488,7 @@ namespace QEQ.Models
         public static void CargarPreguntas()
         {
             Preguntas = new List<Preg>();
+            Preguntas2 = new List<Preg>();
             PregsXGrupos = new Dictionary<string, List<Preg>>();
             CargarGrupos();
             SqlConnection unaConexion = Conectar();
@@ -508,6 +500,7 @@ namespace QEQ.Models
             {
                 Preg Pregunta = new Preg(Convert.ToInt32(elLector["idPregunta"]), Convert.ToString(elLector["Texto"]), Convert.ToInt32(elLector["idGrupo"]),Convert.ToInt32(elLector["Puntos"]));
                 Preguntas.Add(Pregunta);
+                Preguntas2.Add(Pregunta);
                 PregsXGrupos[BuscarCat(Pregunta.idGrupo, Grupos).Nombre].Add(Pregunta);
             }
             Desconectar(unaConexion);
@@ -773,8 +766,7 @@ namespace QEQ.Models
             laConsulta.CommandType = System.Data.CommandType.StoredProcedure;
             laConsulta.CommandText = "spTurno";
             laConsulta.Parameters.AddWithValue("@IdPart", BD.laPartida.Id);
-            SqlDataReader elLector = laConsulta.ExecuteReader();
-                      
+            SqlDataReader elLector = laConsulta.ExecuteReader();                      
                 if (elLector.Read())
                 {
                     turno = Convert.ToBoolean(elLector["Turno"]);
@@ -824,6 +816,7 @@ namespace QEQ.Models
             }
             Desconectar(unaConexion);            
         }
+        
     }
 
 }

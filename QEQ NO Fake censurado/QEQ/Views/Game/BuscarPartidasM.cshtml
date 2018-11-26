@@ -21,7 +21,7 @@
             <tr>
                 <td>@partida.Id.ToString()</td>
                 <td>@BD.BuscarUsuario(partida.Usuario1).Nombre </td>
-                <td><a href="@Url.Action("Unirse", "Game", new { id = @partida.Id }, null)"><img width="87" src="~/Content/depositphotos_57092423-stock-illustration-red-join-now-button.jpg" /></a></td>
+                <td><a href="@Url.Action("Unirse", "Game", new { id = @partida.Id, idcat = partida.IdCat }, null)"><img width="87" src="~/Content/depositphotos_57092423-stock-illustration-red-join-now-button.jpg" /></a></td>
                 <td>@partida.IdCat</td>
             </tr>
         }

@@ -23,26 +23,25 @@
     </div>
     <div class="galeria">
         @{
-            foreach (Personaje personaje in BD.Personajes)
+            
+            foreach (Personaje personaje in ViewBag.Per)
             {
-                <a href='@Url.Action("RiskS", "Game", new { idPersonaje = personaje.Id })'><img src="@personaje.Direccion" /></a>
+                <a id="foto" href='@Url.Action("RiskS", "Game", new { idPersonaje = personaje.Id })'><img src="@personaje.Direccion" /></a>
             }
         }
     </div>
 </div>
-<script type="text/javascript">
-    alertify.alert('@ViewBag.msgalert');
-    $('#cargar').attr("disabled", true);   
-    setInterval(turno(), 1700);   
-    function turno() {
-        @BD.Turnos();
-        if (@BD.laPartida.Turno == @ViewBag.Turno) {
-           // $('#cargar').attr("enable", true);
-            alertify.alert('Ya es su turno');
-        } 
+<script type="text/javascript">    
+     
+    if ( '@ViewBag.Host' == '@ViewBag.Turno') {        
+        alertify.alert('Ya es tu turno');
+        $('#cargar').attr("enabled", true);
+    } else {        
+        alertify.alert('@ViewBag.msgalert');
+        window.location.href = "@Url.Action("Turnos","Game")"; 
+        $('#cargar').attr("disabled", true);  
     }
-
-    
+   
 
 </script>
 
