@@ -12,8 +12,8 @@ namespace QEQ.Models
     {
 
 
-        //public static string connectionString = "Server=10.128.8.16;User=QEQA03;Password=QEQA03;Database=QEQA03"; //Ort
-        public static string connectionString = @"Server=DESKTOP-5P28OS5;Database=QEQA03;Trusted_Connection=True;"; //Anush
+        public static string connectionString = "Server=10.128.8.16;User=QEQA03;Password=QEQA03;Database=QEQA03"; //Ort
+       // public static string connectionString = @"Server=DESKTOP-5P28OS5;Database=QEQA03;Trusted_Connection=True;"; //Anush
         //public static string connectionString = @"Server=DESKTOP-P6PCH8N\SQLEXPRESS;Database=QEQA03;Trusted_Connection=True;"; //Chino
 
         public static Usuario usuario =new Usuario(0,"invitado","Guest","","","",false);
@@ -29,7 +29,9 @@ namespace QEQ.Models
         public static Partida laPartida = new Partida();
         public static List<Partida> Ranking;
         public static List<Usuario> Usuarios;
-        public static List<Partida> Partidas; 
+        public static List<Partida> Partidas;
+        public static List<Preg> Preguntas2; //Preguntas del usuario 2
+        public static List<Personaje> Personajes2;//Personajes del usuario 2
 
         //Funciones de utilidad================
         public static Preg BuscarPregunta(int id)
@@ -419,7 +421,7 @@ namespace QEQ.Models
             }
             Desconectar(unaConexion);
         }
-        public static void CargarPersonajes()
+        public static void CargarPersonajes(int idcat = -1)
         {
             byte[] foto;
             string Direccion;
@@ -428,27 +430,28 @@ namespace QEQ.Models
             SqlCommand laConsulta = unaConexion.CreateCommand();
             laConsulta.CommandType = System.Data.CommandType.StoredProcedure;
             laConsulta.CommandText = "spTraerPersonajes";
-            laConsulta.Parameters.AddWithValue("@idCategoria",0);
+            laConsulta.Parameters.AddWithValue("@idCategoria", idcat);
          
             SqlDataReader elLector = laConsulta.ExecuteReader();
             while (elLector.Read())
-            { try
+            {
+                try
                 {
                     foto = (byte[])elLector["Foto"];
                     Direccion = "data:Image/png;base64," + Convert.ToBase64String(foto);
-                }  catch(NullReferenceException)
-
+                }
+                catch (NullReferenceException)
                 {
                     foto = null;
                     Direccion = "";
                 }
-                Personajes.Add(new Personaje(Convert.ToInt32(elLector["idPersona"]), Convert.ToString(elLector["Nombre"]), null, Convert.ToInt32(elLector["idCategoria"]),Direccion, (byte[])elLector["Foto"]));
                 
+                    Personajes.Add(new Personaje(Convert.ToInt32(elLector["idPersona"]), Convert.ToString(elLector["Nombre"]), null, Convert.ToInt32(elLector["idCategoria"]), Direccion, (byte[])elLector["Foto"]));
+                    
             }
-
             Desconectar(unaConexion);
         }
-        public static void CargarPersonajes(int idCategoria)
+        public static void CargarPersonajesM(int idCategoria)
         {
             Personajes = new List<Personaje>();
             SqlConnection unaConexion = Conectar();
@@ -471,6 +474,7 @@ namespace QEQ.Models
                     bfoto = null;
                     sfoto = "";
                 }
+                Personajes2.Add(new Personaje(Convert.ToInt32(elLector["idPersona"]), Convert.ToString(elLector["Nombre"]), null, Convert.ToInt32(elLector["idCategoria"]), sfoto, (byte[])elLector["Foto"]));
                 Personajes.Add(new Personaje(Convert.ToInt32(elLector["idPersona"]), Convert.ToString(elLector["Nombre"]), null, Convert.ToInt32(elLector["idCategoria"]), sfoto, (byte[])elLector["Foto"]));
             }
             Desconectar(unaConexion);
@@ -780,8 +784,7 @@ namespace QEQ.Models
                     }catch(System.IndexOutOfRangeException)
                     {
 
-                    }
-                    
+                    }                    
                 }
             
             BD.laPartida.Turno = turno;
