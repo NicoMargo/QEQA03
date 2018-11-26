@@ -302,9 +302,7 @@ namespace QEQ.Controllers
             BD.GuardarPartida1(BD.laPartida);            
             return View();
         }
-
         //Game 2 =============================================================================================================
-       
         public ActionResult NucleoGameM(int idpreg)
         {
             AskSAux(idpreg);

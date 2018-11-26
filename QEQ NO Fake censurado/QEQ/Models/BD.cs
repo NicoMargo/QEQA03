@@ -709,7 +709,12 @@ namespace QEQ.Models
             {
                 while (elLector.Read())
                 {
-                    Partidas.Add(new Partida(Convert.ToInt32(elLector["idPartida"]), Convert.ToInt32(elLector["idUsuario1"]), elLector["Ip1"].ToString(), Convert.ToInt32(elLector["idCategoria"])));
+                    TimeSpan diff = DateTime.Now - Convert.ToDateTime(elLector["Fecha"]);
+                    double hours = diff.TotalMinutes;
+                    if (hours < 10)
+                    {
+                        Partidas.Add(new Partida(Convert.ToInt32(elLector["idPartida"]), Convert.ToInt32(elLector["idUsuario1"]), elLector["Ip1"].ToString(), Convert.ToInt32(elLector["idCategoria"])));
+                    }                    
                 }
                 Desconectar(unaConexion);
             }
