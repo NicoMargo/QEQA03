@@ -1,7 +1,60 @@
 ﻿
 @{
-    ViewBag.Title = "FinalizarM";
+    ViewBag.Title = "Partida Terminada";
+    int i = 0;
 }
+@using QEQ.Models
+<h2>@ViewBag.Msg</h2>
+<h2 class="TPuntos">@ViewBag.Ganador</h2>
+<p><a href="@Url.Action("TypeGame","Game")" class="btn btn-primary btn-lg">Ir al Game  &raquo;</a></p>
+<p align="left">
+    Historial de preguntas
+    <table border="1" align="right">
+        <tr>
+            <td>ID</td>
+            <td>Texto</td>
+            <td>Costo</td>
+            <td>Grupo</td>
+            <td>Cantidad de descartados</td>
+        </tr>
+        @foreach (int idPregunta in BD.laPartida.Historial.Keys)
+        {
+            Preg preg = BD.BuscarPregunta(idPregunta);
+            <tr>
+                <td>@preg.Id</td>
+                <td>@preg.Texto?</td>
+                <td>@preg.Puntos</td>
+                <td>@BD.BuscarCat(preg.idGrupo, BD.Grupos).Nombre</td>
+                <td>@BD.laPartida.Historial[idPregunta]</td>
+            </tr>
+        }
 
-<h2>FinalizarM</h2>
+    </table>
+</p>
+<p align="left">
+    Ranking de Partidas
+    <table border="1">
+        <tr>
+            <td>ID</td>
+            <td>Jugador</td>
+            <td>Puntos</td>
+            <td>Cantidad de Preguntas</td>
+            <td>Gano?</td>
+            <td>Personaje Jugado</td>
+        </tr>
+        @while (i < 5 && i < BD.Ranking.Count)
+        {
+            <tr>
+                <td>@BD.Ranking[i].Id.ToString()</td>
+                <td>@BD.BuscarUsuario(BD.Ranking[i].Usuario1).Nombre</td>
+                <td>@BD.Ranking[i].Puntos.ToString()</td>
+                <td>@BD.Ranking[i].CantPreguntas.ToString()</td>
+                <td>@if (Convert.ToBoolean(BD.Ranking[i].Ganador)) { Html.Label("Si"); } else { Html.Label("No"); }</td>
+                <td> <img class="img-responsive" src="@BD.Ranking[i].Personaje1.Direccion" width="135" /> <br />@BD.Ranking[i].Personaje1.Nombre</td>
+            </tr>
+            i++;
+        }
+
+    </table>
+</p>
 

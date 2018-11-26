@@ -1,4 +1,7 @@
-﻿@{
+﻿<script src="~/Scripts/alertify.js"></script>
+<script src="~/Scripts/alertify.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+@{
     ViewBag.Title = "Listado de partidas";
 }
 @using QEQ.Models
@@ -6,27 +9,34 @@
 <a href="@Url.Action("StartM","Game")">Crear Partida</a>
 @if (ViewBag.Partidas.Count > 0)
 {
-
-
-        <table border="1">
+    <table border="1">
+        <tr>
+            <td>  Numero de partida </td>
+            <td> Usuario Host </td>
+            <td> Unirse </td>
+            <td> Categoria </td>
+        </tr>
+        @foreach (Partida partida in ViewBag.Partidas)
+        {
             <tr>
-                <td>  Numero de partida </td>
-                <td> Usuario Host </td>
-                <td> Unirse </td>
-                <td> Categoria </td>
+                <td>@partida.Id.ToString()</td>
+                <td>@BD.BuscarUsuario(partida.Usuario1).Nombre </td>
+                <td><a href="@Url.Action("Unirse", "Game", new { id = @partida.Id }, null)"><img width="87" src="~/Content/depositphotos_57092423-stock-illustration-red-join-now-button.jpg" /></a></td>
+                <td>@partida.IdCat</td>
             </tr>
-            @foreach (Partida partida in ViewBag.Partidas)
-            {
-                <tr>
-                    <td>@partida.Id.ToString()</td>
-                    <td>@BD.BuscarUsuario(partida.Usuario1).Nombre </td>
-                    <td><a href="@Url.Action("Unirse", "Game", new { id = @partida.Id }, null)"><img width="87" src="~/Content/depositphotos_57092423-stock-illustration-red-join-now-button.jpg" /></a></td>
-                    <td>@partida.IdCat</td>
-                </tr>
-            }
-        </table>    
-}else
-{
-    <h3> No se encontraron Partidas xd</h3 >
+        }
+    </table>
 }
+else
+{
+    <h3> No se encontraron Partidas xd</h3>
+}
+
+<script>
+    $(document).ready(function () {
+        if (@ViewBag.error) {
+            alertify.alert('Ja que chistoso. No puedes entrar a tu misma partida!');
+        }
+    });
+</script>
 

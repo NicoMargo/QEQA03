@@ -19,7 +19,7 @@ namespace QEQ.Models
         private int _puntos;
         private int _cantPreguntas;
         private bool _multijugador;
-        private bool _ganador;
+        private int _ganador;
         private DateTime _fecha;
         private int _idcat;
         private bool _turno;
@@ -32,7 +32,7 @@ namespace QEQ.Models
         public string Ip2 { get { return _ip2; } set { _ip2 = value; } }
         public int CantPreguntas { get { return _cantPreguntas; } set { _cantPreguntas = value; } }
         public bool Multijugador { get { return _multijugador; } set { _multijugador = value; } }
-        public bool Ganador { get { return _ganador; } }
+        public int Ganador { get { return _ganador; } set { _ganador = value; } }
         public DateTime Fecha { get { return _fecha; } set { _fecha = value; } }
 
         public Personaje Personaje1 { get { return _personaje1; } set { _personaje1 = value; } }
@@ -48,7 +48,7 @@ namespace QEQ.Models
 
         public Partida() {}
         //Constructor Ranking
-        public Partida(int id, int usuario1, string ip1, int idPersonaje,int puntos, int cantPreguntas, bool ganador, DateTime fecha)
+        public Partida(int id, int usuario1, string ip1, int idPersonaje,int puntos, int cantPreguntas, int ganador, DateTime fecha)
         {
             _id = id;
             _usuario1 = usuario1;
@@ -92,6 +92,7 @@ namespace QEQ.Models
             _cantPreguntas = 0;
             _multijugador = true;
             _idcat = idcat;
+            Historial = new Dictionary<int, int>();
         }
 
         public void Unirse(int Guest, string ipG)
@@ -99,8 +100,9 @@ namespace QEQ.Models
             _nroUsuario = 1;
             _usuario1 = Guest;
             _ip1 = ipG;
+            Historial = new Dictionary<int, int>();
         }
-        public void Finalizar(bool Ganador) {
+        public void Finalizar(int Ganador) {
             _ganador = Ganador;
         }
 

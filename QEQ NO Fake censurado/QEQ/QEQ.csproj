@@ -322,10 +322,10 @@
     <Content Include="Views\Game\TypeGame.cshtml" />
     <Content Include="Views\Game\BuscarPartidasM.cshtml" />
     <Content Include="Views\Game\StartM.cshtml" />
-    <Content Include="Views\Game\WaitingRoomM.cshtml" />
     <Content Include="Views\Game\PickCharM.cshtml" />
     <Content Include="Views\Game\JuegoPrincipalM.cshtml" />
     <Content Include="Views\Game\FinalizarM.cshtml" />
+    <Content Include="Views\Game\WaitingRoom.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

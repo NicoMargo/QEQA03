@@ -659,7 +659,7 @@ namespace QEQ.Models
             Ranking = new List<Partida>();
             while (elLector.Read())
             {
-                Ranking.Add(new Partida(Convert.ToInt32(elLector["idPartida"]), Convert.ToInt32(elLector["idUsuario1"]),"", Convert.ToInt32(elLector["idPer1"]), Convert.ToInt32(elLector["Puntos"]), Convert.ToInt32(elLector["Preguntas"]), Convert.ToBoolean(elLector["Ganador"]), Convert.ToDateTime(elLector["Fecha"])));
+                Ranking.Add(new Partida(Convert.ToInt32(elLector["idPartida"]), Convert.ToInt32(elLector["idUsuario1"]),"", Convert.ToInt32(elLector["idPer1"]), Convert.ToInt32(elLector["Puntos"]), Convert.ToInt32(elLector["Preguntas"]), Convert.ToInt32(elLector["Ganador"]), Convert.ToDateTime(elLector["Fecha"])));
                 int tinter = Convert.ToInt32(elLector["idPer1"]);
             } 
             Desconectar(unaConexion);
@@ -753,7 +753,6 @@ namespace QEQ.Models
             laConsulta.Parameters.AddWithValue("@IdUsuario2", laPartida.Usuario2);
             laConsulta.Parameters.AddWithValue("@Ip2", laPartida.Ip2);
             laConsulta.Parameters.AddWithValue("@Per1", laPartida.Personaje1.Id);
-
             SqlDataReader elLector = laConsulta.ExecuteReader();
             if (elLector.Read())
             {
@@ -771,12 +770,20 @@ namespace QEQ.Models
             laConsulta.CommandText = "spTurno";
             laConsulta.Parameters.AddWithValue("@IdPart", BD.laPartida.Id);
             SqlDataReader elLector = laConsulta.ExecuteReader();
-            while (turno == BD.laPartida.Turno) {             
+                      
                 if (elLector.Read())
                 {
                     turno = Convert.ToBoolean(elLector["Turno"]);
+                    try
+                    {
+                        laPartida.Ganador = Convert.ToInt32(elLector["Ganador"]);
+                    }catch(System.IndexOutOfRangeException)
+                    {
+
+                    }
+                    
                 }
-            }
+            
             BD.laPartida.Turno = turno;
             Desconectar(unaConexion);
             return BD.laPartida.Turno;
@@ -797,50 +804,23 @@ namespace QEQ.Models
             }
             Desconectar(unaConexion);
             return BD.laPartida.Turno;
+        }   
+        
+        public static void Ganador()
+        {
+            SqlConnection unaConexion = Conectar();
+            SqlCommand laConsulta = unaConexion.CreateCommand();
+            laConsulta.CommandType = System.Data.CommandType.StoredProcedure;
+            laConsulta.CommandText = "spGanador";
+            laConsulta.Parameters.AddWithValue("@IdPartida", BD.laPartida.Id);
+            laConsulta.Parameters.AddWithValue("@Ganador", BD.laPartida.Ganador);
+            int regs = laConsulta.ExecuteNonQuery();
+            if (regs == 1)
+            {
+                BD.laPartida.Turno = !BD.laPartida.Turno;
+            }
+            Desconectar(unaConexion);            
         }
-        /*
-                #region Delegate
-                public delegate void ResultChangedEventHandler(object sender, SqlNotificationEventArgs e);
-                #endregion
-                public class NewMessageNotifier
-                {
-                    #region Fields
-                    public event ResultChangedEventHandler NewMessage;
-                    string _connString;
-                    string _selectQuery;
-                    #endregion
-
-                    internal NewMessageNotifier()
-                    {
-                        _connString = @"Server=DESKTOP-5P28OS5;Database=QEQA03;Trusted_Connection=True;";
-                        _selectQuery = @"SELECT [Tuno] FROM [dbo].[Partidas] WHERE [Status] <> 0";
-                        RegisterForNotifications();
-                    }
-
-                    private void RegisterForNotifications()
-                    {
-
-                        using (var connection = new SqlConnection(@"Server=DESKTOP-5P28OS5;Database=QEQA03;Trusted_Connection=True;"))
-                        {
-                            using (SqlCommand command = new SqlCommand(@"SELECT [Turno] FROM [dbo].[Partidas]", connection))
-                            {
-                                command.Notification = null;
-                                SqlDependency dependency = new SqlDependency(command);
-                                dependency.OnChange += new OnChangeEventHandler(dependency_OnChange);
-                                if (connection.State == ConnectionState.Closed)
-                                    connection.Open();
-                                var reader = command.ExecuteReader();
-                            }
-                        }
-                    }
-                    private void dependency_OnChange(object sender, SqlNotificationEventArgs e)
-                    {
-                        if (NewMessage != null)
-                            NewMessage(sender, e);
-                        //subscribe again to notifier
-                        RegisterForNotifications();
-                    }
-                }*/
     }
 
 }

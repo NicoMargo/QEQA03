@@ -6,37 +6,45 @@
 <link href="~/Content/alertify.core.css" rel="stylesheet" />
 <link href="~/Content/alertify.default.css" rel="stylesheet" />
 
-
 @using QEQ.Models
 @model QEQ.Models.Personaje
 @{
     ViewBag.Title = "JuegoPrincipalM";
 }
-
-    <script type="text/javascript">
-    $(document).ready(function () {
-        alertify.alert('@ViewBag.msgalert');
-    });
-    </script>  
-
-
 <h2 class="TPuntos"> Quien Adivina Primero gana!!</h2>
-<div class="PregBox">
-    @using (Html.BeginForm("AskS", "Game", FormMethod.Post))
-    {
+<div id="divtodo">
+
+    <div class="PregBox">
+        @using (Html.BeginForm("NucleoGameM", "Game")) { 
         @Html.Label("Seleccione que quiere preguntar para adivinar mi personaje")<br />
         @Html.DropDownList("idpreg", new SelectList(ViewBag.Preg, "Id", "Texto"), new { style = "width: 700px;" }) <br />
         <input type="submit" name="cargar" id="cargar" value="Preguntar" />
-    }
-</div>
-<div class="galeria">
-    @{
-        foreach (Personaje personaje in ViewBag.Personajes)
-        {
-            <a href='@Url.Action("RiskS", "Game", new { idPersonaje = personaje.Id })'><img src="@personaje.Direccion" /></a>
         }
-    }
+    </div>
+    <div class="galeria">
+        @{
+            foreach (Personaje personaje in BD.Personajes)
+            {
+                <a href='@Url.Action("RiskS", "Game", new { idPersonaje = personaje.Id })'><img src="@personaje.Direccion" /></a>
+            }
+        }
+    </div>
 </div>
+<script type="text/javascript">
+    alertify.alert('@ViewBag.msgalert');
+    $('#cargar').attr("disabled", true);   
+    setInterval(turno(), 1700);   
+    function turno() {
+        @BD.Turnos();
+        if (@BD.laPartida.Turno == @ViewBag.Turno) {
+           // $('#cargar').attr("enable", true);
+            alertify.alert('Ya es su turno');
+        } 
+    }
+
+    
+
+</script>
 
 
 
