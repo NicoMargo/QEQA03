@@ -423,13 +423,13 @@ namespace QEQ.Controllers
         public ActionResult Turnos()
         {
             double Minutes = 0;
-            while (BD.laPartida.Turno != Convert.ToBoolean(Session["Host"]) && Minutes < 10)
+            while (BD.laPartida.Turno != Convert.ToBoolean(Session["Host"]) && Minutes.TotalMinutes < 10)
             {
                 BD.Turnos();
                 TimeSpan diff = DateTime.Now - Convert.ToDateTime(BD.laPartida.Fecha);
                 Minutes = diff.TotalMinutes;
             }
-            if (Minutes > 10)
+            if (Minutes > 0.13)
             {
                 return RedirectToAction("JuegoPrincipalM", "Game");
             } else
