@@ -4,7 +4,7 @@
 <link href="~/Content/MiCSS.css" type="text/css" rel="stylesheet">
 @model QEQ.Models.Usuario
 @using QEQ.Models;
-@using (@Html.BeginForm("OlvidoPass", "Backoffice", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (@Html.BeginForm("OlvidoPass", "BackOffice", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <h2 class="Title">Cambiar contraseña </h2>
     @Session["msg"]
@@ -14,9 +14,9 @@
         <br /><br />
         <form action="@Url.Action("OlvidoPass","Backoffice")" method="post">
 
-            @Html.Label("Usuario") @Html.TextBoxFor(U => U.Username, new { type = "text", required = "required" }) @Html.ValidationMessageFor(U => U.Username)<br />
+            @Html.Label("Usuario") @Html.TextBoxFor(U => U.Username, new { type = "text", required = "required" })@Html.ValidationMessageFor(U => U.Username)<br />
             @Html.Label("Nueva Contraseña") @Html.TextBoxFor(U => U.Pass, new { type = "password", required = "required" }) @Html.ValidationMessageFor(U => U.Pass) <br />
-            <input type="submit" value="Enviar" /><br />
+            <input type="submit" value="Enviar" class="btnClassS" /><br />
         </form>
     </div>
 }

@@ -624,33 +624,32 @@ namespace QEQ.Models
         //OlvidoPass
         public static int OlvidoPass (Usuario usu)
         {
-            string username = "";
+   
             SqlConnection unaConexion = Conectar();
-            SqlCommand LaConsulta = unaConexion.CreateCommand();
-            LaConsulta.CommandType = System.Data.CommandType.StoredProcedure;
-            LaConsulta.CommandText = "spOlvidoPass";
-            LaConsulta.Parameters.AddWithValue("@Username", usu.Username);
-            LaConsulta.Parameters.AddWithValue("@NuevaPass", usu.Pass);
-            SqlDataReader elLector = LaConsulta.ExecuteReader();
+            SqlCommand consulta = unaConexion.CreateCommand();
+            consulta.CommandType = System.Data.CommandType.StoredProcedure;
+            consulta.CommandText = "spOlvidoPass";
+            consulta.Parameters.AddWithValue("@Username", usu.Username);
+            consulta.Parameters.AddWithValue("@NuevaPass", usu.Pass);
+            SqlDataReader elLector = consulta.ExecuteReader();
             while (elLector.Read())
             {
-                if (elLector["msg"].ToString() == "Ok")
+               if (elLector["msg"].ToString() == "Pass cambiada")
                 {
-                   
-                    msg = (elLector["msg"].ToString());
-                    username = (elLector["Username"].ToString());
-                    
+                msg =(elLector["msg"].ToString());
+                
+
 
 
                 }
-                else if (elLector["msg"].ToString() != "Ok")
+                else if (elLector["msg"].ToString() != "Pass cambiada")
 
                 {
                     msg = (elLector["msg"].ToString());
                 }
             }
             elLector.Close();
-            int regsafectados = LaConsulta.ExecuteNonQuery();
+            int regsafectados = consulta.ExecuteNonQuery();
             Desconectar(unaConexion);
             return regsafectados;
 

@@ -74,15 +74,18 @@ namespace QEQ.Controllers
         {
             if (usu.Username != "" && usu.Pass != "")
             {
-                if (usu.Pass.Length > 5)
-                {
-                    int regsaf = BD.OlvidoPass(usu);
-                    Session["msg"] = "";
-                }
-                else
-                {
-                    return RedirectToAction("ModificarUsu", "BackOffice", new { id = "La contraseña debe tener 6 digitos o mas" });
-                }
+              
+                    if (usu.Pass.Length > 5)
+                    {
+                        int regsaf = BD.OlvidoPass(usu);
+                        Session["msg"] = "";
+                        return RedirectToAction("OlvidoPass", "BackOffice");
+                    }
+                    else
+                    {
+                        return RedirectToAction("OlvidoPass", "BackOffice", new { id = "La contraseña debe tener 6 digitos o mas" });
+                    }
+                
             }
            
             return RedirectToAction("LogIn", "BackOffice");
