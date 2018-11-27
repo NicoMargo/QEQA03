@@ -418,13 +418,14 @@ namespace QEQ.Controllers
        
         public ActionResult WaitingRoom()
         {
+            BD.laPartida.Fecha = DateTime.Now;
             return View();
         }
         public ActionResult Turnos()
         {
             DateTime Now = DateTime.Now;
  	    TimeSpan TiempoDiff = DateTime.Now - DateTime.Now;			
-            while (BD.laPartida.Turno != Convert.ToBoolean(Session["Host"]) || Math.Floor(TiempoDiff.TotalSeconds) <= 600)
+            while (BD.laPartida.Turno != Convert.ToBoolean(Session["Host"]) && Math.Floor(TiempoDiff.TotalSeconds) <= 20)
             {
                 BD.Turnos();
                 TiempoDiff = DateTime.Now - Convert.ToDateTime(BD.laPartida.Fecha);

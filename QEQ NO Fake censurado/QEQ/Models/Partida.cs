@@ -65,7 +65,7 @@ namespace QEQ.Models
         {
             _usuario1 = idUsuario;
             _ip1 = ip;
-            _fecha = DateTime.Today;
+            _fecha = DateTime.Now;
             _cantPreguntas = 0;
             _multijugador = false;
             Random random = new Random();
@@ -88,7 +88,7 @@ namespace QEQ.Models
             _id = idPartida;
             _usuario1 = Host;
             _ip1 = ipH;
-            _fecha = DateTime.Today;
+            _fecha = DateTime.Now;
             _cantPreguntas = 0;
             _multijugador = true;
             _idcat = idcat;
