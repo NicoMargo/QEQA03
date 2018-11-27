@@ -421,13 +421,23 @@ namespace QEQ.Controllers
         }
         public ActionResult Turnos()
         {
-            while (BD.laPartida.Turno != Convert.ToBoolean(Session["Host"]))
+            double Minutes = 0;
+            while (BD.laPartida.Turno != Convert.ToBoolean(Session["Host"]) && Minutes < 10)
             {
                 BD.Turnos();
+                TimeSpan diff = DateTime.Now - Convert.ToDateTime(BD.laPartida.Fecha);
+                Minutes = diff.TotalMinutes;
             }
-            return RedirectToAction("JuegoPrincipalM", "Game");
+            if (Minutes > 10)
+            {
+                return RedirectToAction("JuegoPrincipalM", "Game");
+            } else
+            {
+                return RedirectToAction("BuscarPartidasM", "Game", new { error = 2});
+            }
+           
         }
-        public ActionResult BuscarPartidasM(bool error = false)
+        public ActionResult BuscarPartidasM(byte error = 0)
         {
             BD.CargarPartidas();
             BD.CargarUsuarios();
