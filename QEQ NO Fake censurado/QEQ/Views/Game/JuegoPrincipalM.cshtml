@@ -4,7 +4,7 @@
 @{
     ViewBag.Title = "JuegoPrincipalM";
 }
-<h2 class="TPuntos"> Quien Adivina Primero gana!!</h2>
+<h2 class="TPuntos"> Quien Adivina Primero gana!!  Te Quedan = <span id="timer">Minutos</span></h2>
 <div id="divtodo">
 
     <div class="PregBox">
@@ -38,7 +38,8 @@
         if (s == 59) { m = m - 1 }
         //if(m<0){alert('timer completed')}
         if (s == 0 && m == 0) {
-            window.location.href = "@Url.Action("FinalizarM","Game")";   
+             window.location.href = "@Url.Action("TerminarXTiempo","Game")";
+            window.location.href = "@Url.Action("FinalizarM","Game", new { G = false })";   
         }
         document.getElementById('timer').innerHTML = m + ":" + s;
         setTimeout(startTimer, 1000);
