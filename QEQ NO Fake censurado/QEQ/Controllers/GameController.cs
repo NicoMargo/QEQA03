@@ -418,27 +418,24 @@ namespace QEQ.Controllers
        
         public ActionResult WaitingRoom()
         {
+            BD.laPartida.Fecha = DateTime.Now;
             return View();
         }
         public ActionResult Turnos()
         {
             DateTime Now = DateTime.Now;
- 	    TimeSpan TiempoDiff = DateTime.Now - DateTime.Now;			
-            while (BD.laPartida.Turno != Convert.ToBoolean(Session["Host"]) || Math.Floor(TiempoDiff.TotalSeconds) <= 600)
+ 	        TimeSpan TiempoDiff = DateTime.Now - DateTime.Now;			
+            while (BD.laPartida.Turno != Convert.ToBoolean(Session["Host"]) && Math.Floor(TiempoDiff.TotalSeconds) <= 600)
             {
                 BD.Turnos();
-                TiempoDiff = DateTime.Now - Convert.ToDateTime(BD.laPartida.Fecha);
-                
+                TiempoDiff = DateTime.Now - Convert.ToDateTime(BD.laPartida.Fecha);                
             }
             if (Math.Floor(TiempoDiff.TotalSeconds) <= 600)
             {
                 return RedirectToAction("JuegoPrincipalM", "Game");
-            } else
-            {
-                return RedirectToAction("BuscarPartidasM", "Game", new { error = 2});
+            }            
+                return RedirectToAction("BuscarPartidasM", "Game", new { error = 2});   
             }
-           
-        }
         public ActionResult BuscarPartidasM(byte error = 0)
         {
             BD.CargarPartidas();
@@ -489,6 +486,19 @@ namespace QEQ.Controllers
             ViewBag.Personajes = BD.Personajes;
             return View();
         }
+        public void TerminarXTiempo()
+        {
+            if (SMHG)
+            {
+                BD.laPartida.Ganador = BD.laPartida.Usuario1;
+                BD.Ganador();
+            } else
+            {
+                BD.laPartida.Ganador = BD.laPartida.Usuario2;
+                BD.Ganador();
+            }
+           
+        }
         public ActionResult FinalizarM(bool G =false)
         {            
             if (G)
@@ -509,6 +519,10 @@ namespace QEQ.Controllers
         public ActionResult About()
         {
             return View();
-        }        
+        }
+        public ActionResult aa()
+        {
+            return View();
+        }
     }
 }
