@@ -1,4 +1,12 @@
-﻿
+﻿<script src="~/Scripts/alertify.min.js"></script>
+<link href="~/Content/alertify.core.css" rel="stylesheet" />
+<link href="~/Content/alertify.default.css" rel="stylesheet" />
+<script>
+    function Alerta() {
+        alertify.alert('Disculpe, el modo contra la computadora esta en mantenimiento');
+    }
+
+</script>
 @{
     ViewBag.Title = "TypeGame";
 }
@@ -6,5 +14,5 @@
 <h2>Como queres jugar? </h2>
 <a href="@Url.Action("StartS", "Game")" class="btn btn-primary btn-lg">Single Player &raquo;</a>
 <a href="@Url.Action("BuscarPartidasM", "Game")" class="btn btn-success btn-lg">Multi Player &raquo;</a>
-<a href="@Url.Action("---", "Game")" class="btn btn-warning btn-lg">Player Vs Com1 &raquo;</a>
+<a onclick="Alerta()" class="btn btn-warning btn-lg">Player Vs Com1 &raquo;</a>
 

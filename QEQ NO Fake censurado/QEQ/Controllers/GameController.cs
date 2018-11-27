@@ -228,7 +228,11 @@ namespace QEQ.Controllers
                         i--;
                     }
                 }//Fin For que recorre los personajes
-                BD.laPartida.CantPreguntas++;                
+                BD.laPartida.CantPreguntas++;           
+            }            
+            if (!BD.laPartida.Multijugador)
+            {
+                BD.laPartida.Puntos -= BD.BuscarPregunta(idpreg).Puntos;
             }
             BD.laPartida.Puntos -= BD.BuscarPregunta(idpreg).Puntos;
             BD.laPartida.Historial.Add(idpreg, cantDescartados);
@@ -296,6 +300,7 @@ namespace QEQ.Controllers
         {
             BD.CargarUsuarios();
             BD.CargarPreguntas();
+            BD.Rank();
             if (Ganador)
             {
                 ViewBag.Msg = "Usted ha Ganado con un puntaje de " + BD.laPartida.Puntos;            
@@ -430,13 +435,24 @@ namespace QEQ.Controllers
         }
         public ActionResult Turnos()
         {
-            while (BD.laPartida.Turno != Convert.ToBoolean(Session["Host"]))
+            DateTime Now = DateTime.Now;
+ 	    TimeSpan TiempoDiff = DateTime.Now - DateTime.Now;			
+            while (BD.laPartida.Turno != Convert.ToBoolean(Session["Host"]) || Math.Floor(TiempoDiff.TotalSeconds) <= 600)
             {
                 BD.Turnos();
+                TiempoDiff = DateTime.Now - Convert.ToDateTime(BD.laPartida.Fecha);
+                
             }
-            return RedirectToAction("JuegoPrincipalM", "Game");
+            if (Math.Floor(TiempoDiff.TotalSeconds) <= 600)
+            {
+                return RedirectToAction("JuegoPrincipalM", "Game");
+            } else
+            {
+                return RedirectToAction("BuscarPartidasM", "Game", new { error = 2});
+            }
+           
         }
-        public ActionResult BuscarPartidasM(bool error = false)
+        public ActionResult BuscarPartidasM(byte error = 0)
         {
             BD.CargarPartidas();
             BD.CargarUsuarios();
