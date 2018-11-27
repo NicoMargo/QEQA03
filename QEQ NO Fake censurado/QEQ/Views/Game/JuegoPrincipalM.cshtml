@@ -1,22 +1,39 @@
-﻿
+﻿<link href="~/Content/MiCSS.css" type="text/css" rel="stylesheet">
+<script src="~/Scripts/alertify.js"></script>
+<script src="~/Scripts/alertify.min.js"></script>
+<link href="~/Content/alertify.bootstrap.css" rel="stylesheet" />
+<link href="~/Content/alertify.core.css" rel="stylesheet" />
+<link href="~/Content/alertify.default.css" rel="stylesheet" />
+<script>
+  if ( '@ViewBag.Host' == '@ViewBag.Turno') {
+        alertify.alert('Ya es tu turno');        
+    } else {
+      alertify.alert('@ViewBag.msgalert');  
+ 
+       window.location.href = "@Url.Action("Turnos","Game")";          
+    }
+</script>
 @using QEQ.Models
 @model QEQ.Models.Personaje
 @{
     ViewBag.Title = "JuegoPrincipalM";
 }
-<h2 class="TPuntos"> Quien Adivina Primero gana!!  Te Quedan = <span id="timer">Minutos</span></h2>
+<h2 class="TPuntos"> Quien Adivina Primero gana!!</h2>
 <div id="divtodo">
 
     <div class="PregBox">
-        @using (Html.BeginForm("NucleoGameM", "Game")) { 
-        @Html.Label("Seleccione que quiere preguntar para adivinar mi personaje")<br />
-        @Html.DropDownList("idpreg", new SelectList(ViewBag.Preg, "Id", "Texto"), new { style = "width: 700px;" }) <br />
-        <input type="submit" name="cargar" id="cargar" value="Preguntar" />
+        @using (Html.BeginForm("NucleoGameM", "Game"))
+        {
+            @Html.Label("Seleccione que quiere preguntar para adivinar mi personaje")<br />
+            @Html.DropDownList("idpreg", new SelectList(ViewBag.Preg, "Id", "Texto"), new { style = "width: 700px;" }) <br />
+            <input type="submit" id="cargar" value="Preguntar" />
+
         }
+        
     </div>
     <div class="galeria">
         @{
-            
+
             foreach (Personaje personaje in ViewBag.Per)
             {
                 <a id="foto" href='@Url.Action("RiskS", "Game", new { idPersonaje = personaje.Id })'><img src="@personaje.Direccion" /></a>
@@ -24,42 +41,7 @@
         }
     </div>
 </div>
-<script type="text/javascript">    
 
-     if ( '@ViewBag.Host' == '@ViewBag.Turno') {        
-        alertify.alert('Ya es tu turno');
-        $('#cargar').attr("enabled", true);
-    } else {        
-        alertify.alert('@ViewBag.msgalert');
-        window.location.href = "@Url.Action("Turnos","Game")"; 
-        $('#cargar').attr("disabled", true);  
-    }
-
-    document.getElementById('timer').innerHTML =
-        02 + ":" + 00;
-    startTimer();
-
-    function startTimer() {
-        var presentTime = document.getElementById('timer').innerHTML;
-        var timeArray = presentTime.split(/[:]+/);
-        var m = timeArray[0];
-        var s = checkSecond((timeArray[1] - 1));
-        if (s == 59) { m = m - 1 }
-        //if(m<0){alert('timer completed')}
-        if (s == 0 && m == 0) {
-             window.location.href = "@Url.Action("TerminarXTiempo","Game")";
-             window.location.href = "@Url.Action("FinalizarM","Game", new { G = false })";   
-        }
-        document.getElementById('timer').innerHTML = m + ":" + s;
-        setTimeout(startTimer, 1000);
-    }
-    function checkSecond(sec) {
-        if (sec < 10 && sec >= 0) { sec = "0" + sec }; // add zero in front of numbers < 10
-        if (sec < 0) { sec = "59" };
-        return sec;
-    }
-     
-</script>
 
 
 

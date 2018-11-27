@@ -387,13 +387,14 @@ namespace QEQ.Controllers
                return RedirectToAction("FinalizarM", "Game");
             }              
         }
-
+    
         public ActionResult UnirJ(int idPersonaje, int idpart = -1)
         {
             bool exito = false;
             if (!Convert.ToBoolean(Session["Host"]))
             {
-                string Host = Dns.GetHostName();
+                string Host = Dns.GetHostName();          
+
                 IPAddress[] ip = Dns.GetHostAddresses(Host);
                 if (ip[0].ToString() != "")
                 {
@@ -452,7 +453,6 @@ namespace QEQ.Controllers
             DateTime Now = DateTime.Now;
  	        TimeSpan TiempoDiff = DateTime.Now - DateTime.Now;	
             while (BD.laPartida.Turno != Convert.ToBoolean(Session["Host"]) && Math.Floor(TiempoDiff.TotalSeconds) <= 600)
-
             {
                 BD.Turnos();
                 TiempoDiff = DateTime.Now - Convert.ToDateTime(BD.laPartida.Fecha);                
@@ -549,6 +549,10 @@ namespace QEQ.Controllers
             return View();
         }
         public ActionResult aa()
+        {
+            return View();
+        }
+        public ActionResult aaa()
         {
             return View();
         }
