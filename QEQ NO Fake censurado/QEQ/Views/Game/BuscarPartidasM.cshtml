@@ -1,4 +1,9 @@
-﻿
+﻿<link href="~/Content/MiCSS.css" type="text/css" rel="stylesheet">
+<script src="~/Scripts/alertify.js"></script>
+<script src="~/Scripts/alertify.min.js"></script>
+<link href="~/Content/alertify.bootstrap.css" rel="stylesheet" />
+<link href="~/Content/alertify.core.css" rel="stylesheet" />
+<link href="~/Content/alertify.default.css" rel="stylesheet" />
 @{
     ViewBag.Title = "Listado de partidas";
 }
@@ -30,14 +35,11 @@ else
     <h3> No se encontraron Partidas xd</h3>
 }
 
-<script>
-    $(document).ready(function () {
-        if ('@ViewBag.error' = 1) {
+<script>     
+        if ('@ViewBag.error' == 1) {
             alertify.alert('Ja que chistoso. No puedes entrar a tu misma partida!');
-        } else if ('@ViewBag.error' = 2) {
+        } else if ('@ViewBag.error' == 2) {
             alertify.alert('Se cerro tu partida luego de que pasaron 10 minutos');
-        }
-           
-    });
+        }    
 </script>
 
