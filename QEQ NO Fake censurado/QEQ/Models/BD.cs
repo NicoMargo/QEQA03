@@ -769,10 +769,8 @@ namespace QEQ.Models
                     try
                     {
                         laPartida.Ganador = Convert.ToInt32(elLector["Ganador"]);
-                    }catch(System.IndexOutOfRangeException)
-                    {
-
-                    }                    
+                    }
+                    catch(System.IndexOutOfRangeException) { }
                 }
             
             BD.laPartida.Turno = turno;
@@ -812,7 +810,23 @@ namespace QEQ.Models
             }
             Desconectar(unaConexion);            
         }
-        
+
+        public static void TraerCosas() {
+            SqlConnection unaConexion = Conectar();
+            SqlCommand laConsulta = unaConexion.CreateCommand();
+            laConsulta.CommandType = System.Data.CommandType.StoredProcedure;
+            laConsulta.CommandText = "spPickChars";
+            laConsulta.Parameters.AddWithValue("@IdPartida", BD.laPartida.Id);
+            SqlDataReader elLector = laConsulta.ExecuteReader();
+            if (elLector.Read())
+            {
+                BD.laPartida.Usuario1 = Convert.ToInt32(elLector["idUsuario1"]);
+                BD.laPartida.Usuario1 = Convert.ToInt32(elLector["idUsuario2"]);
+                BD.laPartida.Personaje1 = BuscarPersonaje(Convert.ToInt32(elLector["idPer1"]), true);
+                BD.laPartida.Personaje2 = BuscarPersonaje(Convert.ToInt32(elLector["idPer2"]), false);
+            }
+            Desconectar(unaConexion);
+        }
     }
 
 }
