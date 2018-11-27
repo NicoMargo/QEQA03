@@ -8,16 +8,23 @@ using System.Net;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-
+using System.Timers;
 
 namespace QEQ.Controllers
 {
     public class GameController : Controller
     {
-        //Funciones para el game single
-        const int iRiskPenalty = 1500; 
-       
+        //Funciones para el game 
+        const int iRiskPenalty = 1500;
 
+        //funciones del timer
+        public Timer timer;
+        private void AfkTester() {
+            timer = new System.Timers.Timer(2000); 
+            //timer.Elapsed += OnTimedEvent;
+            timer.AutoReset = false;
+            timer.Enabled = true;
+        }
         //Se ingresa un id, se devuelve la posicion en en la lista de la persona con esa id
         public int BuscarPersonaje(int id)
         {
@@ -222,12 +229,9 @@ namespace QEQ.Controllers
                     }
                 }//Fin For que recorre los personajes
                 BD.laPartida.CantPreguntas++;                
-            }            
-            if (!BD.laPartida.Multijugador)
-            {
-                BD.laPartida.Puntos -= BD.BuscarPregunta(idpreg).Puntos;
-                BD.laPartida.Historial.Add(idpreg, cantDescartados);
             }
+            BD.laPartida.Puntos -= BD.BuscarPregunta(idpreg).Puntos;
+            BD.laPartida.Historial.Add(idpreg, cantDescartados);
         }
         
         public ActionResult RiskS(int idPersonaje)
@@ -370,6 +374,7 @@ namespace QEQ.Controllers
 
         public ActionResult UnirJ(int idPersonaje, int idpart = -1)
         {
+            bool exito;
             if (!Convert.ToBoolean(Session["Host"]))
             {
                 string Host = Dns.GetHostName();
@@ -389,8 +394,8 @@ namespace QEQ.Controllers
                 {
                     //return RedirectToAction("BuscarPartidasM", "game",new { error = true } );
                 }
-                BD.Unirse();
-                BD.CargarPreguntas();
+                exito =BD.Unirse();
+                if (exito) { BD.CargarPreguntas(); }
             }
             else
             {
@@ -411,8 +416,12 @@ namespace QEQ.Controllers
                 BD.CrearPartida(BD.laPartida);
                 return RedirectToAction("WaitingRoom", "Game");              
             }
-            BD.laPartida.Ganador = -1;
-            return RedirectToAction("JuegoPrincipalM", "Game");
+            if (exito)
+            {
+                BD.laPartida.Ganador = -1;
+                return RedirectToAction("JuegoPrincipalM", "Game");
+            }
+            else { return RedirectToAction("BuscarPartidasM", "Game"); }
         }
        
         public ActionResult WaitingRoom()
@@ -478,7 +487,8 @@ namespace QEQ.Controllers
             return View();
         }
         public ActionResult FinalizarM(bool G =false)
-        {            
+        {
+            BD.CargarPreguntas();
             if (G)
             {
                 ViewBag.Ganador = "Eres el ganador de la partida!!!";

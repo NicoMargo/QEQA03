@@ -744,7 +744,7 @@ namespace QEQ.Models
             Desconectar(unaConexion);
         }
 
-        public static void Unirse()
+        public static bool Unirse()
         {
             bool exito = false;
             SqlConnection unaConexion = Conectar();
@@ -760,7 +760,8 @@ namespace QEQ.Models
             {
                 exito = Convert.ToBoolean(elLector["exito"]);
             }
-            Desconectar(unaConexion);           
+            Desconectar(unaConexion);
+            return exito;
         }
 
         public static bool Turnos( )
