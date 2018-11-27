@@ -36,34 +36,22 @@ namespace QEQ.Models
         public static Preg BuscarPregunta(int id, bool host = true)
         {
             Preg pregunta = null;
+            List<Preg> preguntxs;
+            if (host) { preguntxs = Preguntas; }
+            else { preguntxs = Preguntas2; }
             int i = 0;
-            if (host)
+            while (i < preguntxs.Count && pregunta == null)
             {
-                while (i < Preguntas.Count && pregunta == null)
+                if (preguntxs[i].Id == id)
                 {
-                    if (Preguntas[i].Id == id)
-                    {
-                        pregunta = Preguntas[i];
-                    }
-                    else
-                    {
-                        i++;
-                    }
+                    pregunta = preguntxs[i];
                 }
-            }else
-            {
-                while (i < Preguntas2.Count && pregunta == null)
+                else
                 {
-                    if (Preguntas2[i].Id == id)
-                    {
-                        pregunta = Preguntas2[i];
-                    }
-                    else
-                    {
-                        i++;
-                    }
+                    i++;
                 }
-            }            
+            }
+
             return pregunta;
         }
 
@@ -86,15 +74,18 @@ namespace QEQ.Models
             return personaje;
         }
 
-        public static Personaje BuscarPersonaje(int id)
+        public static Personaje BuscarPersonaje(int id, bool host = true)
         {
+            List<Personaje> personajxs;
+            if (host) { personajxs = BD.Personajes; }
+            else { personajxs = BD.Personajes2; }
             Personaje personaje = null;
             int i = 0;
-            while (i < Personajes.Count && personaje == null)
+            while (i < personajxs.Count && personaje == null)
             {
-                if (Personajes[i].Id == id)
+                if (personajxs[i].Id == id)
                 {
-                    personaje = Personajes[i];
+                    personaje = personajxs[i];
                 }
 
                 else
@@ -743,7 +734,7 @@ namespace QEQ.Models
             Desconectar(unaConexion);
         }
 
-        public static void Unirse()
+        public static bool Unirse()
         {
             bool exito = false;
             SqlConnection unaConexion = Conectar();
@@ -759,7 +750,8 @@ namespace QEQ.Models
             {
                 exito = Convert.ToBoolean(elLector["exito"]);
             }
-            Desconectar(unaConexion);           
+            Desconectar(unaConexion);
+            return exito;
         }
 
         public static bool Turnos( )
