@@ -335,34 +335,38 @@ namespace QEQ.Controllers
         {
             if (BD.laPartida.Ganador == -1)
             {
-                if ((idpreg == -1 && !Convert.ToBoolean(Session["Host"])))
-                {
-                    ViewBag.msgalert = "Bienvenido Al Juego, Espera a tu turno para jugar";
-                }
-                else if (Convert.ToBoolean(Session["Host"]))
-                {
-                    if (AskForOne(BD.laPartida.Personaje1.Id, idpreg, true))
+                //si es guest
+                if (!Convert.ToBoolean(Session["Host"])) {
+                    if (idpreg == -1 )
                     {
-                        ViewBag.msgalert = "El personaje SI " + BD.BuscarPregunta(idpreg).Texto;
+                        ViewBag.msgalert = "Bienvenido Al Juego, Espera a tu turno para jugar";
+                    }
+                    else if (AskForOne(BD.laPartida.Personaje2.Id, idpreg, true))
+                    {
+                        ViewBag.msgalert = "El personaje SI " + BD.BuscarPregunta(idpreg, SMHG()).Texto;
                         EliminarporGrupo(idpreg);
                     }
                     else
                     {
-                        ViewBag.msgalert = "El personaje NO " + BD.BuscarPregunta(idpreg).Texto;
-                        BD.Preguntas.RemoveAt(BuscarPregunta(idpreg));
-                    }
-                }
-                else
-                {
-                    if (AskForOne(BD.laPartida.Personaje2.Id, idpreg, true))
-                    {
-                        ViewBag.msgalert = "El personaje SI " + BD.BuscarPregunta(idpreg, Convert.ToBoolean(Session["Host"])).Texto;
-                        EliminarporGrupo(idpreg);
-                    }
-                    else
-                    {
-                        ViewBag.msgalert = "El personaje NO " + BD.BuscarPregunta(idpreg, Convert.ToBoolean(Session["Host"])).Texto;
+                        ViewBag.msgalert = "El personaje NO " + BD.BuscarPregunta(idpreg, SMHG()).Texto;
                         BD.Preguntas2.RemoveAt(BuscarPregunta(idpreg));
+                    }
+                }
+                //si es host
+                else 
+                {
+                    if (idpreg != -1)
+                    {
+                        if (AskForOne(BD.laPartida.Personaje1.Id, idpreg, true))
+                        {
+                            ViewBag.msgalert = "El personaje SI " + BD.BuscarPregunta(idpreg).Texto;
+                            EliminarporGrupo(idpreg);
+                        }
+                        else
+                        {
+                            ViewBag.msgalert = "El personaje NO " + BD.BuscarPregunta(idpreg).Texto;
+                            BD.Preguntas.RemoveAt(BuscarPregunta(idpreg));
+                        }
                     }
                 }
                 if (Convert.ToBoolean(Session["Host"]))
@@ -392,18 +396,18 @@ namespace QEQ.Controllers
             {
                 string Host = Dns.GetHostName();
                 IPAddress[] ip = Dns.GetHostAddresses(Host);
+                string Ip;
                 if (ip[0].ToString() != "")
                 {
-                    BD.laPartida.Ip2 = ip[0].ToString();
+                   Ip = ip[0].ToString();
                 }
                 else
                 {
-                    BD.laPartida.Ip2 = "No IP";
+                    Ip = "No IP";
                 }
-                BD.laPartida.Usuario2 = BD.usuario.Id;
+                BD.laPartida.Unirse(BD.usuario.Id, Ip, idPersonaje);
                 BD.laPartida.Turno = true;
-                //elije el presonaje del rival
-                BD.laPartida.Personaje1 = BD.Personajes[BuscarPersonaje(idPersonaje)];                
+                //elije el presonaje del rival               
                 if (BD.laPartida.Ip1 == BD.laPartida.Ip2)
                 {
                     //return RedirectToAction("BuscarPartidasM", "game",new { error = true } );
@@ -415,17 +419,16 @@ namespace QEQ.Controllers
             {
                 string Host = Dns.GetHostName();
                 IPAddress[] ip = Dns.GetHostAddresses(Host);
+                string Ip;
                 if (ip[0].ToString() != "")
                 {
-                    BD.laPartida.Ip1 = ip[0].ToString();
+                    Ip = ip[0].ToString();
                 }
                 else
                 {
-                    BD.laPartida.Ip1 = "No IP";
+                    Ip = "No IP";
                 }
-                BD.laPartida.Usuario1 = BD.usuario.Id;
-                //elije el personaje del rival
-                BD.laPartida.Personaje2 = BD.Personajes[BuscarPersonaje(idPersonaje)];
+                BD.laPartida = new Partida(BD.laPartida.Id, BD.usuario.Id, Ip, BD.laPartida.IdCat, BD.Personajes[BuscarPersonaje(idPersonaje)].Id);
                 BD.laPartida.Turno = false;
                 BD.laPartida.Id = idpart;
                 BD.CrearPartida(BD.laPartida);
@@ -433,7 +436,6 @@ namespace QEQ.Controllers
             }
             if (exito)
             {
-                BD.laPartida.Ganador = -1;
                 return RedirectToAction("JuegoPrincipalM", "Game");
             }
             else { return RedirectToAction("BuscarPartidasM", "Game"); }
@@ -447,11 +449,14 @@ namespace QEQ.Controllers
         {
             DateTime Now = DateTime.Now;
  	    TimeSpan TiempoDiff = DateTime.Now - DateTime.Now;			
-            while (BD.laPartida.Turno != Convert.ToBoolean(Session["Host"]) || Math.Floor(TiempoDiff.TotalSeconds) <= 600)
+            while (BD.laPartida.Turno != Convert.ToBoolean(Session["Host"]) && Math.Floor(TiempoDiff.TotalSeconds) <= 600)
             {
                 BD.Turnos();
                 TiempoDiff = DateTime.Now - Convert.ToDateTime(BD.laPartida.Fecha);
                 
+            }
+            if ((BD.laPartida.Personaje1 == null && SMHG()) || (BD.laPartida.Personaje2 == null && !SMHG())) {
+                BD.TraerCosas();
             }
             if (Math.Floor(TiempoDiff.TotalSeconds) <= 600)
             {
