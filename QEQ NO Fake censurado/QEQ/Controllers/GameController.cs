@@ -430,7 +430,7 @@ namespace QEQ.Controllers
                 TiempoDiff = DateTime.Now - Convert.ToDateTime(BD.laPartida.Fecha);
                 
             }
-            if Math.Floor(TiempoDiff.TotalSeconds) <= 600)
+            if (Math.Floor(TiempoDiff.TotalSeconds) <= 600)
             {
                 return RedirectToAction("JuegoPrincipalM", "Game");
             } else
