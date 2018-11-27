@@ -226,7 +226,7 @@ namespace QEQ.Controllers
             if (!BD.laPartida.Multijugador)
             {
                 BD.laPartida.Puntos -= BD.BuscarPregunta(idpreg).Puntos;
-                BD.laPartida.Historial.Add(idpreg, cantDescartados);
+              //  BD.laPartida.Historial.Add(idpreg, cantDescartados);
             }
         }
         
@@ -292,6 +292,7 @@ namespace QEQ.Controllers
         {
             BD.CargarUsuarios();
             BD.CargarPreguntas();
+            BD.Rank();
             if (Ganador)
             {
                 ViewBag.Msg = "Usted ha Ganado con un puntaje de " + BD.laPartida.Puntos;            
