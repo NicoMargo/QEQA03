@@ -330,6 +330,7 @@ namespace QEQ.Controllers
             return View();
         }
         //Game 2 =============================================================================================================
+        //trae las partidas al lobby para que te puedas unir
         public ActionResult BuscarPartidasM(byte error = 0)
         {
             BD.CargarPartidas();
@@ -339,6 +340,7 @@ namespace QEQ.Controllers
             return View();
         }
 
+        //View que tiene un select de categorias -->StartM Post
         public ActionResult StartM()
         {
             BD.CargarCats();
@@ -347,7 +349,7 @@ namespace QEQ.Controllers
             Session["Estado"] = false;
             return View();
         }
-
+        //Con la id dde categoria recibida crea una partida Y LA GUARDA EN LA BD -->PickCharM
         [HttpPost]
         public ActionResult StartM(int idCategoria)
         {
@@ -358,7 +360,7 @@ namespace QEQ.Controllers
             BD.laPartida.IdCat = idCategoria;
             return RedirectToAction("PickCharM", "Game");
         }
-
+        //Con la partida seleccionada, se une si es posible, sino devuelve al lobby -->PickCharm
         public ActionResult Unirse(int id, int idcat)
         {
             Session["Host"] = false;
@@ -377,12 +379,14 @@ namespace QEQ.Controllers
             BD.CargarPersonajes(idcat);
             return RedirectToAction("PickCharM", "Game");
         }
+        //elije el personaje -->UnirJ
         public ActionResult PickCharM()
         {
             ViewBag.Personajes = BD.Personajes;
             return View();
         }
 
+        //un Action que, si sos host te manda a la waitingroom, si sos guest al juego directamente, y si no se pudo unir, al lobby
         public ActionResult UnirJ(int idPersonaje, int idpart = -1)
         {
             bool exito = false;
@@ -436,10 +440,12 @@ namespace QEQ.Controllers
             else { return RedirectToAction("BuscarPartidasM", "Game"); }
         } //falta codigo de error
 
+        //una view de espera -->Turnos
         public ActionResult WaitingRoom()
         {
             return View();
         }
+        //Action que actualiza  (si el rival ya hizo su movida -->
         public ActionResult Turnos()
         {
             // si ninguna persona se unio a la partida del host por 10 minutos, entonces se cancela y el host tendra que crear otra o unirse a una
@@ -546,7 +552,8 @@ namespace QEQ.Controllers
             }
         }
 
-        public ActionResult NucleoGameM(int idpreg)//AskM con nombre exotico xd
+        //AskM con nombre exotico xd
+        public ActionResult NucleoGameM(int idpreg)
         {
             AskForAll(idpreg);
             BD.CambiarTurnos();
