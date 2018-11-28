@@ -103,8 +103,7 @@ namespace QEQ.Controllers
                     found = true;
                 }
                 else { i++; }
-            }
-            
+            }            
             return found;
         }
                     
@@ -369,6 +368,7 @@ namespace QEQ.Controllers
                 }
                 i++;
             }
+            BD.CargarRtas(idcat);
             BD.laPartida.Id = id;
             BD.laPartida.Multijugador = true;
             BD.CargarPersonajes(idcat);
@@ -466,11 +466,14 @@ namespace QEQ.Controllers
                     else { return RedirectToAction("FinalizarM", "Game"); }
                 }
             }
-            if (Math.Floor(TiempoDiff.TotalSeconds) <= 600)
-            {
-                return RedirectToAction("JuegoPrincipalM", "Game");
+            if (SMHG() && BD.laPartida.Usuario2 <=0) {
+                if (Math.Floor(TiempoDiff.TotalSeconds) <= 600)
+                {
+                    return RedirectToAction("JuegoPrincipalM", "Game");
+                }
+                return RedirectToAction("BuscarPartidasM", "Game", new { error = 2 });
             }
-            return RedirectToAction("BuscarPartidasM", "Game", new { error = 2 });
+            return RedirectToAction("JuegoPrincipalM", "Game");
         }
 
         public ActionResult JuegoPrincipalM(int idpreg = -1, int idper = -1)
