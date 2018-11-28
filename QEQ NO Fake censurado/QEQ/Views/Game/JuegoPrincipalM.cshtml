@@ -28,7 +28,7 @@ else
         @{
             foreach (Personaje personaje in ViewBag.Per)
             {
-                <a id="foto" href='@Url.Action("RiskS", "Game", new { idPersonaje = personaje.Id })'><img src="@personaje.Direccion" /></a>
+                <a id="foto" href='@Url.Action("RiskM", "Game", new { idPersonaje = personaje.Id })'><img src="@personaje.Direccion" /></a>
             }
         }
     </div>
