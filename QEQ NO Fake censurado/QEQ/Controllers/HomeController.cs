@@ -9,12 +9,9 @@ namespace QEQ.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index(string id = null)
-        {
-            if (id == "1")
-            {
-                ViewBag.estado = 1;
-            }
+        public ActionResult Index(byte id = 9)
+        {            
+                ViewBag.estado = id;            
             return View();
         }
 
