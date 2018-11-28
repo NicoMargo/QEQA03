@@ -106,8 +106,7 @@ namespace QEQ.Controllers
                     found = true;
                 }
                 else { i++; }
-            }
-            
+            }            
             return found;
         }
                     
@@ -372,6 +371,7 @@ namespace QEQ.Controllers
                 }
                 i++;
             }
+            BD.CargarRtas(idcat);
             BD.laPartida.Id = id;
             BD.laPartida.Multijugador = true;
             BD.CargarPersonajes(idcat);
@@ -469,11 +469,11 @@ namespace QEQ.Controllers
                     else { return RedirectToAction("FinalizarM", "Game"); }
                 }
             }
-            if (Math.Floor(TiempoDiff.TotalSeconds) <= 600)
-            {
-                return RedirectToAction("JuegoPrincipalM", "Game");
-            }
-            return RedirectToAction("BuscarPartidasM", "Game", new { error = 2 });
+            if (SMHG() && BD.laPartida.Usuario2 <=0) {               
+                    return RedirectToAction("JuegoPrincipalM", "Game");
+                }               
+            
+            return RedirectToAction("JuegoPrincipalM", "Game");
         }
 
         public ActionResult JuegoPrincipalM(int idpreg = -1, int idper = -1)
@@ -556,10 +556,10 @@ namespace QEQ.Controllers
         public ActionResult TerminarXTiempo()
         {            
                 BD.laPartida.Ganador = BD.laPartida.Usuario1;
-                BD.Ganador();   
-                BD.laPartida.Ganador = BD.laPartida.Usuario2;
-                BD.Ganador();
-                return RedirectToAction("FinalizarM", "Game");
+            BD.CambiarTurnos();
+            BD.laPartida.Ganador = BD.laPartida.Usuario2;
+            BD.CambiarTurnos();
+            return RedirectToAction("FinalizarM", "Game");
         }
         public ActionResult FinalizarM(bool G =false)
         {
