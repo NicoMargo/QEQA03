@@ -16,6 +16,16 @@ namespace QEQ.Controllers
     {
         //Funciones para el game 
         const int iRiskPenalty = 1500;
+        
+        //esto deberia estar en el home controller wtf
+        public ActionResult Desarrolladores()
+        {
+            return View();
+        }
+        public ActionResult About()
+        {
+            return View();
+        }
 
         //funciones del timer
         public Timer timer;
@@ -317,17 +327,154 @@ namespace QEQ.Controllers
             return View();
         }
         //Game 2 =============================================================================================================
-        public ActionResult NucleoGameM(int idpreg)//AskM con nombre exotico xd
+        public ActionResult BuscarPartidasM(byte error = 0)
         {
-            AskForAll(idpreg);
-            BD.CambiarTurnos();               
-            return RedirectToAction("JuegoPrincipalM", "game", new { idpreg });
+            BD.CargarPartidas();
+            BD.CargarUsuarios();
+            ViewBag.Partidas = BD.Partidas;
+            ViewBag.error = error;
+            return View();
+        }
+
+        public ActionResult StartM()
+        {
+            BD.CargarCats();
+            ViewBag.Cats = BD.Categorias;
+            ViewBag.Cats.Add(new Cat(-1, "Todos"));
+            Session["Estado"] = false;
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult StartM(int idCategoria)
+        {
+            Session["Host"] = true;
+            BD.CargarPersonajes(idCategoria);
+            BD.CargarPreguntas();
+            BD.CargarRtas(idCategoria);
+            BD.laPartida.IdCat = idCategoria;
+            return RedirectToAction("PickCharM", "Game");
+        }
+
+        public ActionResult Unirse(int id, int idcat)
+        {
+            Session["Host"] = false;
+            int cat = -1, i = 0;
+            while (cat == -1)
+            {
+                if (BD.Partidas[i].Id == id)
+                {
+                    cat = BD.Partidas[i].IdCat;
+                    i--;
+                }
+                i++;
+            }
+            BD.laPartida.Id = id;
+            BD.laPartida.Multijugador = true;
+            BD.CargarPersonajes(idcat);
+            return RedirectToAction("PickCharM", "Game");
+        }
+        public ActionResult PickCharM()
+        {
+            ViewBag.Personajes = BD.Personajes;
+            return View();
+        }
+
+        public ActionResult UnirJ(int idPersonaje, int idpart = -1)
+        {
+            bool exito = false;
+            if (!Convert.ToBoolean(Session["Host"]))
+            {
+                string Host = Dns.GetHostName();
+
+                IPAddress[] ip = Dns.GetHostAddresses(Host);
+                string Ip;
+                if (ip[0].ToString() != "")
+                {
+                    Ip = ip[0].ToString();
+                }
+                else
+                {
+                    Ip = "No IP";
+                }
+                BD.laPartida.Unirse(BD.usuario.Id, Ip, idPersonaje);
+                BD.laPartida.Turno = true;
+                //elije el presonaje del rival               
+                if (BD.laPartida.Ip1 == BD.laPartida.Ip2)
+                {
+                    //return RedirectToAction("BuscarPartidasM", "game",new { error = true } );
+                }
+                exito = BD.Unirse();
+                if (exito) { BD.CargarPreguntas(); } //falta que te redirija a una view de error
+            }
+            else
+            {
+                string Host = Dns.GetHostName();
+                IPAddress[] ip = Dns.GetHostAddresses(Host);
+                string Ip;
+                if (ip[0].ToString() != "")
+                {
+                    Ip = ip[0].ToString();
+                }
+                else
+                {
+                    Ip = "No IP";
+                }
+                BD.laPartida = new Partida(BD.laPartida.Id, BD.usuario.Id, Ip, BD.laPartida.IdCat, BD.Personajes[BuscarPersonaje(idPersonaje)].Id);
+                BD.laPartida.Turno = false;
+                BD.laPartida.Id = idpart;
+                BD.CrearPartida(BD.laPartida);
+                return RedirectToAction("WaitingRoom", "Game");
+            }
+            if (exito)
+            {
+                return RedirectToAction("JuegoPrincipalM", "Game");
+            }
+            else { return RedirectToAction("BuscarPartidasM", "Game"); }
+        } //falta codigo de error
+
+        public ActionResult WaitingRoom()
+        {
+            return View();
+        }
+        public ActionResult Turnos()
+        {
+            // si ninguna persona se unio a la partida del host por 10 minutos, entonces se cancela y el host tendra que crear otra o unirse a una
+            DateTime Now = DateTime.Now;
+            TimeSpan TiempoDiff = DateTime.Now - DateTime.Now;
+            while (BD.laPartida.Turno != Convert.ToBoolean(Session["Host"]) && Math.Floor(TiempoDiff.TotalSeconds) <= 600 && BD.laPartida.Ganador == -1)
+            {
+                BD.Turnos(); // bucle hasta que pasen 10 minutos o sea el turno de la otra persona. Pregunta en la base si ya se cambio el turno
+                TiempoDiff = DateTime.Now - Convert.ToDateTime(BD.laPartida.Fecha);
+            }
+            if ((BD.laPartida.Personaje1 == null && SMHG()) || (BD.laPartida.Personaje2 == null && !SMHG()))
+            {
+                BD.TraerCosas();
+            }
+            if (BD.laPartida.Ganador != -1)
+            {
+                if (SMHG())
+                {
+                    if (BD.laPartida.Ganador == BD.laPartida.Usuario1)
+                    { return RedirectToAction("FinalizarM", "Game", new { G = true }); }
+                    else { return RedirectToAction("FinalizarM", "Game"); }
+                }
+                else
+                {
+                    if (BD.laPartida.Ganador == BD.laPartida.Usuario2)
+                    { return RedirectToAction("FinalizarM", "Game", new { G = true }); }
+                    else { return RedirectToAction("FinalizarM", "Game"); }
+                }
+            }
+            if (Math.Floor(TiempoDiff.TotalSeconds) <= 600)
+            {
+                return RedirectToAction("JuegoPrincipalM", "Game");
+            }
+            return RedirectToAction("BuscarPartidasM", "Game", new { error = 2 });
         }
 
         public ActionResult JuegoPrincipalM(int idpreg = -1, int idper = -1)
         {
-
-
             
             if (BD.laPartida.Ganador == -1) { 
                                                            //si es guest
@@ -395,148 +542,14 @@ namespace QEQ.Controllers
                 return RedirectToAction("FinalizarM", "Game");
             }
         }
-    
-        public ActionResult UnirJ(int idPersonaje, int idpart = -1)
-        {
-            bool exito = false;
-            if (!Convert.ToBoolean(Session["Host"]))
-            {
-                string Host = Dns.GetHostName();          
 
-                IPAddress[] ip = Dns.GetHostAddresses(Host);
-                string Ip;
-                if (ip[0].ToString() != "")
-                {
-                   Ip = ip[0].ToString();
-                }
-                else
-                {
-                    Ip = "No IP";
-                }
-                BD.laPartida.Unirse(BD.usuario.Id, Ip, idPersonaje);
-                BD.laPartida.Turno = true;
-                //elije el presonaje del rival               
-                if (BD.laPartida.Ip1 == BD.laPartida.Ip2)
-                {
-                    //return RedirectToAction("BuscarPartidasM", "game",new { error = true } );
-                }
-                exito =BD.Unirse();
-                if (exito) { BD.CargarPreguntas(); } //falta que te redirija a una view de error
-            }
-            else
-            {
-                string Host = Dns.GetHostName();
-                IPAddress[] ip = Dns.GetHostAddresses(Host);
-                string Ip;
-                if (ip[0].ToString() != "")
-                {
-                    Ip = ip[0].ToString();
-                }
-                else
-                {
-                    Ip = "No IP";
-                }
-                BD.laPartida = new Partida(BD.laPartida.Id, BD.usuario.Id, Ip, BD.laPartida.IdCat, BD.Personajes[BuscarPersonaje(idPersonaje)].Id);
-                BD.laPartida.Turno = false;
-                BD.laPartida.Id = idpart;
-                BD.CrearPartida(BD.laPartida);
-                return RedirectToAction("WaitingRoom", "Game");              
-            }
-            if (exito)
-            {
-                return RedirectToAction("JuegoPrincipalM", "Game");
-            }
-            else { return RedirectToAction("BuscarPartidasM", "Game"); }
-        } //falta codigo de error
-       
-        public ActionResult WaitingRoom()
+        public ActionResult NucleoGameM(int idpreg)//AskM con nombre exotico xd
         {
-            return View();
+            AskForAll(idpreg);
+            BD.CambiarTurnos();
+            return RedirectToAction("JuegoPrincipalM", "game", new { idpreg });
         }
-        public ActionResult Turnos()
-        {
-            // si ninguna persona se unio a la partida del host por 10 minutos, entonces se cancela y el host tendra que crear otra o unirse a una
-            DateTime Now = DateTime.Now;
- 	        TimeSpan TiempoDiff = DateTime.Now - DateTime.Now;	
-            while (BD.laPartida.Turno != Convert.ToBoolean(Session["Host"]) && Math.Floor(TiempoDiff.TotalSeconds) <= 600 && BD.laPartida.Ganador == -1)
-            {
-                BD.Turnos(); // bucle hasta que pasen 10 minutos o sea el turno de la otra persona. Pregunta en la base si ya se cambio el turno
-                TiempoDiff = DateTime.Now - Convert.ToDateTime(BD.laPartida.Fecha);                
-            }
-            if ((BD.laPartida.Personaje1 == null && SMHG()) || (BD.laPartida.Personaje2 == null && !SMHG())) {
-                BD.TraerCosas();
-            }
-            if (BD.laPartida.Ganador != -1)
-            {
-                if (SMHG())
-                {
-                    if (BD.laPartida.Ganador == BD.laPartida.Usuario1)
-                    { return RedirectToAction("FinalizarM", "Game", new { G = true }); }
-                    else { return RedirectToAction("FinalizarM", "Game"); }
-                }
-                else
-                {
-                    if (BD.laPartida.Ganador == BD.laPartida.Usuario2)
-                    { return RedirectToAction("FinalizarM", "Game", new { G = true }); }
-                    else { return RedirectToAction("FinalizarM", "Game"); }
-                }
-            }
-            if (Math.Floor(TiempoDiff.TotalSeconds) <= 600)
-            {
-                return RedirectToAction("JuegoPrincipalM", "Game");
-            }            
-                return RedirectToAction("BuscarPartidasM", "Game", new { error = 2});   
-            }
-        public ActionResult BuscarPartidasM(byte error = 0)
-        {
-            BD.CargarPartidas();
-            BD.CargarUsuarios();
-            ViewBag.Partidas = BD.Partidas;
-            ViewBag.error = error;
-            return View();
-        }
-
-        public ActionResult StartM()
-        {
-            BD.CargarCats();
-            ViewBag.Cats = BD.Categorias;
-            ViewBag.Cats.Add(new Cat(-1, "Todos"));
-            Session["Estado"] = false;
-            return View();
-        }
-        [HttpPost]
-        public ActionResult StartM(int idCategoria)
-        {
-            Session["Host"] = true;
-            BD.CargarPersonajes(idCategoria);
-            BD.CargarPreguntas();
-            BD.CargarRtas(idCategoria);
-            BD.laPartida.IdCat = idCategoria;
-            return RedirectToAction("PickCharM", "Game");
-        }
-        public ActionResult Unirse(int id, int idcat)
-        {
-            Session["Host"] = false;
-            int cat = -1, i = 0;
-            while (cat == -1)
-            {
-                if (BD.Partidas[i].Id == id)
-                {
-                    cat = BD.Partidas[i].IdCat;
-                    i--;
-                }
-                i++;
-            }
-            BD.laPartida.Id = id;
-            BD.laPartida.Multijugador = true;
-            BD.CargarPersonajes(idcat);            
-            return RedirectToAction("PickCharM", "Game");
-        }
-        public ActionResult PickCharM()
-        {
-            ViewBag.Personajes = BD.Personajes;
-            return View();
-        }
+        
         public ActionResult TerminarXTiempo()
         {            
                 BD.laPartida.Ganador = BD.laPartida.Usuario1;
@@ -558,14 +571,6 @@ namespace QEQ.Controllers
             BD.Rank();
             return View();
         }
-        //esto deberia estar en el home controller wtf
-        public ActionResult Desarrolladores()
-        {
-            return View();
-        }
-        public ActionResult About()
-        {
-            return View();
-        }
+
     }
 }
