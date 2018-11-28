@@ -65,7 +65,7 @@ namespace QEQ.Models
         {
             _usuario1 = idUsuario;
             _ip1 = ip;
-            _fecha = DateTime.Today;
+            _fecha = DateTime.Now;
             _cantPreguntas = 0;
             _multijugador = false;
             Random random = new Random();
@@ -82,25 +82,42 @@ namespace QEQ.Models
         }
 
         //constructores multiplayer
-        public Partida(int idPartida,int Host, string ipH,int idcat)
+        public Partida(int idPartida, int Host, string ipH, int idcat)
         {
             _nroUsuario = 0;
             _id = idPartida;
             _usuario1 = Host;
             _ip1 = ipH;
-            _fecha = DateTime.Today;
+            _fecha = DateTime.Now;
             _cantPreguntas = 0;
             _multijugador = true;
             _idcat = idcat;
+            _ganador = -1;
             Historial = new Dictionary<int, int>();
         }
 
-        public void Unirse(int Guest, string ipG)
+        public Partida(int idPartida,int Host, string ipH,int idcat, int idPer)
+        {
+            _nroUsuario = 0;
+            _id = idPartida;
+            _usuario1 = Host;
+            _ip1 = ipH;
+            _fecha = DateTime.Now;
+            _cantPreguntas = 0;
+            _multijugador = true;
+            _ganador = -1;
+            _idcat = idcat;
+            Historial = new Dictionary<int, int>();
+            _personaje2 = BD.BuscarPersonaje(idPer);
+        }
+
+        public void Unirse(int Guest, string ipG,int idPer)
         {
             _nroUsuario = 1;
-            _usuario1 = Guest;
-            _ip1 = ipG;
+            _usuario2 = Guest;
+            _ip2 = ipG;
             Historial = new Dictionary<int, int>();
+            _personaje1 = BD.BuscarPersonaje(idPer);
         }
         public void Finalizar(int Ganador) {
             Historial = new Dictionary<int, int>();

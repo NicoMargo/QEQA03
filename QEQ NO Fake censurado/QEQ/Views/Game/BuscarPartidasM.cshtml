@@ -1,6 +1,4 @@
-﻿<script src="~/Scripts/alertify.js"></script>
-<script src="~/Scripts/alertify.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+﻿
 @{
     ViewBag.Title = "Listado de partidas";
 }
@@ -33,10 +31,12 @@ else
 }
 
 <script>
-    $(document).ready(function () {
-        if (@ViewBag.error) {
+	$(document).ready(function () {
+        if ('@ViewBag.error' == 1) {
             alertify.alert('Ja que chistoso. No puedes entrar a tu misma partida!');
+        } else if ('@ViewBag.error' == 2) {
+            alertify.alert('Se cerro tu partida luego de que pasaron 10 minutos');
         }
-    });
+	});
 </script>
 

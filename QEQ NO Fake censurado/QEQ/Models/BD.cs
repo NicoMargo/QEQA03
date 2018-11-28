@@ -12,8 +12,8 @@ namespace QEQ.Models
     {
 
 
-       // public static string connectionString = "Server=10.128.8.16;User=QEQA03;Password=QEQA03;Database=QEQA03"; //Ort
-       public static string connectionString = @"Server=DESKTOP-5P28OS5;Database=QEQA03;Trusted_Connection=True;"; //Anush
+        //public static string connectionString = "Server=10.128.8.16;User=QEQA03;Password=QEQA03;Database=QEQA03"; //Ort
+      public static string connectionString = @"Server=DESKTOP-5P28OS5;Database=QEQA03;Trusted_Connection=True;"; //Anush
         //public static string connectionString = @"Server=DESKTOP-P6PCH8N\SQLEXPRESS;Database=QEQA03;Trusted_Connection=True;"; //Chino
         public static Usuario usuario =new Usuario(0,"invitado","Guest","","","",false);
         public static string msg;
@@ -36,48 +36,35 @@ namespace QEQ.Models
         public static Preg BuscarPregunta(int id, bool host = true)
         {
             Preg pregunta = null;
+            List<Preg> preguntxs;
+            if (host) { preguntxs = Preguntas; }
+            else { preguntxs = Preguntas2; }
             int i = 0;
-            if (host)
+            while (i < preguntxs.Count && pregunta == null)
             {
-                while (i < Preguntas.Count && pregunta == null)
+                if (preguntxs[i].Id == id)
                 {
-                    if (Preguntas[i].Id == id)
-                    {
-                        pregunta = Preguntas[i];
-                    }
-                    else
-                    {
-                        i++;
-                    }
+                    pregunta = preguntxs[i];
                 }
-            }else
-            {
-                while (i < Preguntas2.Count && pregunta == null)
+                else
                 {
-                    if (Preguntas2[i].Id == id)
-                    {
-                        pregunta = Preguntas2[i];
-                    }
-                    else
-                    {
-                        i++;
-                    }
+                    i++;
                 }
-            }            
+            }
+
             return pregunta;
         }
 
-        public static Personaje BuscarPersonaje(string Nombre)
+        public static Personaje BuscarPersonaje(int id)
         {
             Personaje personaje = null;
             int i = 0;
             while (i < Personajes.Count() && personaje == null)
             {
-                if (Personajes[i].Nombre == Nombre)
+                if (Personajes[i].Id == id)
                 {
                     personaje = Personajes[i];
                 }
-
                 else
                 {
                     i++;
@@ -86,15 +73,18 @@ namespace QEQ.Models
             return personaje;
         }
 
-        public static Personaje BuscarPersonaje(int id)
+        public static Personaje BuscarPersonaje(int id, bool host = true)
         {
+            List<Personaje> personajxs;
+            if (host) { personajxs = BD.Personajes; }
+            else { personajxs = BD.Personajes2; }
             Personaje personaje = null;
             int i = 0;
-            while (i < Personajes.Count && personaje == null)
+            while (i < personajxs.Count && personaje == null)
             {
-                if (Personajes[i].Id == id)
+                if (personajxs[i].Id == id)
                 {
-                    personaje = Personajes[i];
+                    personaje = personajxs[i];
                 }
 
                 else
@@ -743,7 +733,7 @@ namespace QEQ.Models
             Desconectar(unaConexion);
         }
 
-        public static void Unirse()
+        public static bool Unirse()
         {
             bool exito = false;
             SqlConnection unaConexion = Conectar();
@@ -759,7 +749,8 @@ namespace QEQ.Models
             {
                 exito = Convert.ToBoolean(elLector["exito"]);
             }
-            Desconectar(unaConexion);           
+            Desconectar(unaConexion);
+            return exito;
         }
 
         public static bool Turnos( )
@@ -777,10 +768,8 @@ namespace QEQ.Models
                     try
                     {
                         laPartida.Ganador = Convert.ToInt32(elLector["Ganador"]);
-                    }catch(System.IndexOutOfRangeException)
-                    {
-
-                    }                    
+                    }
+                    catch(System.IndexOutOfRangeException) { }
                 }
             
             BD.laPartida.Turno = turno;
@@ -816,11 +805,27 @@ namespace QEQ.Models
             int regs = laConsulta.ExecuteNonQuery();
             if (regs == 1)
             {
-                BD.laPartida.Turno = !BD.laPartida.Turno;
+                BD.laPartida.Turno = !BD.laPartida.Turno;                
             }
             Desconectar(unaConexion);            
         }
-        
+
+        public static void TraerCosas() {
+            SqlConnection unaConexion = Conectar();
+            SqlCommand laConsulta = unaConexion.CreateCommand();
+            laConsulta.CommandType = System.Data.CommandType.StoredProcedure;
+            laConsulta.CommandText = "spPickChars";
+            laConsulta.Parameters.AddWithValue("@IdPartida", BD.laPartida.Id);
+            SqlDataReader elLector = laConsulta.ExecuteReader();
+            if (elLector.Read())
+            {
+                BD.laPartida.Usuario1 = Convert.ToInt32(elLector["idUsuario1"]);
+                BD.laPartida.Usuario1 = Convert.ToInt32(elLector["idUsuario2"]);
+                BD.laPartida.Personaje1 = BuscarPersonaje(Convert.ToInt32(elLector["idPer1"]), true);
+                BD.laPartida.Personaje2 = BuscarPersonaje(Convert.ToInt32(elLector["idPer2"]), false);
+            }
+            Desconectar(unaConexion);
+        }
     }
 
 }
