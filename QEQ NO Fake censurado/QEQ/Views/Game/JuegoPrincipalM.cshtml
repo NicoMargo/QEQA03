@@ -37,7 +37,7 @@ else
 @Scripts.Render("~/bundles/bootstrap")
 <script type="text/javascript">
     document.getElementById('timer').innerHTML =
-            00 + ":" + 10;
+            00 + ":" + 17;
         startTimer();
 
         function startTimer() {
@@ -48,7 +48,7 @@ else
             if (s == 59) { m = m - 1 }
             document.getElementById('timer').innerHTML =
                 m + ":" + s;
-            if (s == 1 && m == 0) {
+            if (s == 0 && m == 0) {
                 window.location.href = "@Url.Action("TerminarXTiempo", "Game")";
             }
             setTimeout(startTimer, 1000);

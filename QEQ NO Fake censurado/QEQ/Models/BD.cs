@@ -422,7 +422,7 @@ namespace QEQ.Models
             while (elLector.Read())
             {
                 Grupos.Add(new Cat(Convert.ToInt32(elLector["idGrupo"]), Convert.ToString(elLector["Nombre"])));
-                PregsXGrupos.Add(Convert.ToString(elLector["Nombre"]), new List<Preg>());
+                //PregsXGrupos.Add(Convert.ToString(elLector["Nombre"]), new List<Preg>());
             }
             Desconectar(unaConexion);
         }
@@ -490,7 +490,7 @@ namespace QEQ.Models
                 Preg Pregunta = new Preg(Convert.ToInt32(elLector["idPregunta"]), Convert.ToString(elLector["Texto"]), Convert.ToInt32(elLector["idGrupo"]),Convert.ToInt32(elLector["Puntos"]));
                 Preguntas.Add(Pregunta);
                 Preguntas2.Add(Pregunta);
-                PregsXGrupos[BuscarCat(Pregunta.idGrupo, Grupos).Nombre].Add(Pregunta);
+                //PregsXGrupos[BuscarCat(Pregunta.idGrupo, Grupos).Nombre].Add(Pregunta);
             }
             Desconectar(unaConexion);
         }

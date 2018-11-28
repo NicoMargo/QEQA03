@@ -333,7 +333,7 @@ namespace QEQ.Controllers
                     if (idpreg == -1 && idper == -1)
                     {
                         ViewBag.msgalert = "Bienvenido Al Juego, Espera a tu turno para jugar";
-                    }else if (idper == -1)
+                    }else if (idper != -1)
                     {
                         ViewBag.msgalert = "Su personaje no es " + BD.Personajes2[BuscarPersonaje(idper)].Nombre;
                         BD.Personajes2.RemoveAt(BuscarPersonaje(idper));
