@@ -35,6 +35,9 @@ namespace QEQ.Controllers
             timer.AutoReset = false;
             timer.Enabled = true;
         }
+        private void VerifTurnos() {
+            //timer 
+        }
         //Se ingresa un id, se devuelve la posicion en en la lista de la persona con esa id
         //Single player multiplayer, host guest, esta funcio devuelve true si el juego es single o sos host, si sos guest devuelve false
         public bool SMHG() {
