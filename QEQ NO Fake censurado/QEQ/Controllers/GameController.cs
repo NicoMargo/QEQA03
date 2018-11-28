@@ -466,13 +466,10 @@ namespace QEQ.Controllers
                     else { return RedirectToAction("FinalizarM", "Game"); }
                 }
             }
-            if (SMHG() && BD.laPartida.Usuario2 <=0) {
-                if (Math.Floor(TiempoDiff.TotalSeconds) <= 600)
-                {
+            if (SMHG() && BD.laPartida.Usuario2 <=0) {               
                     return RedirectToAction("JuegoPrincipalM", "Game");
-                }
-                return RedirectToAction("BuscarPartidasM", "Game", new { error = 2 });
-            }
+                }               
+            
             return RedirectToAction("JuegoPrincipalM", "Game");
         }
 
@@ -556,10 +553,10 @@ namespace QEQ.Controllers
         public ActionResult TerminarXTiempo()
         {            
                 BD.laPartida.Ganador = BD.laPartida.Usuario1;
-                BD.Ganador();   
-                BD.laPartida.Ganador = BD.laPartida.Usuario2;
-                BD.Ganador();
-                return RedirectToAction("FinalizarM", "Game");
+            BD.CambiarTurnos();
+            BD.laPartida.Ganador = BD.laPartida.Usuario2;
+            BD.CambiarTurnos();
+            return RedirectToAction("FinalizarM", "Game");
         }
         public ActionResult FinalizarM(bool G =false)
         {
