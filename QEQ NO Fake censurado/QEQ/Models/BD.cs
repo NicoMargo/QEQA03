@@ -684,7 +684,6 @@ namespace QEQ.Models
             }
             Desconectar(unaConexion);
         }
-
         //Game 2===============================================================================================================================
         public static void CargarPartidas()
         {
@@ -825,6 +824,22 @@ namespace QEQ.Models
                 BD.laPartida.Personaje2 = BuscarPersonaje(Convert.ToInt32(elLector["idPer2"]), false);
             }
             Desconectar(unaConexion);
+        }
+        public static int OlvidoPass (Usuario usu)
+        {
+   
+            SqlConnection unaConexion = Conectar();
+            SqlCommand consulta = unaConexion.CreateCommand();
+            consulta.CommandType = System.Data.CommandType.StoredProcedure;
+            consulta.CommandText = "spOlvidoPass";
+            consulta.Parameters.AddWithValue("@Username", usu.Username);
+            consulta.Parameters.AddWithValue("@NuevaPass", usu.Pass);           
+            int regsafectados = consulta.ExecuteNonQuery();
+            regsafectados++;
+            Desconectar(unaConexion);
+            return regsafectados;
+
+
         }
     }
 
