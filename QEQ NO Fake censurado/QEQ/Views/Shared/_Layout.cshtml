@@ -11,15 +11,7 @@
     <script src="~/Scripts/alertify.min.js"></script>
     <link href="~/Content/alertify.bootstrap.css" rel="stylesheet" />
     <link href="~/Content/alertify.core.css" rel="stylesheet" />
-    <link href="~/Content/alertify.default.css" rel="stylesheet" />
-
-        <script>
-            $(document).ready(function () {
-                $('x').attr('disabled', true);
-            });
-        </script>
-  
-</head>
+    <link href="~/Content/alertify.default.css" rel="stylesheet" /> </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
@@ -55,6 +47,5 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
-
 </body>
 </html>

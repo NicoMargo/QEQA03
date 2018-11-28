@@ -12,8 +12,8 @@ namespace QEQ.Models
     {
 
 
-        public static string connectionString = "Server=10.128.8.16;User=QEQA03;Password=QEQA03;Database=QEQA03"; //Ort
-      // public static string connectionString = @"Server=DESKTOP-5P28OS5;Database=QEQA03;Trusted_Connection=True;"; //Anush
+        //public static string connectionString = "Server=10.128.8.16;User=QEQA03;Password=QEQA03;Database=QEQA03"; //Ort
+      public static string connectionString = @"Server=DESKTOP-5P28OS5;Database=QEQA03;Trusted_Connection=True;"; //Anush
         //public static string connectionString = @"Server=DESKTOP-P6PCH8N\SQLEXPRESS;Database=QEQA03;Trusted_Connection=True;"; //Chino
         public static Usuario usuario =new Usuario(0,"invitado","Guest","","","",false);
         public static string msg;
@@ -55,17 +55,16 @@ namespace QEQ.Models
             return pregunta;
         }
 
-        public static Personaje BuscarPersonaje(string Nombre)
+        public static Personaje BuscarPersonaje(int id)
         {
             Personaje personaje = null;
             int i = 0;
             while (i < Personajes.Count() && personaje == null)
             {
-                if (Personajes[i].Nombre == Nombre)
+                if (Personajes[i].Id == id)
                 {
                     personaje = Personajes[i];
                 }
-
                 else
                 {
                     i++;
@@ -423,7 +422,7 @@ namespace QEQ.Models
             while (elLector.Read())
             {
                 Grupos.Add(new Cat(Convert.ToInt32(elLector["idGrupo"]), Convert.ToString(elLector["Nombre"])));
-                PregsXGrupos.Add(Convert.ToString(elLector["Nombre"]), new List<Preg>());
+                //PregsXGrupos.Add(Convert.ToString(elLector["Nombre"]), new List<Preg>());
             }
             Desconectar(unaConexion);
         }
@@ -491,7 +490,7 @@ namespace QEQ.Models
                 Preg Pregunta = new Preg(Convert.ToInt32(elLector["idPregunta"]), Convert.ToString(elLector["Texto"]), Convert.ToInt32(elLector["idGrupo"]),Convert.ToInt32(elLector["Puntos"]));
                 Preguntas.Add(Pregunta);
                 Preguntas2.Add(Pregunta);
-                PregsXGrupos[BuscarCat(Pregunta.idGrupo, Grupos).Nombre].Add(Pregunta);
+                //PregsXGrupos[BuscarCat(Pregunta.idGrupo, Grupos).Nombre].Add(Pregunta);
             }
             Desconectar(unaConexion);
         }
@@ -806,7 +805,7 @@ namespace QEQ.Models
             int regs = laConsulta.ExecuteNonQuery();
             if (regs == 1)
             {
-                BD.laPartida.Turno = !BD.laPartida.Turno;
+                BD.laPartida.Turno = !BD.laPartida.Turno;                
             }
             Desconectar(unaConexion);            
         }
