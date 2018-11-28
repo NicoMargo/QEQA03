@@ -2,12 +2,13 @@
 @{
     ViewBag.Title = "BorrarP";
 }
+<link href="~/Content/MiCSS.css" type="text/css" rel="stylesheet">
 @using QEQ.Models
 <h2>Eliminar Personaje @BD.BuscarPersonaje(ViewBag.Id).Nombre</h2>
 
 Estas Segure?
 <form method="post" action="@Url.Action("BorrarPer", "BackOffice")">
     <input type="hidden" name="Id" value="@ViewBag.Id" />
-    <input type="submit" name="Confirmacion" value="Si" />
-    <input type="submit" name="Confirmacion" value="No" />
+    <input type="submit" name="Confirmacion" value="Si" class="btnClassS"/>
+    <input type="submit" name="Confirmacion" value="No" class="btnClassS"/>
 </form>

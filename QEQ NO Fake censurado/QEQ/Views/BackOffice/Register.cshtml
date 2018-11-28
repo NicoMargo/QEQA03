@@ -1,18 +1,22 @@
-﻿@{
-    ViewBag.Title = "Registrarse";
-}
+﻿<link href="~/Content/MiCSS.css" type="text/css" rel="stylesheet">
 @using QEQ.Models;
 @model Usuario
-<h2>Registrarse</h2>
 @using (@Html.BeginForm("Register", "BackOffice", FormMethod.Post))
 {
-<form method="post" action="@Url.Action("Register","Usuario")">
-    Username:    @Html.TextBoxFor(x => x.Username, new { @required = "required" }) @Html.ValidationMessageFor(x => x.Username) <br />
-    Nombre:      @Html.TextBoxFor(x => x.Nombre, new { @required = "required" }) @Html.ValidationMessageFor(x => x.Nombre) <br />
-    Contraseña:  @Html.PasswordFor(x => x.Pass, new { @required = "required" }) @Html.ValidationMessageFor(x => x.Pass) <br />
-    Email:       @Html.TextBoxFor(x => x.Email, new { @required = "required" }) @Html.ValidationMessageFor(x => x.Email)<br />
-    Admin:       @Html.CheckBoxFor(x => x.Admin) @Html.ValidationMessageFor(x => x.Admin)
-    Pass:        <input type="password" name="Pin" />
-    <input type="submit" value="Registrarse" />
-</form>
-}
+	<h2 class="Title">Registrarse</h2>
+	@Session["msg"]
+	<br />
+	<div class="loginBox">
+		<p class="text-info">Complete los campos para registrarse</p>
+		<br /><br />
+			  <form method="post" action="@Url.Action("Register","Usuario")">
+			  	    @Html.TextBoxFor(x => x.Username, new { @required = "required", @class = ("inputext"), @placeholder = "Username" }) @Html.ValidationMessageFor(x => x.Username) <br />
+			      @Html.TextBoxFor(x => x.Nombre, new { @required = "required", @class = ("inputext"), @placeholder = "Nombre" }) @Html.ValidationMessageFor(x => x.Nombre) <br />
+			  @Html.PasswordFor(x => x.Pass, new { @required = "required", @class = ("inputext"), @placeholder = "Contrasena" }) @Html.ValidationMessageFor(x => x.Pass) <br />
+       @Html.TextBoxFor(x => x.Email, new { @required = "required", @class = ("inputext"), @placeholder = "E-mail" }) @Html.ValidationMessageFor(x => x.Email)<br />
+			Admin:  @Html.CheckBoxFor(x => x.Admin, new{@class=("chequeo"), @checked= "checked"}) @Html.ValidationMessageFor(x => x.Admin)<br />
+       <input placeholder="Pass" type="password" name="Pin" class="inputext" required /><br />
+			  <input type="submit" value="Registrarse" class="btnClassS" />
+			  </form>
+	</div>
+		}

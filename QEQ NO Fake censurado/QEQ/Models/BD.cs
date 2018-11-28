@@ -636,11 +636,7 @@ namespace QEQ.Models
             {
                if (elLector["msg"].ToString() == "Pass cambiada")
                 {
-                msg =(elLector["msg"].ToString());
-                
-
-
-
+                    msg = (elLector["msg"].ToString());
                 }
                 else if (elLector["msg"].ToString() != "Pass cambiada")
 
