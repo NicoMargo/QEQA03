@@ -1,13 +1,13 @@
-﻿<link href="~/Content/MiCSS.css" type="text/css" rel="stylesheet">
-@using QEQ.Models;
+﻿@using QEQ.Models;
 @using (@Html.BeginForm("LogIn", "Backoffice", FormMethod.Post))
+
 {
     <h2 class="Title">Iniciar Sesion </h2>
     <br />
     <div class="loginBox">
         <p class="text-info">Ingrese su Usuario y Contraseña para iniciar Sesion</p>
         <br /> @Session["msg"]<br />
-        <form action="@Url.Action("LogIn","Backoffice")" method="post">
+        <form action="@Url.Action("LogIn", "Backoffice")" method="post">
 
             <input placeholder="Usuario" type="text" name="Usuario" class="inputext" required /> <br />
             <input placeholder="Contraseña" type="password" name="Contraseña" class="inputext" required /><br />
@@ -19,3 +19,7 @@
     </div>
 
 }
+@if (ViewBag.error == true)
+    {
+<script type="text/javascript">alertify.alert('Debes iniciar sesion pata jugar multijugador')</script>
+        }

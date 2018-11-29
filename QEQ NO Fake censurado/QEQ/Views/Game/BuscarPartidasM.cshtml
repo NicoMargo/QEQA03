@@ -30,13 +30,13 @@ else
     <h3> No se encontraron Partidas xd</h3>
 }
 
-<script>
-	$(document).ready(function () {
+<script>	
+    window.onload = function () {
         if ('@ViewBag.error' == 1) {
             alertify.alert('Ja que chistoso. No puedes entrar a tu misma partida!');
         } else if ('@ViewBag.error' == 2) {
             alertify.alert('Se cerro tu partida luego de que pasaron 10 minutos');
         }
-	});
+    };
 </script>
 

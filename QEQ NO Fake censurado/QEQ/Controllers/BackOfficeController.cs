@@ -32,8 +32,9 @@ namespace QEQ.Controllers
         }
 
 
-        public ActionResult LogIn()
+        public ActionResult LogIn(bool error = false)
         {
+            ViewBag.error = error;
             Session["msg"] = BD.msg;
             BD.msg = "";
             return View();

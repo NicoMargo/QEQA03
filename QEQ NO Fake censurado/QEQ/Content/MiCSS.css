@@ -111,9 +111,6 @@ AText {
     border-top: 1px solid #f1f1f5;
     float: left;
 }
-
-
-
 .link {
     border-bottom: 2px dotted #55acee;
     text-decoration: none;
@@ -214,6 +211,7 @@ AText {
     width: 100%;
     margin-bottom: 10px;
 }
+
 .HtmlTextBox {
     padding: 0;
     height: 30px;
