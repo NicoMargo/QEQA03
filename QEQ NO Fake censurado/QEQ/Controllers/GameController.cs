@@ -558,14 +558,6 @@ namespace QEQ.Controllers
             BD.Rank();
             return View();
         }
-        //esto deberia estar en el home controller wtf
-        public ActionResult Desarrolladores()
-        {
-            return View();
-        }
-        public ActionResult About()
-        {
-            return View();
-        }
+                
     }
 }
