@@ -4,16 +4,16 @@
         <script type="text/javascript">alertify.alert('Se modificaron todos sus datos satisfactoriamente');</script>
     }
 }
-<div class="jumbotron">
-    <img src="~/Content/LOGO.png" width="300" alt="Logo" align="right" />
-    <h1>¿Quien Es Quien?</h1>
-    <p class="lead"> Bienvenido al mejor juego de 4IA del Quien Es Quien desarollado por CGCS Corp </p>
-    <p> <a href="@Url.Action("TypeGame", "Game")" class="btn btn-primary btn-lg">Acceder al juego &raquo;</a></p>
-    @{
+        <div class="jumbotron">
+            <img src="~/Content/LOGO.png" width="300" alt="Logo" align="right" />
+            <h1>¿Quien Es Quien?</h1>
+            <p class="lead"> Bienvenido al mejor juego de 4IA del Quien Es Quien desarollado por CGCS Corp </p>
+            <p> <a href="@Url.Action("TypeGame", "Game")" class="btn btn-primary btn-lg">Acceder al juego &raquo;</a><a href="@Url.Action("Ranking", "Home")" class="btn btn-danger btn-lg">Ver ranking &raquo;</a></p>
+            @{
 
-        if (Convert.ToString(Session["Admin"]) == "Admin")
-        {
-            <p> <a href="@Url.Action("Index", "BackOffice")" class="btn btn-success btn-lg">Area 51 &raquo;</a></p>
-        }
-    }
-</div>
+                if (Convert.ToString(Session["Admin"]) == "Admin")
+                {
+                    <p> <a href="@Url.Action("Index", "BackOffice")" class="btn btn-success btn-lg">Area 51 &raquo;</a></p>
+                }
+            }
+        </div>
