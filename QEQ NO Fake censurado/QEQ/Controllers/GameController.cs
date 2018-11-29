@@ -275,9 +275,22 @@ namespace QEQ.Controllers
             if (BD.laPartida.Personaje1.Id == idPersonaje || BD.laPartida.Puntos < iRiskPenalty)
             {
                 bool ganador = false;
-                if (!(BD.Personajes.Count <= 5 && idPersonaje != BD.laPartida.Personaje1.Id))
+                if (!BD.laPartida.Multijugador)
                 {
+                    if (!(BD.Personajes.Count <= 5 && idPersonaje != BD.laPartida.Personaje1.Id))
+                    {
 
+                        BD.laPartida.Finalizar(BD.laPartida.Usuario1);
+                        ganador = false;
+                        if (BD.laPartida.Personaje1.Id == idPersonaje)
+                        {
+                            ganador = true;
+                        }
+                    }
+                    return RedirectToAction("FinalizarS", "Game", new { ganador });
+                }
+                else
+                {
                     BD.laPartida.Finalizar(BD.laPartida.Usuario1);
                     ganador = false;
                     if (BD.laPartida.Personaje1.Id == idPersonaje)
@@ -285,8 +298,8 @@ namespace QEQ.Controllers
                         ganador = true;
                     }
                 }
-                return RedirectToAction("FinalizarS", "Game", new { ganador });
             }
+
             else
             {
                 BD.laPartida.Puntos -= iRiskPenalty;
@@ -314,11 +327,18 @@ namespace QEQ.Controllers
         //trae las partidas al lobby para que te puedas unir
         public ActionResult BuscarPartidasM(byte error = 0)
         {
-            BD.CargarPartidas();
-            BD.CargarUsuarios();
-            ViewBag.Partidas = BD.Partidas;
-            ViewBag.error = error;
-            return View();
+            if (Convert.ToString(Session["Usu"]) != "")
+            {
+                BD.CargarPartidas();
+                BD.CargarUsuarios();
+                ViewBag.Partidas = BD.Partidas;
+                ViewBag.error = error;
+                return View();
+            }else
+            {
+                return RedirectToAction("LogIn", "BackOffice", new { error = true});
+            }
+
         }
 
         //View que tiene un select de categorias -->StartM Post
@@ -458,14 +478,16 @@ namespace QEQ.Controllers
                 {
                     if (BD.laPartida.Ganador == BD.laPartida.Usuario2)
                     { return RedirectToAction("FinalizarM", "Game", new { G = true }); }
-                    else { return RedirectToAction("FinalizarM", "Game"); }
+                    else {
+                        return RedirectToAction("FinalizarM", "Game");
+                    }
                 }
             }
-            if (BD.laPartida.Usuario1 <= 0 && BD.laPartida.Usuario2 <= 0)
+            if (BD.laPartida.Usuario1 >= 0 && BD.laPartida.Usuario2 >= 0)
             {
                 return RedirectToAction("JuegoPrincipalM", "Game");
-            }
-            return RedirectToAction("BuscarPartidasM", "Game");
+            }            
+                return RedirectToAction("BuscarPartidasM", "Game");            
         }
 
         public ActionResult JuegoPrincipalM(int idpreg = -1, int idper = -1)
@@ -486,7 +508,7 @@ namespace QEQ.Controllers
                     }
                     else if (idper != -1)
                     {
-                        ViewBag.msgalert = "Su personaje no es " + BD.Personajes2[BuscarPersonaje(idper)].Nombre;
+                        ViewBag.msgalert = "Su personaje no es " + BD.BuscarPersonaje(idper, false).Nombre;
                         BD.Personajes2.Remove(BD.BuscarPersonaje(idper,false));
                     }
                     else if (AskForOne(BD.laPartida.Personaje2.Id, idpreg, true))
@@ -523,15 +545,9 @@ namespace QEQ.Controllers
                     }
                     else if (idpreg == -2)
                     {
-
-                    }
-                    else if(idper != -1)
-                    { 
-
                         ViewBag.msgalert = "Se salteo su turno por tiempo, Espera a tu turno para jugar";
                     }
-                    else
-
+                    else if(idper != -1)
                     {
                         ViewBag.msgalert = "Su personaje no es " + BD.Personajes[BuscarPersonaje(idper)].Nombre;
                         BD.Personajes.Remove(BD.BuscarPersonaje(idper));

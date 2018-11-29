@@ -819,7 +819,7 @@ namespace QEQ.Models
             if (elLector.Read())
             {
                 BD.laPartida.Usuario1 = Convert.ToInt32(elLector["idUsuario1"]);
-                BD.laPartida.Usuario1 = Convert.ToInt32(elLector["idUsuario2"]);
+                BD.laPartida.Usuario2 = Convert.ToInt32(elLector["idUsuario2"]);
                 BD.laPartida.Personaje1 = BuscarPersonaje(Convert.ToInt32(elLector["idPer1"]), true);
                 BD.laPartida.Personaje2 = BuscarPersonaje(Convert.ToInt32(elLector["idPer2"]), false);
             }
