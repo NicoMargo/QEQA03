@@ -16,9 +16,9 @@
         <br /><br />
         <form action="@Url.Action("OlvidoPass","Backoffice")" method="post">
 
-            @Html.Label("Usuario") @Html.TextBoxFor(U => U.Username, new { type = "text", required = "required" })@Html.ValidationMessageFor(U => U.Username)<br />
-            @Html.Label("Nueva Contraseña") @Html.TextBoxFor(U => U.Pass, new { type = "password", required = "required" }) @Html.ValidationMessageFor(U => U.Pass) <br />
-            <input type="submit" value="Enviar" class="btnClassS" /><br />
+           @Html.TextBoxFor(U => U.Username, new { type = "text", required = "required", @class = ("inputext"), @placeholder="Usuario" })@Html.ValidationMessageFor(U => U.Username)<br />
+            @Html.TextBoxFor(U => U.Pass, new { type = "password", required = "required", @class = ("inputext"), @placeholder = "Nueva contrasena" }) @Html.ValidationMessageFor(U => U.Pass) <br />
+         <input type="submit" value="Enviar" class="btnClassS" /><br />
         </form>
     </div>
 }

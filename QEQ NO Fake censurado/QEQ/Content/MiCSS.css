@@ -1,6 +1,6 @@
 ﻿
 .FondoAbout {
-    background-color: lightblue;
+    background-color: #3CBC8D;
 }
 
 .TextLoginReg {
@@ -10,17 +10,19 @@
     font-size: 15px;
 }
 
-ATitle {
-    color: red;
-    text-align: center;
+.ATitle {
+    color: white;
+   text-align: center;
     font-family: verdana;
+max-width: 1200px;
 }
 
-AText {
-    text-align: center;
-    max-width: 370px;
+.AText {
+text-align: center;
+    max-width: 1200px;
     font-family: verdana;
     font-size: 18px;
+color: white;
 }
 
 .btnClassS {
@@ -228,6 +230,7 @@ AText {
     float:left
 }
 
+<<<<<<< HEAD
 .HtmlTextBox {
     padding: 0;
     height: 30px;
@@ -239,3 +242,6 @@ AText {
     background-color: white;
     font-size: 16px;
 }
+=======
+
+>>>>>>> 32e22ae023a494f262eed0f346ebce884521bf97

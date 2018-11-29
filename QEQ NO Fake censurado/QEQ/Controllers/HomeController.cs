@@ -32,6 +32,11 @@ namespace QEQ.Controllers
         {
             return View();
         }
+        public ActionResult Ranking()
+        {
+            BD.Rank();
+            return View();
+        }
     }
 }
                 

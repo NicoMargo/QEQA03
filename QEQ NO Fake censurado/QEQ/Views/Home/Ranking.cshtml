@@ -1,0 +1,35 @@
+﻿
+@{
+    ViewBag.Title = "Ranking";
+    int i = 0;
+}
+@using QEQ.Models
+<h2>Rankings</h2>
+<p> <a href="@Url.Action("Index", "Home")" class="btn btn-info btn-lg">Volver a Home &raquo;</a></p>
+<div align="left">
+    Ranking de Partidas<br />
+    <table border="1" align="left" >
+        <tr>
+            <td>Puesto</td>
+            <td>ID</td>
+            <td>Jugador</td>
+            <td>Puntos</td>
+            <td>Cantidad de Preguntas</td>
+            <td>Personaje Jugado</td>
+        </tr>
+        @while (i < 5 && i < BD.Ranking.Count)
+        {
+            <tr>
+                <td>Top @i </td>
+                <td>@BD.Ranking[i].Id.ToString()</td>
+                <td>@BD.BuscarUsuario(BD.Ranking[i].Usuario1).Nombre</td>
+                <td>@BD.Ranking[i].Puntos.ToString()</td>
+                <td>@BD.Ranking[i].CantPreguntas.ToString()</td>
+                <td> <img class="img-responsive" src="@BD.Ranking[i].Personaje1.Direccion" width="135" /> <br />@BD.Ranking[i].Personaje1.Nombre</td>
+            </tr>
+            i++;
+        }
+
+    </table>
+    </div>
+
