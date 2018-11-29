@@ -266,7 +266,8 @@ namespace QEQ.Controllers
             {
                 BD.laPartida.Puntos -= BD.BuscarPregunta(idpreg).Puntos;
             }
-           // BD.laPartida.Historial.Add(idpreg, cantDescartados);
+            if (SMHG()) { BD.laPartida.Historial.Add(idpreg*10, cantDescartados); }
+            else { BD.laPartida.Historial.Add(idpreg*10+1, cantDescartados); }
         }
 
         public ActionResult RiskS(int idPersonaje)
@@ -311,7 +312,6 @@ namespace QEQ.Controllers
 
         public ActionResult FinalizarS(bool Ganador = false)
         {
-            BD.CargarUsuarios();
             BD.CargarPreguntas();
             BD.Rank();
             if (Ganador)
@@ -321,7 +321,7 @@ namespace QEQ.Controllers
             else {
                 ViewBag.Msg = "Usted ha Perdido";
             }
-            BD.GuardarPartida1(BD.laPartida);            
+            BD.GuardarPartida1(BD.laPartida);  
             return View();
         }
         //Game 2 =============================================================================================================
