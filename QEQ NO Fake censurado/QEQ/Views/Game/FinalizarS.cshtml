@@ -47,7 +47,8 @@
         </tr>
         @foreach (int idPregunta in BD.laPartida.Historial.Keys)
         {
-            Preg preg = BD.BuscarPregunta(idPregunta/10);
+            Preg preg = BD.BuscarPregunta(idPregunta
+                );
             <tr>
                 <td>@preg.Id</td>
                 <td>@preg.Texto?</td>
