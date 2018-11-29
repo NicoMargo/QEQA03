@@ -44,7 +44,7 @@ else
             if (s == 59) { m = m - 1 }
             document.getElementById('timer').innerHTML =
                 m + ":" + s;
-            if ((s == 0 && m == 0) || (s == 59 && m == -1)) {
+            if ((s == 0 && m == 0) || (m < 0)) {
                 window.location.href = "@Url.Action("TerminarXTiempo", "Game")";
             }
             setTimeout(startTimer, 1000);

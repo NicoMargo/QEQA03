@@ -637,8 +637,6 @@ namespace QEQ.Controllers
         
         public ActionResult TerminarXTiempo()
         {            
-            BD.laPartida.Ganador = BD.laPartida.Usuario1;            
-            BD.laPartida.Ganador = BD.laPartida.Usuario2;
             if (SMHG() == BD.laPartida.Turno)
             {
                 BD.CambiarTurnos();
