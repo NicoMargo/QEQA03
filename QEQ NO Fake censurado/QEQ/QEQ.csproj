@@ -297,8 +297,8 @@
     <Content Include="Views\BackOffice\Register.cshtml" />
     <Content Include="Views\BackOffice\OlvidoPass.cshtml" />
     <Content Include="Views\BackOffice\ModificarUsu.cshtml" />
-    <Content Include="Views\Game\About.cshtml" />
-    <Content Include="Views\Game\Desarrolladores.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Desarrolladores.cshtml" />
     <Content Include="Views\BackOffice\ABMPer.cshtml" />
     <Content Include="Views\BackOffice\ABMMsg.cshtml" />
     <Content Include="Views\BackOffice\ABMCat.cshtml" />

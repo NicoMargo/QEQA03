@@ -1,4 +1,5 @@
-﻿.FondoAbout {
+﻿
+.FondoAbout {
     background-color: lightblue;
 }
 
@@ -27,7 +28,7 @@ AText {
     padding: 10px 1px 10px 10px;
     color: #FFF;
     background-color: #4bc970;
-    font-size: 19px;
+    font-size: 16px;
     text-align: center;
     font-style: normal;
     border-radius: 5px;
@@ -37,6 +38,11 @@ AText {
     box-shadow: 0 -1px 0 rgba(255,255,255,0.1) inset;
     margin-bottom: 10px;
 }
+
+    .btnClassS:hover {
+        background-color: #3bd96a;
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    }
 
 .Title {
     background-color: #3CBC8D;
@@ -105,6 +111,7 @@ AText {
     border-top: 1px solid #f1f1f5;
     float: left;
 }
+
 .HtmlTextBox {
     padding: 0;
     height: 30px;
@@ -115,5 +122,109 @@ AText {
     border-color: rgba(0,0,0,.15);
     background-color: white;
     font-size: 16px;
+}
+
+
+
+
+.link {
+    border-bottom: 2px dotted #55acee;
+    text-decoration: none;
+    color: #55acee;
+    transition: .3s;
+    -webkit-transition: .3s;
+    -moz-transition: .3s;
+    -o-transition: .3s;
+}
+
+    .link:hover {
+        color: #2ecc71;
+        border-bottom: 2px dotted #2ecc71;
+    }
+
+.btn {
+    cursor: pointer;
+    margin: 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    padding: 10px;
+    font-size: 22px;
+    transition: .3s;
+    -webkit-transition: .3s;
+    -moz-transition: .3s;
+    -o-transition: .3s;
+    display: inline-block;
+}
+
+    .btn:hover {
+        cursor: url(http://cur.cursors-4u.net/symbols/sym-1/sym46.cur), auto;
+    }
+
+.blue {
+    font-weight: bolder;
+    color: #55acee;
+    border: 2px #55acee solid;
+}
+
+    .blue:hover {
+        background-color: #55acee;
+        color: #fff
+    }
+
+.green {
+    font-weight: bolder;
+    color: #2ecc71;
+    border: 2px #2ecc71 solid;
+}
+
+    .green:hover {
+        color: #fff;
+        background-color: #2ecc71;
+    }
+
+.red {
+    font-weight: bolder;
+    color: #e74c3c;
+    border: 2px #e74c3c solid;
+}
+
+    .red:hover {
+        color: #fff;
+        background-color: #e74c3c;
+    }
+
+.CentrarBotones {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    text-align: center;
+    margin: auto;
+    margin-top: 20px;
+}
+
+.Categoria {
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    padding: 7px 7px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: black;
+    color: white;
+    background-color: royalblue;
+    font-family: Verdana;
+}
+
+.DDLClass {
+    margin: 10px 20px;
+    padding: 10px 1px 10px 10px;
+    background-color: tomato;
+    color: white;
+    font-size: 16px;
+    text-align: center;
+    font-style: normal;
+    border-radius: 5px;
+    width: 100%;
+    margin-bottom: 10px;
 }
 

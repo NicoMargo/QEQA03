@@ -2,11 +2,10 @@
     ViewBag.Title = "Comienzo";
 }
 
-<h2>Agregar una nueva Categoria</h2>
-
 @using (Html.BeginForm("StartS", "Game", FormMethod.Post))
 {
-    @Html.Label("Elije la Categoría de Personajes")<br />
-    @Html.DropDownList("idCategoria",new SelectList(ViewBag.Cats, "Id", "Nombre")) <br />
-    <input type="submit" name="cargar" value="Empezar" />
+    <h2 class="Categoria">Elige la Categoría de Personajes</h2><br />
+    @Html.DropDownList("idCategoria",new SelectList(ViewBag.Cats, "Id", "Nombre"), new { @class = "DDLClass" }) <br />    
+      <input type="submit" name="cargar" value="Empezar" class="btnClassS" />
 }
+
