@@ -118,6 +118,8 @@ namespace QEQ.Models
             _ip2 = ipG;
             Historial = new Dictionary<int, int>();
             _personaje1 = BD.BuscarPersonaje(idPer);
+            _ganador = -1;
+            _fecha = DateTime.Now;
         }
         public void Finalizar(int Ganador) {
             Historial = new Dictionary<int, int>();

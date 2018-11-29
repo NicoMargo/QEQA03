@@ -1,17 +1,26 @@
-﻿
-
-   <h2>Olvido Contraseña</h2>
-    @using QEQ.Models;
-    @using (@Html.BeginForm("OlvidoPass", "Backoffice", FormMethod.Post))
-    { 
-    <br/>
-<form action="Url.action(" OlvidoPass","Backoffice")", method="post">
-    <input placeholder="Usuario" type="text" name="Usuario" required /> <br />
-    <input placeholder="Nueva Contraseña" type="password" name="NuevaContraseña" required /><br />
-    <input type="submit" value="enviar" /><br />
-</form>
+﻿@{
+    if (Convert.ToString(Session["msgOP"]) != "")
+    {
+        <script type="text/javascript">alertify.alert('@Session["msgOP"]')</script>
     }
     
+}
+@model QEQ.Models.Usuario
+@using QEQ.Models;
+@using (@Html.BeginForm("OlvidoPass", "BackOffice", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <h2 class="Title">Cambiar contraseña </h2>
+    <br />
+    <div class="loginBox">
+        <p class="text-info">Ingrese su usuario y nueva contraseña para cambiar la misma</p>
+        <br /><br />
+        <form action="@Url.Action("OlvidoPass","Backoffice")" method="post">
 
-<h2>OlvidoPass</h2>
+            @Html.Label("Usuario") @Html.TextBoxFor(U => U.Username, new { type = "text", required = "required" })@Html.ValidationMessageFor(U => U.Username)<br />
+            @Html.Label("Nueva Contraseña") @Html.TextBoxFor(U => U.Pass, new { type = "password", required = "required" }) @Html.ValidationMessageFor(U => U.Pass) <br />
+            <input type="submit" value="Enviar" class="btnClassS" /><br />
+        </form>
+    </div>
+}
+
 

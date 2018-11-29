@@ -12,8 +12,8 @@ namespace QEQ.Models
     {
 
 
-        //public static string connectionString = "Server=10.128.8.16;User=QEQA03;Password=QEQA03;Database=QEQA03"; //Ort
-      public static string connectionString = @"Server=DESKTOP-5P28OS5;Database=QEQA03;Trusted_Connection=True;"; //Anush
+       public static string connectionString = "Server=10.128.8.16;User=QEQA03;Password=QEQA03;Database=QEQA03"; //Ort
+     // public static string connectionString = @"Server=DESKTOP-5P28OS5;Database=QEQA03;Trusted_Connection=True;"; //Anush
         //public static string connectionString = @"Server=DESKTOP-P6PCH8N\SQLEXPRESS;Database=QEQA03;Trusted_Connection=True;"; //Chino
         public static Usuario usuario =new Usuario(0,"invitado","Guest","","","",false);
         public static string msg;
@@ -684,7 +684,6 @@ namespace QEQ.Models
             }
             Desconectar(unaConexion);
         }
-
         //Game 2===============================================================================================================================
         public static void CargarPartidas()
         {
@@ -825,6 +824,22 @@ namespace QEQ.Models
                 BD.laPartida.Personaje2 = BuscarPersonaje(Convert.ToInt32(elLector["idPer2"]), false);
             }
             Desconectar(unaConexion);
+        }
+        public static int OlvidoPass (Usuario usu)
+        {
+   
+            SqlConnection unaConexion = Conectar();
+            SqlCommand consulta = unaConexion.CreateCommand();
+            consulta.CommandType = System.Data.CommandType.StoredProcedure;
+            consulta.CommandText = "spOlvidoPass";
+            consulta.Parameters.AddWithValue("@Username", usu.Username);
+            consulta.Parameters.AddWithValue("@NuevaPass", usu.Pass);           
+            int regsafectados = consulta.ExecuteNonQuery();
+            regsafectados++;
+            Desconectar(unaConexion);
+            return regsafectados;
+
+
         }
     }
 

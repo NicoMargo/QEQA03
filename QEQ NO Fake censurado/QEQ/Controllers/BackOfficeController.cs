@@ -71,17 +71,35 @@ namespace QEQ.Controllers
         }
         public ActionResult OlvidoPass()
         {
+            Session["msg"] = BD.msg;
+            BD.msg = "";
             return View();
         }
         [HttpPost]
-        public ActionResult OlvidoPass(string Usuario, string Contraseña)
+        public ActionResult OlvidoPass(Usuario usu)
         {
-            if (Usuario != "" && Contraseña != "")
-            {
-                //Usuario usu;
-               // usu = BD.spOlvidoPass(Usuario, Contraseña);
+            if (usu.Username != "" && usu.Pass != "")
+            {              
+                    if (usu.Pass.Length > 5)
+                    {
+                        int regsaf = BD.OlvidoPass(usu);
+                        if (!Convert.ToBoolean(regsaf))
+                    {
+                        Session["msgOP"] = "No Existe ese nombre de usuario";
+                        return RedirectToAction("OlvidoPass", "BackOffice");
+                    }
+                        Session["msgOP"] = "";
+                        Session["Usu"] = usu.Nombre;                        
+                        return RedirectToAction("Index", "Home", new { id = 2});                    
+                    }
+                    else
+                    {
+                    Session["msgOP"] = "La contraseña debe tener 6 digitos o mas";
+                    return RedirectToAction("OlvidoPass", "BackOffice");                        
+                }                
             }
-            return RedirectToAction("OlvidoPass", "BackOfice");
+           
+            return RedirectToAction("LogIn", "BackOffice");
         }
 
         public ActionResult Register()

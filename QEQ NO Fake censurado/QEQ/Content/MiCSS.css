@@ -72,7 +72,9 @@ AText {
     box-sizing: initial;
     width: 100%;
     padding: 10px 10px 10px 10px;
+    
 }
+
 .TPuntos {
     text-align: center;
     margin-top: 15px;
@@ -109,6 +111,7 @@ AText {
     border-top: 1px solid #f1f1f5;
     float: left;
 }
+
 
 
 .link {
@@ -210,4 +213,15 @@ AText {
     border-radius: 5px;
     width: 100%;
     margin-bottom: 10px;
+}
+.HtmlTextBox {
+    padding: 0;
+    height: 30px;
+    position: relative;
+    left: 0;
+    outline: none;
+    border: 1px solid #cdcdcd;
+    border-color: rgba(0,0,0,.15);
+    background-color: white;
+    font-size: 16px;
 }

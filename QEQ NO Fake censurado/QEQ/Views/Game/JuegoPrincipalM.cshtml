@@ -28,7 +28,7 @@ else
         @{
             foreach (Personaje personaje in ViewBag.Per)
             {
-                <a id="foto" href='@Url.Action("RiskS", "Game", new { idPersonaje = personaje.Id })'><img src="@personaje.Direccion" /></a>
+                <a id="foto" href='@Url.Action("RiskM", "Game", new { idPersonaje = personaje.Id })'><img src="@personaje.Direccion" /></a>
             }
         }
     </div>
@@ -36,9 +36,7 @@ else
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/bootstrap")
 <script type="text/javascript">
-    document.getElementById('timer').innerHTML =
-            00 + ":" + 17;
-        startTimer();
+    
 
         function startTimer() {
             var presentTime = document.getElementById('timer').innerHTML;
@@ -58,15 +56,19 @@ else
             if (sec < 10 && sec >= 0) { sec = "0" + sec };
             if (sec < 0) { sec = "59" };
             return sec;
-        }
-    if ( '@ViewBag.Host' == '@ViewBag.Turno') {
-        alertify.alert('Ya es tu turno');
-        $('#cargar').attr("enabled", true);
+    }
 
-    } else {
-        alertify.alert('@ViewBag.msgalert');
-        window.location.href = "@Url.Action("Turnos","Game")";
-        $('#cargar').attr("disabled", true);
+    window.onload = function () {
+        document.getElementById('timer').innerHTML = 02 + ":" + 00;
+        startTimer();
+        if ( '@ViewBag.Host' == '@ViewBag.Turno') {
+            alertify.alert('Ya es tu turno');
+            $('#cargar').attr("enabled", true);
+        } else {
+            alertify.alert('@ViewBag.msgalert');
+            window.location.href = "@Url.Action("Turnos","Game")";
+            $('#cargar').attr("disabled", true);
+        }
     }
 
 </script>
