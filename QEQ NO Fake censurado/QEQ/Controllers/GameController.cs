@@ -297,6 +297,7 @@ namespace QEQ.Controllers
                     {
                         ganador = true;
                     }
+                    return RedirectToAction("FinalizarS", "Game", new { ganador });
                 }
             }
 
@@ -602,7 +603,7 @@ namespace QEQ.Controllers
                 else if (BD.laPartida.Personaje1.Id == idPersonaje)
                 {
                     BD.laPartida.Finalizar(BD.laPartida.Usuario1);
-                    BD.CambiarTurnos();
+                    //BD.CambiarTurnos();
                     BD.Ganador();
                     return RedirectToAction("FinalizarM", "Game", new { G = true });
                 }
