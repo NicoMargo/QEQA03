@@ -623,7 +623,7 @@ namespace QEQ.Controllers
                 else if(BD.laPartida.Personaje2.Id == idPersonaje)
                     {
                     BD.laPartida.Finalizar(BD.laPartida.Usuario2);
-                    BD.CambiarTurnos();
+                    //BD.CambiarTurnos();
                     BD.Ganador();
                     return RedirectToAction("FinalizarM", "Game", new { G = true });
                 }
