@@ -122,7 +122,6 @@ namespace QEQ.Models
             _fecha = DateTime.Now;
         }
         public void Finalizar(int Ganador) {
-            Historial = new Dictionary<int, int>();
             _ganador = Ganador;
         }
 

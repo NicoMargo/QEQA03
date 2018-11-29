@@ -225,6 +225,7 @@ namespace QEQ.Controllers
                 }
                 else
                 {
+                    BD.CargarGrupos();
                     BD.CargarPreguntas();
                     BD.CargarCats();
                     Personaje mipersonaje = new Personaje();
@@ -326,6 +327,7 @@ namespace QEQ.Controllers
                 else
                 {
                     Personaje elpersonaje = BD.BuscarPersonaje(id);
+                    BD.CargarGrupos();
                     BD.CargarPreguntas();
                     BD.CargarCats();
                     //  Personaje mipersonaje = new Personaje(id, null, null,null, 0);
@@ -558,6 +560,7 @@ namespace QEQ.Controllers
                 }
                 else
                 {
+                    BD.CargarGrupos();
                     BD.CargarPreguntas();
                     ViewBag.Preguntas = BD.Preguntas;
                     return View();
@@ -578,8 +581,8 @@ namespace QEQ.Controllers
                 }
                 else
                 {
-                    BD.CargarPreguntas();
                     BD.CargarGrupos();
+                    BD.CargarPreguntas();
                     Preg lapregunta = new Preg();
                     ViewBag.Grupos = BD.Grupos;
                     return View(lapregunta);

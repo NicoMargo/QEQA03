@@ -6,9 +6,9 @@
 @using QEQ.Models
 <h2>@ViewBag.Msg</h2>
 <p><a href="@Url.Action("TypeGame","Game")" class="btn btn-primary btn-lg">Ir al Game  &raquo;</a></p>
-<p align="left">
+<div align="left">
     Historial de preguntas
-    <table border="1" align="right">
+    <table border="1" >
         <tr>
             <td>ID</td>
             <td>Texto</td>
@@ -18,7 +18,7 @@
         </tr>
         @foreach (int idPregunta in BD.laPartida.Historial.Keys)
         {
-            Preg preg = BD.BuscarPregunta(idPregunta);
+            Preg preg = BD.BuscarPregunta(idPregunta/10);
             <tr>
                 <td>@preg.Id</td>
                 <td>@preg.Texto?</td>
@@ -29,11 +29,12 @@
         }
 
     </table>
-</p>
-<p align="left">
-    Ranking de Partidas
-    <table border="1">
+</div>
+<div align="right">
+    Ranking de Partidas<br />
+    <table border="1" align="right">
         <tr>
+            <td>Puesto</td>
             <td>ID</td>
             <td>Jugador</td>
             <td>Puntos</td>
@@ -42,6 +43,7 @@
         </tr>
         @while (i < 5 && i < BD.Ranking.Count) { 
             <tr>
+                <td>Top @i </td>
                 <td>@BD.Ranking[i].Id.ToString()</td>
                 <td>@BD.BuscarUsuario(BD.Ranking[i].Usuario1).Nombre</td>
                 <td>@BD.Ranking[i].Puntos.ToString()</td>
@@ -52,5 +54,5 @@
         }
 
     </table>
-</p>
+</div>
 

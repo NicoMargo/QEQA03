@@ -19,8 +19,8 @@ else
         @using (Html.BeginForm("NucleoGameM", "Game"))
         {
             @Html.Label("Seleccione que quiere preguntar para adivinar mi personaje")<br />
-            @Html.DropDownList("idpreg", new SelectList(ViewBag.Preg, "Id", "Texto"), new { style = "width: 700px;" }) <br />
-            <input type="submit" name="cargar" id="cargar" value="Preguntar" />
+            @Html.DropDownList("idpreg", new SelectList(ViewBag.Preg, "Id", "Texto"), new { style = "width: 700px;", @class ="DDLClass"}) <br />
+            <input type="submit" name="cargar" id="cargar" value="Preguntar" class="btnClassS"/>
 
         }
     </div>

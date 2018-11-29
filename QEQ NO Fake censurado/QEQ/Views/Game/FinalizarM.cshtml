@@ -8,12 +8,11 @@
 <h2 class="TPuntos">@ViewBag.Ganador</h2>
 <p><a href="@Url.Action("TypeGame","Game")" class="btn btn-primary btn-lg">Ir al Game  &raquo;</a></p>
 <p align="left">
-    Historial de preguntas
+    Historial de preguntas<br />
     <table border="1" align="right">
         <tr>
             <td>ID</td>
             <td>Texto</td>
-            <td>Costo</td>
             <td>Grupo</td>
             <td>Cantidad de descartados</td>
         </tr>
@@ -23,7 +22,6 @@
             <tr>
                 <td>@preg.Id</td>
                 <td>@preg.Texto?</td>
-                <td>@preg.Puntos</td>
                 <td>@BD.BuscarCat(preg.idGrupo, BD.Grupos).Nombre</td>
                 <td>@BD.laPartida.Historial[idPregunta]</td>
             </tr>

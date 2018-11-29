@@ -7,6 +7,6 @@
 @using (Html.BeginForm("StartM", "Game", FormMethod.Post))
 {
     @Html.Label("Elije la Categoría de Personajes")<br />
-    @Html.DropDownList("idCategoria", new SelectList(ViewBag.Cats, "Id", "Nombre")) <br />
-    <input type="submit" name="cargar" value="Empezar" />
+    @Html.DropDownList("idCategoria", new SelectList(ViewBag.Cats, "Id", "Nombre"), new { @class = "DDLClass" }) <br />
+    <input type="submit" name="cargar" value="Empezar" class="btnClassS"    />
 }

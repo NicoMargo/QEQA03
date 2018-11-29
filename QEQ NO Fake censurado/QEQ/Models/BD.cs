@@ -12,9 +12,9 @@ namespace QEQ.Models
     {
 
 
-       public static string connectionString = "Server=10.128.8.16;User=QEQA03;Password=QEQA03;Database=QEQA03"; //Ort
+       //public static string connectionString = "Server=10.128.8.16;User=QEQA03;Password=QEQA03;Database=QEQA03"; //Ort
      // public static string connectionString = @"Server=DESKTOP-5P28OS5;Database=QEQA03;Trusted_Connection=True;"; //Anush
-        //public static string connectionString = @"Server=DESKTOP-P6PCH8N\SQLEXPRESS;Database=QEQA03;Trusted_Connection=True;"; //Chino
+        public static string connectionString = @"Server=DESKTOP-P6PCH8N\SQLEXPRESS;Database=QEQA03;Trusted_Connection=True;"; //Chino
         public static Usuario usuario =new Usuario(0,"invitado","Guest","","","",false);
         public static string msg;
         public static List<Preg> Preguntas;//sp Traer Preguntas
@@ -115,9 +115,9 @@ namespace QEQ.Models
 
         public static Usuario BuscarUsuario(int id)
         {
-            Usuario user = null;
+            Usuario user = new Usuario();
             int i = 0;
-            while (i < Usuarios.Count && user == null)
+            while (i < Usuarios.Count && user == new Usuario())
             {
                 if (Usuarios[i].Id == id)
                 {
@@ -422,7 +422,7 @@ namespace QEQ.Models
             while (elLector.Read())
             {
                 Grupos.Add(new Cat(Convert.ToInt32(elLector["idGrupo"]), Convert.ToString(elLector["Nombre"])));
-                //PregsXGrupos.Add(Convert.ToString(elLector["Nombre"]), new List<Preg>());
+                PregsXGrupos.Add(Convert.ToString(elLector["Nombre"]), new List<Preg>());
             }
             Desconectar(unaConexion);
         }
@@ -474,13 +474,13 @@ namespace QEQ.Models
             }
             return pregs;
         }
-        public static void CargarPreguntas()
+        public static void CargarPreguntas(bool abm = true)
         {
             Preguntas = new List<Preg>();
             Preguntas2 = new List<Preg>();
             PregsXGrupos = new Dictionary<string, List<Preg>>();
-            CargarGrupos();
-            SqlConnection unaConexion = Conectar();
+            if (abm) { CargarGrupos();}
+                SqlConnection unaConexion = Conectar();
             SqlCommand laConsulta = unaConexion.CreateCommand();
             laConsulta.CommandType = System.Data.CommandType.StoredProcedure;
             laConsulta.CommandText = "spTraerPreguntas";
@@ -490,7 +490,7 @@ namespace QEQ.Models
                 Preg Pregunta = new Preg(Convert.ToInt32(elLector["idPregunta"]), Convert.ToString(elLector["Texto"]), Convert.ToInt32(elLector["idGrupo"]),Convert.ToInt32(elLector["Puntos"]));
                 Preguntas.Add(Pregunta);
                 Preguntas2.Add(Pregunta);
-                //PregsXGrupos[BuscarCat(Pregunta.idGrupo, Grupos).Nombre].Add(Pregunta);
+                PregsXGrupos[BuscarCat(Pregunta.idGrupo, Grupos).Nombre].Add(Pregunta);
             }
             Desconectar(unaConexion);
         }
@@ -637,6 +637,7 @@ namespace QEQ.Models
 
         //Ranking
         public static void Rank() {
+            BD.CargarUsuarios();
             SqlConnection unaConexion = Conectar();
             SqlCommand laConsulta = unaConexion.CreateCommand();
             laConsulta.CommandType = System.Data.CommandType.StoredProcedure;
