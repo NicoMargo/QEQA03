@@ -1,7 +1,7 @@
 ﻿
 @{
     ViewBag.Title = "Partida Terminada";
-    int i = 0;
+    bool Jost = Convert.ToBoolean(Session["Host"]);
 }
 @using QEQ.Models
 <h2>@ViewBag.Msg</h2>
@@ -9,24 +9,26 @@
 <p><a href="@Url.Action("TypeGame","Game")" class="btn btn-primary btn-lg">Ir al Game  &raquo;</a></p>
 <p align="left">
     Historial de preguntas<br />
-    <table border="1" align="right">
-        <tr>
-            <td>ID</td>
-            <td>Texto</td>
-            <td>Grupo</td>
-            <td>Cantidad de descartados</td>
-        </tr>
-        @foreach (int idPregunta in BD.laPartida.Historial.Keys)
-        {
-            Preg preg = BD.BuscarPregunta(idPregunta);
-            <tr>
-                <td>@preg.Id</td>
-                <td>@preg.Texto?</td>
-                <td>@BD.BuscarCat(preg.idGrupo, BD.Grupos).Nombre</td>
-                <td>@BD.laPartida.Historial[idPregunta]</td>
-            </tr>
-        }
+                          <table border="1" align="right">
+                              <tr>
+                                  <td>ID</td>
+                                  <td>Texto</td>
+                                  <td>Grupo</td>
+                                  <td>Cantidad de descartados</td>
+                              </tr>
+                              @foreach (int idPregunta in BD.laPartida.Historial.Keys)
+                              {
+                                  Preg preg;
+                                  if (Jost) { preg = BD.BuscarPregunta(idPregunta, Jost); }
+                                  else { preg = BD.BuscarPregunta(idPregunta- Convert.ToInt32(Session["CantPregOriginal"]), Jost);  }
+                                  <tr>
+                                      <td>@preg.Id</td>
+                                      <td>@preg.Texto?</td>
+                                      <td>@BD.BuscarCat(preg.idGrupo, BD.Grupos).Nombre</td>
+                                      <td>@BD.laPartida.Historial[idPregunta]</td>
+                                  </tr>
+                              }
 
-    </table>
+                          </table>
 </p>
 

@@ -266,8 +266,8 @@ namespace QEQ.Controllers
             {
                 BD.laPartida.Puntos -= BD.BuscarPregunta(idpreg).Puntos;
             }
-            if (SMHG()) { BD.laPartida.Historial.Add(idpreg*10, cantDescartados); }
-            else { BD.laPartida.Historial.Add(idpreg*10+1, cantDescartados); }
+            if (SMHG()) { BD.laPartida.Historial.Add(idpreg, cantDescartados); }
+            else { BD.laPartida.Historial.Add(idpreg+Convert.ToInt32(Session["CantPregOriginal"]), cantDescartados); }
         }
 
         public ActionResult RiskS(int idPersonaje)
@@ -416,6 +416,7 @@ namespace QEQ.Controllers
                 }
                 exito = BD.Unirse();
                 BD.CargarPreguntas();//falta que te redirija a una view de error
+                Session["CantPregOriginal"] = BD.Preguntas.Count();
             }
             else
             {
@@ -596,11 +597,7 @@ namespace QEQ.Controllers
         {
             if (SMHG())
             {
-                if (BD.Personajes.Count <= 5 && idPersonaje != BD.laPartida.Personaje1.Id)
-                {
-                    return RedirectToAction("FinalizarM", "Game");
-                }
-                else if (BD.laPartida.Personaje1.Id == idPersonaje)
+                if (BD.laPartida.Personaje1.Id == idPersonaje)
                 {
                     BD.laPartida.Finalizar(BD.laPartida.Usuario1);
                     //BD.CambiarTurnos();
@@ -616,11 +613,7 @@ namespace QEQ.Controllers
             }
             else
             {
-                if (BD.Personajes2.Count <= 5 && idPersonaje != BD.laPartida.Personaje2.Id)
-                {
-                    return RedirectToAction("FinalizarM", "Game");
-                }
-                else if(BD.laPartida.Personaje2.Id == idPersonaje)
+                if(BD.laPartida.Personaje2.Id == idPersonaje)
                     {
                     BD.laPartida.Finalizar(BD.laPartida.Usuario2);
                     //BD.CambiarTurnos();
@@ -644,8 +637,6 @@ namespace QEQ.Controllers
         
         public ActionResult TerminarXTiempo()
         {            
-            BD.laPartida.Ganador = BD.laPartida.Usuario1;            
-            BD.laPartida.Ganador = BD.laPartida.Usuario2;
             if (SMHG() == BD.laPartida.Turno)
             {
                 BD.CambiarTurnos();
