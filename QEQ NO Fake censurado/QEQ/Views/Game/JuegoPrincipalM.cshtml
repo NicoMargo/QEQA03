@@ -18,9 +18,9 @@ else
     <div class="PregBox">
         @using (Html.BeginForm("NucleoGameM", "Game"))
         {
-            @Html.Label("Seleccione que quiere preguntar para adivinar mi personaje")<br />
-            @Html.DropDownList("idpreg", new SelectList(ViewBag.Preg, "Id", "Texto"), new { style = "width: 700px;", @class ="DDLClass"}) <br />
-            <input type="submit" name="cargar" id="cargar" value="Preguntar" class="btnClassS"/>
+            <p class="text-center Textpreg divJPM">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; Seleccione que quiere  &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; preguntar  para adivinar su&nbsp; &nbsp;&nbsp; personaje</p><br />
+            @Html.DropDownList("idpreg", new SelectList(ViewBag.Preg, "Id", "Texto"), new { style = "width: 700px;", @class = "DDLClass" }) <br />
+            <input type="submit" name="cargar" id="cargar" value="Preguntar" class="btnClassS btn-sm" />
 
         }
     </div>

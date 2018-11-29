@@ -1,12 +1,41 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "FinalizarS";
     int i = 0;
 }
 @using QEQ.Models
 <h2>@ViewBag.Msg</h2>
+<div class="FinalizarPart">
+    <h3>Tu personaje era @BD.laPartida.Personaje1.Nombre</h3>
+    <img src="@BD.laPartida.Personaje1.Direccion" />
+</div>
 <p><a href="@Url.Action("TypeGame","Game")" class="btn btn-primary btn-lg">Ir al Game  &raquo;</a></p>
-<div align="left">
+<div class="RankHistorial">
+    Ranking de Partidas<br />
+    <table border="1" align="right">
+        <tr>
+            <td>Puesto</td>
+            <td>ID</td>
+            <td>Jugador</td>
+            <td>Puntos</td>
+            <td>Cantidad de Preguntas</td>
+            <td>Personaje Jugado</td>
+        </tr>
+        @while (i < 5 && i < BD.Ranking.Count)
+        {
+            <tr>
+                <td>Top @i </td>
+                <td>@BD.Ranking[i].Id.ToString()</td>
+                <td>@BD.BuscarUsuario(BD.Ranking[i].Usuario1).Nombre</td>
+                <td>@BD.Ranking[i].Puntos.ToString()</td>
+                <td>@BD.Ranking[i].CantPreguntas.ToString()</td>
+                <td> <img class="img-responsive" src="@BD.Ranking[i].Personaje1.Direccion" width="135" /> <br />@BD.Ranking[i].Personaje1.Nombre</td>
+            </tr>
+            i++;
+        }
+
+    </table>
+</div>
+<div  class="RankHistorial">
     Historial de preguntas
     <table border="1" >
         <tr>
@@ -30,29 +59,5 @@
 
     </table>
 </div>
-<div align="right">
-    Ranking de Partidas<br />
-    <table border="1" align="right">
-        <tr>
-            <td>Puesto</td>
-            <td>ID</td>
-            <td>Jugador</td>
-            <td>Puntos</td>
-            <td>Cantidad de Preguntas</td>
-            <td>Personaje Jugado</td>
-        </tr>
-        @while (i < 5 && i < BD.Ranking.Count) { 
-            <tr>
-                <td>Top @i </td>
-                <td>@BD.Ranking[i].Id.ToString()</td>
-                <td>@BD.BuscarUsuario(BD.Ranking[i].Usuario1).Nombre</td>
-                <td>@BD.Ranking[i].Puntos.ToString()</td>
-                <td>@BD.Ranking[i].CantPreguntas.ToString()</td>                
-                <td> <img class="img-responsive" src="@BD.Ranking[i].Personaje1.Direccion" width="135" /> <br />@BD.Ranking[i].Personaje1.Nombre</td>
-            </tr>
-            i++;
-        }
 
-    </table>
-</div>
 

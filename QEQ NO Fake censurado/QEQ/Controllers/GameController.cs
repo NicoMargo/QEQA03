@@ -272,41 +272,22 @@ namespace QEQ.Controllers
 
         public ActionResult RiskS(int idPersonaje)
         {
-
-            if (BD.laPartida.Personaje1.Id == idPersonaje || BD.laPartida.Puntos < iRiskPenalty)
-            {
-                bool ganador = false;
-                if (!BD.laPartida.Multijugador)
-                {
-                    if (!(BD.Personajes.Count <= 5 && idPersonaje != BD.laPartida.Personaje1.Id))
+            bool ganador = false;
+            if (BD.laPartida.Personaje1.Id == idPersonaje || BD.laPartida.Puntos >= iRiskPenalty)
+            {                            
+                    if ((idPersonaje == BD.laPartida.Personaje1.Id))
                     {
-
                         BD.laPartida.Finalizar(BD.laPartida.Usuario1);
-                        ganador = false;
-                        if (BD.laPartida.Personaje1.Id == idPersonaje)
-                        {
-                            ganador = true;
-                        }
-                    }
-                    return RedirectToAction("FinalizarS", "Game", new { ganador });
-                }
-                else
-                {
-                    BD.laPartida.Finalizar(BD.laPartida.Usuario1);
-                    ganador = false;
-                    if (BD.laPartida.Personaje1.Id == idPersonaje)
-                    {
                         ganador = true;
-                    }
                     return RedirectToAction("FinalizarS", "Game", new { ganador });
                 }
-            }
-
-            else
-            {
-                BD.laPartida.Puntos -= iRiskPenalty;
-                return RedirectToAction("JuegoPrincipalS", "Game", new { idper = idPersonaje });
-            }
+                else if (BD.Personajes.Count >= 5)
+                {
+                    BD.laPartida.Puntos -= iRiskPenalty;
+                    return RedirectToAction("JuegoPrincipalS", "Game", new { idper = idPersonaje });
+                }
+                   }
+            return RedirectToAction("FinalizarS", "Game", new { ganador });
         }
         
 

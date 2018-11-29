@@ -28,7 +28,7 @@ AText {
     padding: 10px 1px 10px 10px;
     color: #FFF;
     background-color: #4bc970;
-    font-size: 16px;
+    font-size: 14px;
     text-align: center;
     font-style: normal;
     border-radius: 5px;
@@ -107,7 +107,6 @@ AText {
     box-shadow: 0 5px 4px 0 rgba(181,181,181,.7);
     width: 27%;
     height: 2000px;
-    padding: 20px 15px;
     border-top: 1px solid #f1f1f5;
     float: left;
 }
@@ -185,6 +184,15 @@ AText {
     margin: auto;
     margin-top: 20px;
 }
+.divJPM {
+    width: 100%;
+    margin-top: 20px;
+    margin-right: 60px;
+}
+.Textpreg {
+    width: 80%;
+    font-weight: bolder;
+}
 
 .Categoria {
     text-align: center;
@@ -204,12 +212,20 @@ AText {
     padding: 10px 1px 10px 10px;
     background-color: tomato;
     color: white;
-    font-size: 16px;
+    font-size: 14px;
     text-align: center;
     font-style: normal;
     border-radius: 5px;
     width: 100%;
     margin-bottom: 10px;
+}
+.FinalizarPart img{
+    width: 185px;
+}
+
+.RankHistorial{
+    margin-right: 5px;
+    float:left
 }
 
 .HtmlTextBox {
