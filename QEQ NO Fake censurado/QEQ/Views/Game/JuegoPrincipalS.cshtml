@@ -10,10 +10,10 @@
 </script>
     
 <h2 class="TPuntos"> Puntos: @BD.laPartida.Puntos</h2>
-<div class="PregBox">
+<div class="PregBox text-center text-justify">
     @using (Html.BeginForm("AskS", "Game", FormMethod.Post))
     {    
-    <p class="text-center Textpreg divJPM">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; Seleccione que quiere  &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; preguntar  para adivinar su&nbsp; &nbsp;&nbsp; personaje</p><br />
+    <p class=" text-center text-justify Textpreg divJPM"> Seleccione que quiere  preguntar  para adivinar su personaje</p><br />
    
         @Html.DropDownList("idpreg", new SelectList(ViewBag.Preg, "Id", "Texto"), new { style = "width: 700px;", @class = "DDLClass" }) <br />
         <input type="submit" name="cargar" id="cargar" value="Preguntar" class="btnClassS" />
