@@ -8,27 +8,31 @@
 <h2>@ViewBag.Msg</h2>
 <h2 class="TPuntos">@ViewBag.Ganador</h2>
 <p><a href="@Url.Action("TypeGame","Game")" class="btn btn-primary btn-lg">Ir al Game  &raquo;</a></p>
-<p align="left">
-    Historial de preguntas<br />
-                          <table border="1" align="right">
-                              <tr>
-                                  <td>ID</td>
-                                  <td>Texto</td>
-                                  <td>Grupo</td>
-                                  <td>Cantidad de descartados</td>
-                              </tr>
-                              @foreach (int idPregunta in BD.laPartida.Historial.Keys)
-                              {
-                                  Preg preg;
-                                  if (Jost) { preg = BD.BuscarPregunta(idPregunta, Jost); }
-                                  else { preg = BD.BuscarPregunta(idPregunta- Convert.ToInt32(Session["CantPregOriginal"]), Jost);  }
+
+                          <table class="table">
+                              <thead class="thead-dark">
                                   <tr>
-                                      <td>@preg.Id</td>
-                                      <td>@preg.Texto?</td>
-                                      <td>@BD.BuscarCat(preg.idGrupo, BD.Grupos).Nombre</td>
-                                      <td>@BD.laPartida.Historial[idPregunta]</td>
+                                      <td  scope="col">ID</td>
+                                      <td  scope="col">Texto</td>
+                                      <td scope="col">Grupo</td>
+                                      <td scope="col">Cantidad de descartados</td>
                                   </tr>
-                              }
+                              </thead>
+                              <tbody>
+                                  @foreach (int idPregunta in BD.laPartida.Historial.Keys)
+                                  {
+                                      Preg preg;
+                                      if (Jost) { preg = BD.BuscarPregunta(idPregunta, Jost); }
+                                      else { preg = BD.BuscarPregunta(idPregunta - Convert.ToInt32(Session["CantPregOriginal"]), Jost); }
+                                      <tr>
+                                          <td>@preg.Id</td>
+                                          <td>@preg.Texto?</td>
+                                          <td>@BD.BuscarCat(preg.idGrupo, BD.Grupos).Nombre</td>
+                                          <td>@BD.laPartida.Historial[idPregunta]</td>
+                                      </tr>
+
+                                  }
+                              </tbody>
 
                           </table>
 </p>

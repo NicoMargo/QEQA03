@@ -633,7 +633,7 @@ namespace QEQ.Controllers
                 ViewBag.Ganador = "Eres el ganador de la partida!!!";
             }else
             {
-                ViewBag.Ganador = "Eres el PERDEDOR de la partida XDDDD";
+                ViewBag.Ganador = "Eres el PERDEDOR de la partida";
             }
             BD.Rank();
             return View();

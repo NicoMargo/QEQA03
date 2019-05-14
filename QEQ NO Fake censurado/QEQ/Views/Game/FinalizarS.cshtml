@@ -33,31 +33,32 @@
     </tbody>
 </table>
 
-<table class="table">
-    <thead class="thead-dark">
-        <tr>           
-            <th scope="col">Puesto</th>
-            <th scope="col">ID</th>
-            <th scope="col">Jugador</th>
-            <th scope="col">Puntos</th>
-            <th scope="col">Cantidad de Preguntas</th>
-            <th scope="col">Personaje Jugado</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (int idPregunta in BD.laPartida.Historial.Keys)
-        {
-            Preg preg = BD.BuscarPregunta(idPregunta);
+    <table  class="table">
+        <thead class="thead-dark">
             <tr>
-                <td>@preg.Id</td>
-                <td>@preg.Texto?</td>
-                <td>@preg.Puntos</td>
-                <td>@BD.BuscarCat(preg.idGrupo, BD.Grupos).Nombre</td>
-                <td>@BD.laPartida.Historial[idPregunta]</td>
+                <td scope="col">Puesto</td>
+                <td scope="col">ID</td>
+                <td scope="col">Jugador</td>
+                <td scope="col">Puntos</td>
+                <td scope="col">Cantidad de Preguntas</td>
+                <td scope="col">Personaje Jugado</td>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @while (i < 5 && i < BD.Ranking.Count)
+            {
+                <tr>
+                    <td>Top @i </td>
+                    <td>@BD.Ranking[i].Id.ToString()</td>
+                    <td>@BD.BuscarUsuario(BD.Ranking[i].Usuario1).Nombre</td>
+                    <td>@BD.Ranking[i].Puntos.ToString()</td>
+                    <td>@BD.Ranking[i].CantPreguntas.ToString()</td>
+                    <td> <img class="img-responsive" src="@BD.Ranking[i].Personaje1.Direccion" width="135" /> <br />@BD.Ranking[i].Personaje1.Nombre</td>
+                </tr>
+                i++;
+            }
+        </tbody>
+    </table>
 
 
 
