@@ -16,7 +16,7 @@ namespace QEQ.Controllers
     {
         //Funciones para el game 
         const int iRiskPenalty = 1500;
-        
+
         //esto deberia estar en el home controller wtf
         public ActionResult Desarrolladores()
         {
@@ -29,18 +29,21 @@ namespace QEQ.Controllers
 
         //funciones del timer
         public Timer timer;
-        private void AfkTester() {
-            timer = new System.Timers.Timer(2000); 
+        private void AfkTester()
+        {
+            timer = new System.Timers.Timer(2000);
             //timer.Elapsed += OnTimedEvent;
             timer.AutoReset = false;
             timer.Enabled = true;
         }
-        private void VerifTurnos() {
+        private void VerifTurnos()
+        {
             //timer 
         }
         //Se ingresa un id, se devuelve la posicion en en la lista de la persona con esa id
         //Single player multiplayer, host guest, esta funcio devuelve true si el juego es single o sos host, si sos guest devuelve false
-        public bool SMHG() {
+        public bool SMHG()
+        {
             bool smhg;
             if ((!BD.laPartida.Multijugador)) { smhg = true; }
             else { smhg = Convert.ToBoolean(Session["Host"]); }
@@ -106,31 +109,36 @@ namespace QEQ.Controllers
                     found = true;
                 }
                 else { i++; }
-            }            
+            }
             return found;
         }
-                    
-               
+
+
         //Borra todas las respuestas y preguntas de la misma categoria de preguntas de la pregunta preguntada :v
-        public void EliminarporGrupo(int idPreg) {
-           
+        public void EliminarporGrupo(int idPreg)
+        {
+
             List<Preg> Preguntas;
-            if ((!BD.laPartida.Multijugador) || Convert.ToBoolean(Session["Host"])){
+            if ((!BD.laPartida.Multijugador) || Convert.ToBoolean(Session["Host"]))
+            {
                 Preguntas = BD.Preguntas;
             }
-            else {                
+            else
+            {
                 Preguntas = BD.Preguntas2;
             }
             //Busqueda
             int idGrupete = BD.BuscarPregunta(idPreg, false).idGrupo;
-            for (int i = 0; i < Preguntas.Count; i++) {
+            for (int i = 0; i < Preguntas.Count; i++)
+            {
                 if (Preguntas[i].idGrupo == idGrupete)
                 {
                     for (int j = 0; j < BD.Respuestas.Count; j++)
                     {
-                        if (BD.Respuestas[j].IdPregunta == Preguntas[i].Id) {
+                        if (BD.Respuestas[j].IdPregunta == Preguntas[i].Id)
+                        {
                             if (!BD.laPartida.Multijugador) { BD.Respuestas.RemoveAt(j); j--; }
-                            
+
                         }
                     }
                     Preguntas.RemoveAt(i);
@@ -138,7 +146,8 @@ namespace QEQ.Controllers
                 }
             }
             //Reasignacion
-            if ((!BD.laPartida.Multijugador) || Convert.ToBoolean(Session["Host"])){
+            if ((!BD.laPartida.Multijugador) || Convert.ToBoolean(Session["Host"]))
+            {
                 BD.Preguntas = Preguntas;
             }
             else
@@ -175,7 +184,7 @@ namespace QEQ.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-            return RedirectToAction("JuegoPrincipalS", "Game");           
+            return RedirectToAction("JuegoPrincipalS", "Game");
         }
 
         public ActionResult JuegoPrincipalS(int idpreg = -1, int idper = -1)
@@ -216,20 +225,20 @@ namespace QEQ.Controllers
             }
         }
 
-    [HttpPost]
+        [HttpPost]
         public ActionResult AskS(int idpreg)
-        {            
+        {
             if (BD.laPartida.Puntos > iRiskPenalty)
             {
                 AskForAll(idpreg);
                 return RedirectToAction("JuegoPrincipalS", "Game", new { idpreg });
             }//fin del if puntos < iRiskPenalty
-            else 
+            else
             {
                 Session["Estado"] = true;
                 return RedirectToAction("JuegoPrincipalS", "Game", new { idpreg });
-            }        
-            
+            }
+
         }
         public void AskForAll(int idpreg)
         {
@@ -241,14 +250,15 @@ namespace QEQ.Controllers
                 {
                     if (AskForOne(BD.Personajes[i].Id, idpreg) != CorrectPer)
                     {
-                        BD.Personajes.RemoveAt(BuscarPersonaje(BD.Personajes[i].Id));              
-                        cantDescartados++;                        
+                        BD.Personajes.RemoveAt(BuscarPersonaje(BD.Personajes[i].Id));
+                        cantDescartados++;
                         i--;
                     }
                 }//Fin For que recorre los personajes
-                BD.laPartida.CantPreguntas++;       
-               
-            }else
+                BD.laPartida.CantPreguntas++;
+
+            }
+            else
             {
                 bool CorrectPer = AskForOne(BD.laPartida.Personaje2.Id, idpreg);
                 for (int i = 0; i < BD.Personajes2.Count; i++)
@@ -260,25 +270,25 @@ namespace QEQ.Controllers
                         i--;
                     }
                 }//Fin For que recorre los personajes
-                BD.laPartida.CantPreguntas++;           
-            }            
+                BD.laPartida.CantPreguntas++;
+            }
             if (!BD.laPartida.Multijugador)
             {
                 BD.laPartida.Puntos -= BD.BuscarPregunta(idpreg).Puntos;
             }
             if (SMHG()) { BD.laPartida.Historial.Add(idpreg, cantDescartados); }
-            else { BD.laPartida.Historial.Add(idpreg+Convert.ToInt32(Session["CantPregOriginal"]), cantDescartados); }
+            else { BD.laPartida.Historial.Add(idpreg + Convert.ToInt32(Session["CantPregOriginal"]), cantDescartados); }
         }
 
         public ActionResult RiskS(int idPersonaje)
         {
             bool ganador = false;
             if (BD.laPartida.Personaje1.Id == idPersonaje || BD.laPartida.Puntos >= iRiskPenalty)
-            {                            
-                    if ((idPersonaje == BD.laPartida.Personaje1.Id))
-                    {
-                        BD.laPartida.Finalizar(BD.laPartida.Usuario1);
-                        ganador = true;
+            {
+                if ((idPersonaje == BD.laPartida.Personaje1.Id))
+                {
+                    BD.laPartida.Finalizar(BD.laPartida.Usuario1);
+                    ganador = true;
                     return RedirectToAction("FinalizarS", "Game", new { ganador });
                 }
                 else if (BD.Personajes.Count >= 5)
@@ -286,10 +296,10 @@ namespace QEQ.Controllers
                     BD.laPartida.Puntos -= iRiskPenalty;
                     return RedirectToAction("JuegoPrincipalS", "Game", new { idper = idPersonaje });
                 }
-                   }
+            }
             return RedirectToAction("FinalizarS", "Game", new { ganador });
         }
-        
+
 
         public ActionResult FinalizarS(bool Ganador = false)
         {
@@ -297,12 +307,13 @@ namespace QEQ.Controllers
             BD.Rank();
             if (Ganador)
             {
-                ViewBag.Msg = "Usted ha Ganado con un puntaje de " + BD.laPartida.Puntos;            
+                ViewBag.Msg = "Usted ha Ganado con un puntaje de " + BD.laPartida.Puntos;
             }
-            else {
+            else
+            {
                 ViewBag.Msg = "Usted ha Perdido";
             }
-            BD.GuardarPartida1(BD.laPartida);  
+            BD.GuardarPartida1(BD.laPartida);
             return View();
         }
         //Game 2 =============================================================================================================
@@ -316,9 +327,10 @@ namespace QEQ.Controllers
                 ViewBag.Partidas = BD.Partidas;
                 ViewBag.error = error;
                 return View();
-            }else
+            }
+            else
             {
-                return RedirectToAction("LogIn", "BackOffice", new { error = true});
+                return RedirectToAction("LogIn", "BackOffice", new { error = true });
             }
 
         }
@@ -390,11 +402,7 @@ namespace QEQ.Controllers
                 }
                 BD.laPartida.Unirse(BD.usuario.Id, Ip, idPersonaje);
                 BD.laPartida.Turno = true;
-                //elije el presonaje del rival               
-                if (BD.laPartida.Ip1 == BD.laPartida.Ip2)
-                {
-                    //return RedirectToAction("BuscarPartidasM", "game",new { error = true } );
-                }
+
                 exito = BD.Unirse();
                 BD.CargarPreguntas();//falta que te redirija a una view de error
                 Session["CantPregOriginal"] = BD.Preguntas.Count();
@@ -451,7 +459,10 @@ namespace QEQ.Controllers
             }
             if (BD.laPartida.Ganador != -1)
             {
-                if (SMHG())
+                return RedirectToAction("FinalizarM", "Game");
+
+
+                /*if (SMHG())
                 {
                     if (BD.laPartida.Ganador == BD.laPartida.Usuario1)
                     { return RedirectToAction("FinalizarM", "Game", new { G = true }); }
@@ -461,16 +472,17 @@ namespace QEQ.Controllers
                 {
                     if (BD.laPartida.Ganador == BD.laPartida.Usuario2)
                     { return RedirectToAction("FinalizarM", "Game", new { G = true }); }
-                    else {
+                    else
+                    {
                         return RedirectToAction("FinalizarM", "Game");
                     }
-                }
+                }*/
             }
             if (BD.laPartida.Usuario1 >= 0 && BD.laPartida.Usuario2 >= 0)
             {
                 return RedirectToAction("JuegoPrincipalM", "Game");
-            }            
-                return RedirectToAction("BuscarPartidasM", "Game");            
+            }
+            return RedirectToAction("BuscarPartidasM", "Game");
         }
 
         public ActionResult JuegoPrincipalM(int idpreg = -1, int idper = -1)
@@ -492,7 +504,7 @@ namespace QEQ.Controllers
                     else if (idper != -1)
                     {
                         ViewBag.msgalert = "Su personaje no es " + BD.BuscarPersonaje(idper, false).Nombre;
-                        BD.Personajes2.Remove(BD.BuscarPersonaje(idper,false));
+                        BD.Personajes2.Remove(BD.BuscarPersonaje(idper, false));
                     }
                     else if (AskForOne(BD.laPartida.Personaje2.Id, idpreg, true))
                     {
@@ -503,7 +515,7 @@ namespace QEQ.Controllers
                     else
                     {
                         ViewBag.msgalert = "El personaje NO " + BD.BuscarPregunta(idpreg, false).Texto;
-                        BD.Preguntas2.Remove(BD.BuscarPregunta(idpreg,false));
+                        BD.Preguntas2.Remove(BD.BuscarPregunta(idpreg, false));
                     }
                 }
                 //si es host
@@ -530,7 +542,7 @@ namespace QEQ.Controllers
                     {
                         ViewBag.msgalert = "Se salteo su turno por tiempo, Espera a tu turno para jugar";
                     }
-                    else if(idper != -1)
+                    else if (idper != -1)
                     {
                         ViewBag.msgalert = "Su personaje no es " + BD.Personajes[BuscarPersonaje(idper)].Nombre;
                         BD.Personajes.Remove(BD.BuscarPersonaje(idper));
@@ -554,25 +566,13 @@ namespace QEQ.Controllers
 
             else
             {
-                if (SMHG())
-                {
-                    if (BD.laPartida.Ganador == BD.laPartida.Usuario1)
-                    {
-                        return RedirectToAction("FinalizarM", "Game", new { G = true });
-                    }
-                    return RedirectToAction("FinalizarM", "Game");
-                }
-                else
-                {
-                    if (BD.laPartida.Ganador == BD.laPartida.Usuario2)
-                    {
-                        return RedirectToAction("FinalizarM", "Game", new { G = true });
-                    }
-                    return RedirectToAction("FinalizarM", "Game");
-                }
+
+                return RedirectToAction("FinalizarM", "Game");
             }
+
+
         }
-        
+
 
         public ActionResult RiskM(int idPersonaje)
         {
@@ -581,30 +581,30 @@ namespace QEQ.Controllers
                 if (BD.laPartida.Personaje1.Id == idPersonaje)
                 {
                     BD.laPartida.Finalizar(BD.laPartida.Usuario1);
-                    //BD.CambiarTurnos();
-                    BD.Ganador();
+                    int ganador = BD.laPartida.Usuario1;
+                    BD.Ganador(ganador);
                     return RedirectToAction("FinalizarM", "Game", new { G = true });
                 }
                 else
                 {
                     BD.CambiarTurnos();
 
-                    return RedirectToAction("JuegoPrincipalM", "Game", new { idPer = idPersonaje});
+                    return RedirectToAction("JuegoPrincipalM", "Game", new { idPer = idPersonaje });
                 }
             }
             else
             {
-                if(BD.laPartida.Personaje2.Id == idPersonaje)
-                    {
+                if (BD.laPartida.Personaje2.Id == idPersonaje)
+                {
                     BD.laPartida.Finalizar(BD.laPartida.Usuario2);
-                    //BD.CambiarTurnos();
-                    BD.Ganador();
+                    int ganador = BD.laPartida.Usuario1;
+                    BD.Ganador(ganador);
                     return RedirectToAction("FinalizarM", "Game", new { G = true });
                 }
-                    else
-                    {
+                else
+                {
                     BD.CambiarTurnos();
-                    return RedirectToAction("JuegoPrincipalM", "Game", new { idPer = idPersonaje});
+                    return RedirectToAction("JuegoPrincipalM", "Game", new { idPer = idPersonaje });
                 }
             }
         }
@@ -615,9 +615,9 @@ namespace QEQ.Controllers
             BD.CambiarTurnos();
             return RedirectToAction("JuegoPrincipalM", "game", new { idpreg });
         }
-        
+
         public ActionResult TerminarXTiempo()
-        {            
+        {
             if (SMHG() == BD.laPartida.Turno)
             {
                 BD.CambiarTurnos();
@@ -625,17 +625,17 @@ namespace QEQ.Controllers
             }
             return RedirectToAction("JuegoPrincipalM", "game", new { idpreg = -2 });
         }
-        public ActionResult FinalizarM(bool G =false)
+        public ActionResult FinalizarM(bool G = false)
         {
-            BD.CargarPreguntas();
+            
             if (G)
             {
                 ViewBag.Ganador = "Eres el ganador de la partida!!!";
-            }else
+            }
+            else
             {
                 ViewBag.Ganador = "Eres el PERDEDOR de la partida";
             }
-            BD.Rank();
             return View();
         }
     }

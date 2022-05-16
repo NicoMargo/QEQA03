@@ -12,8 +12,8 @@ namespace QEQ.Models
     {
 
 
-       public static string connectionString = "Server=10.128.8.16;User=QEQA03;Password=QEQA03;Database=QEQA03"; //Ort
-     // public static string connectionString = @"Server=DESKTOP-5P28OS5;Database=QEQA03;Trusted_Connection=True;"; //Anush
+       //public static string connectionString = "Server=10.128.8.16;User=QEQA03;Password=QEQA03;Database=QEQA03"; //Ort
+      public static string connectionString = @"Server=localhost;Database=QEQA03;Trusted_Connection=True;"; //Anush
         //public static string connectionString = @"Server=DESKTOP-P6PCH8N\SQLEXPRESS;Database=QEQA03;Trusted_Connection=True;"; //Chino
 
         public static Usuario usuario =new Usuario(0,"invitado","Guest","","","",false);
@@ -795,14 +795,14 @@ namespace QEQ.Models
             return BD.laPartida.Turno;
         }   
         
-        public static void Ganador()
+        public static void Ganador(int ganador)
         {
             SqlConnection unaConexion = Conectar();
             SqlCommand laConsulta = unaConexion.CreateCommand();
             laConsulta.CommandType = System.Data.CommandType.StoredProcedure;
             laConsulta.CommandText = "spGanador";
             laConsulta.Parameters.AddWithValue("@IdPartida", BD.laPartida.Id);
-            laConsulta.Parameters.AddWithValue("@Ganador", BD.laPartida.Ganador);
+            laConsulta.Parameters.AddWithValue("@Ganador", ganador);
             int regs = laConsulta.ExecuteNonQuery();
             if (regs == 1)
             {
