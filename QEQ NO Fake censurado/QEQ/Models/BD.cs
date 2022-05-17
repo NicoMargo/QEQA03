@@ -661,10 +661,10 @@ namespace QEQ.Models
             SqlCommand laConsulta = unaConexion.CreateCommand();
             laConsulta.CommandType = System.Data.CommandType.StoredProcedure;
             laConsulta.CommandText = "spGuardarPartida1";
-            laConsulta.Parameters.AddWithValue("@Usuario", partida.Usuario1);
+            laConsulta.Parameters.AddWithValue("@Usuario", 1);
             laConsulta.Parameters.AddWithValue("@cantPregunta", partida.CantPreguntas);
             laConsulta.Parameters.AddWithValue("@ip", partida.Ip1);
-            laConsulta.Parameters.AddWithValue("@Ganador", partida.Ganador);
+            laConsulta.Parameters.AddWithValue("@Ganador", 1);
             laConsulta.Parameters.AddWithValue("@idPersonaje", partida.Personaje1.Id);
             laConsulta.Parameters.AddWithValue("@Puntos", partida.Puntos);
             int regs = laConsulta.ExecuteNonQuery();

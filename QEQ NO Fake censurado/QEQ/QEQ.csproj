@@ -244,6 +244,7 @@
     <Content Include="Content\margo.jpg" />
     <Content Include="Content\MiCSS.css" />
     <Content Include="Content\Nope.png" />
+    <Content Include="Content\tipoJuego.css" />
     <Content Include="Content\Unknown.png" />
     <Content Include="Content\who is who.jpg" />
     <Content Include="Content\zeky.jpg" />

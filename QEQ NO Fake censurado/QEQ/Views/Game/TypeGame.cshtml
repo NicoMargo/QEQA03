@@ -3,12 +3,18 @@
         alertify.alert('Disculpe, el modo contra la computadora esta en mantenimiento');
     }
 </script>
+<link href="~/Content/tipoJuego.css" rel="stylesheet" />
 @{
     ViewBag.Title = "TypeGame";
 }
 
-<h2 class="TPuntos">Elige a continuacion el modo de juego</h2>
-<a href="@Url.Action("StartS", "Game")" class="btn blue CentrarBotones">Single Player</a>  <br /><br /><br /><br />
-<a href="@Url.Action("BuscarPartidasM", "Game")" class="btn green CentrarBotones">Multi Player</a><br /><br /><br /><br />
-<a onclick="Alerta()" class="btn red CentrarBotones">Player Vs Com1</a>
+<div style="width:100rem;">
+    <div class="alert alert-success" role="alert">
+        <span><b>Hora de jugar!</b> Seleccione el modo de juego</span>
+    </div>
+        <a href="@Url.Action("StartS", "Game")" class="btn blue CentrarBotones">Single Player</a>  <br /><br /><br /><br />
+    <a href="@Url.Action("BuscarPartidasM", "Game")" class="btn red CentrarBotones">Multi Player</a><br /><br /><br /><br />
+</div>
+
+
 
