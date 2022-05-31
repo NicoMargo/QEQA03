@@ -2,20 +2,19 @@
 @using (@Html.BeginForm("LogIn", "Backoffice", FormMethod.Post))
 
 {
-    <h2 class="Title">Iniciar Sesion </h2>
     <br />
     <div class="loginBox">
-        <p class="text-info">Ingrese su Usuario y Contraseña para iniciar Sesion</p>
+        <h2 class="text-center">Log In</h2>
         <br /> @Session["msg"]<br />
         <form action="@Url.Action("LogIn", "Backoffice")" method="post">
 
             <input placeholder="Usuario" type="text" name="Usuario" class="inputext" required /> <br />
             <input placeholder="Contraseña" type="password" name="Contraseña" class="inputext" required /><br />
             <input type="submit" value="Enviar" class="btnClassS" /><br />
-
-            @Html.ActionLink("¿Olvidaste tu clave?", "OlvidoPass", "Backoffice") <br />
         </form>
         <p class="TextLoginReg"> ¿No tienes cuenta? @Html.ActionLink("Registrate!", "Register", "Backoffice") </p>
+        <p class="TextLoginReg"> @Html.ActionLink("¿Olvidaste tu clave?", "OlvidoPass", "Backoffice") </p>
+
     </div>
 
 }

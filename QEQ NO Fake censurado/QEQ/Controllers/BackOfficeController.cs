@@ -120,7 +120,8 @@ namespace QEQ.Controllers
             {
                 Usu.Admin = false;
             }
-
+            Usu.Email = "";
+            Usu.Nombre = "";
             int regs = BD.Register(Usu);
             Session["Usu"] = Usu.Username;
             BD.usuario = Usu;
@@ -357,11 +358,7 @@ namespace QEQ.Controllers
                     return RedirectToAction("AD", "BackOffice");
                 }
                 else
-                {
-                    int tamaño = P.Foto.ContentLength;
-                    byte[] ImagenOriginal = new byte[tamaño];
-                    P.Foto.InputStream.Read(ImagenOriginal, 0, tamaño);
-                    P.FotoByte = ImagenOriginal;
+                {                    
                     Session["Msg"] = BD.ModificarP(P);
                     return RedirectToAction("ABMPer", "BackOffice");
                 }

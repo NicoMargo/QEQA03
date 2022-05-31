@@ -19,7 +19,6 @@
 <a href="@Url.Action("AgregarP", "BackOffice")"><img src="~/Content/Agregar-elemento.png" height="30" /></a><br /><br />
 <table border="1" align="center">
     <tr>
-        <td>Id</td>
         <td>Nombre</td>
         <td>Categoria</td>
         <td>Imagen</td>
@@ -29,7 +28,6 @@
     @foreach (Personaje personaje in ViewBag.Personajes)
     {
         <tr>
-            <td>@Html.Label(personaje.Id.ToString())</td>
             <td>@Html.Label(personaje.Nombre)</td>
             <td>@Html.Label(BD.BuscarCat(personaje.idCategoria, BD.Categorias).Nombre)</td>
             <td> <img class="img-responsive" src="@personaje.Direccion" width="135" /></td>

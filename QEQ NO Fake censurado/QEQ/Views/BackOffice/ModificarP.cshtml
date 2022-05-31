@@ -8,8 +8,6 @@
 {
     @Html.Label("Personaje: ")
     <label>@ViewBag.Nombre</label> <br />
-    @Html.Label("Nuevo nombre") @Html.TextBoxFor(P => P.Nombre, new { @required = "required", value = Model.Nombre }) <br />
-    @Html.Label("Cargar Fotito nueva") @Html.TextBoxFor(x => x.Foto, new { type = "file", required = "required" })<br />
     @Html.Label("Categoria") @Html.DropDownListFor(P => P.idCategoria, new SelectList(ViewBag.ListaCat, "Id", "Nombre")) <br />
     int i = 0;
     Model.Preguntas = new List<Preg>();

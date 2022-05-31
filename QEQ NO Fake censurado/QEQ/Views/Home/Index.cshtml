@@ -9,16 +9,58 @@
         
     }
 }
-        <div class="jumbotron">
-            <img src="~/Content/LOGO.jpg" width="300" alt="Logo" align="right" />
-            <h1>¿Quien Es Quien?</h1>
-            <p class="lead"> Bienvenido al mejor juego de 4IA ORT Sede Almagro del Quien Es Quien desarollado por CGCS Corp (Nicolas Margossian, Ezequiel Kemeny, Jon gibaut, Jonathan Liu) 2018 <br /><br /> Juego Quien Es Quien Remasterizado por Nicolas Margossian, Chiara Tanzi, Mateo Frontera para la competancia de juegos Universidad de Belgrano 2022 Xd </p>
-            <p> <a href="@Url.Action("TypeGame", "Game")" class="btn btn-primary btn-lg">Comienza a Jugar! &raquo;</a><a href="@Url.Action("Ranking", "Home")" class="btn btn-danger btn-lg">Ver ranking &raquo;</a></p>
-            @{
 
-                if (Convert.ToString(Session["Admin"]) == "Admin")
-                {
-                    <p> <a href="@Url.Action("Index", "BackOffice")" class="btn btn-success btn-lg">Area 51 &raquo;</a></p>
-                }
-            }
+<div class="div-bg-index">
+
+    <div class="divqeq">
+        <div class="text-center" style="margin-top: 15rem; transform: rotate(15deg);">
+            <img style="width:28.5%; margin-top:2.5rem;" src="~/Content/QEQBanner.png" />
         </div>
+    </div>
+    <div class="divqeq2">
+        <div class="container">
+            <div class="row enderezar">
+                <div class="">
+                    <a href="@Url.Action("TypeGame", "Game")">
+                        <div class="boton-tipo1">
+                            <div>
+                                <span>Jugar!</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div style="margin-top:10px;">
+                    <a href="@Url.Action("Ranking", "Home")">
+                        <div class="boton-tipo1">
+                            <div>
+                                <span>Ranking</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                @{
+                    if (Convert.ToString(Session["Admin"]) == "Admin")
+                    {
+                        <div style="margin-top:10px;">
+                            <a href="@Url.Action("Index", "BackOffice")">
+                                <div class="boton-tipo1">
+                                    <div>
+                                        <span>Area 51</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                }
+         
+
+            </div>
+
+        </div>
+    </div>
+
+
+</div>
+
+
+

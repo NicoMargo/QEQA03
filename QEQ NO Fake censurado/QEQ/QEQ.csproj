@@ -240,11 +240,9 @@
     <Content Include="Content\Lapiz Mod.png" />
     <Content Include="Content\facha de jon.jpg" />
     <Content Include="Content\goku.png" />
-    <Content Include="Content\LOGO.png" />
     <Content Include="Content\margo.jpg" />
     <Content Include="Content\MiCSS.css" />
     <Content Include="Content\Nope.png" />
-    <Content Include="Content\tipoJuego.css" />
     <Content Include="Content\Unknown.png" />
     <Content Include="Content\who is who.jpg" />
     <Content Include="Content\zeky.jpg" />
@@ -259,6 +257,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config" />
+    <None Include="Properties\PublishProfiles\pc.pubxml" />
     <None Include="Scripts\jquery-1.10.2-vsdoc.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

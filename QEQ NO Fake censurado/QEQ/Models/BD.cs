@@ -227,8 +227,6 @@ namespace QEQ.Models
             laConsulta.CommandText = "spModificarPersonaje";
             laConsulta.Parameters.AddWithValue("@Id", Per.Id);
             laConsulta.Parameters.AddWithValue("@idCategoria", Per.idCategoria);
-            laConsulta.Parameters.AddWithValue("@nuevoNombre", Per.Nombre);
-            laConsulta.Parameters.AddWithValue("@Foto", Per.FotoByte);
             SqlDataReader elLector = laConsulta.ExecuteReader();
             if (elLector.Read())
             {
