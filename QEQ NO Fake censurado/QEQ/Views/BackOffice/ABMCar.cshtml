@@ -1,16 +1,7 @@
 ﻿
 @{
     ViewBag.Title = "ABMCar";
-    if (Session["Msg"].ToString() != "")
-    {
-        <input type="hidden" value="@Session["Msg"].ToString()" id="mensaje" />
-        <script type="text/javascript">
-            var hiden = document.getElementById("mensaje");
-            var mensaje = hiden.getAttribute("value");
-            alert(mensaje);
-        </script>
-        Session["Msg"] = "";
-    }
+    
 }
 
 <h2>Menu de ABM de Caracteristicas</h2>

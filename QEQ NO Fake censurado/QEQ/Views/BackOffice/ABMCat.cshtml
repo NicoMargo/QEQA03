@@ -1,16 +1,7 @@
 ﻿@using QEQ.Models
 @{
     ViewBag.Title = "ABMCat";
-    if (Session["Msg"].ToString() != "")
-    {
-        <input type="hidden" value="@Session["Msg"].ToString()" id="mensaje" />
-        <script type="text/javascript">
-            var hiden = document.getElementById("mensaje");
-            var mensaje = hiden.getAttribute("value");
-            alert(mensaje);
-        </script>
-        Session["Msg"] = "";
-    }
+   
 }
 @Html.ActionLink("Volver al BackOffice Index", "Index", "BackOffice") <br />
 <h2>Menu ABM de Categorias</h2>

@@ -179,7 +179,7 @@ namespace QEQ.Controllers
             BD.CargarPersonajes(idCategoria);
             BD.CargarRtas(idCategoria);
             Session["Host"] = true;
-            BD.laPartida = new Partida(usuario.Id, usuario.Ip, 10000);
+            BD.laPartida = new Partida(usuario.Id, usuario.Ip, 5000);
             if (BD.laPartida.Personaje1 == null)
             {
                 return RedirectToAction("Index", "Home");
