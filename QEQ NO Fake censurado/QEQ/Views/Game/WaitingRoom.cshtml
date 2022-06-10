@@ -2,8 +2,24 @@
     ViewBag.Title = "WaitingRoom";
 }
 
-  <h2>Bienvenido a la WaitingRoom</h2>
-   <h4>Espera unos segundos hasta que un usuario se una a tu partida</h4>
+
+<div class="divWR">
+    <div class="container">
+        <div class="row text-center" style="margin-top:22rem;">
+            <div class="col-md-6 col-md-offset-3">
+                <h1>Bienvenido a la sala de espera!</h1>
+            </div>
+
+            <div class="col-md-6 col-md-offset-3">
+                <h3>Espera unos segundos hasta que un usuario se una a tu partida</h3>
+            </div>
+
+
+        </div>
+    </div>
+
+</div>
+   
 <script>   
         window.location.href = "@Url.Action("Turnos","Game")";     
 </script>

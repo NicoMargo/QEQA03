@@ -3,51 +3,61 @@
     ViewBag.Title = "ABMCat";
    
 }
-@Html.ActionLink("Volver al BackOffice Index", "Index", "BackOffice") <br />
-<h2>Menu ABM de Categorias</h2>
-<a href="@Url.Action("AgregarCat", "BackOffice")"><img src="~/Content/Agregar-elemento.png" height="30" /></a><br /><br />
-<label>Categorias (Clasificacion de Personajes)</label><br />
-<table border="1" align="center">
-    <tr>
-        <td>Id</td>
-        <td>Categoria</td>
-        <td>Modificar</td>
-        <td>Borrar</td>
-    </tr>
-    @foreach (Cat Categoria in ViewBag.Categorias)
-    {
-        <tr>
-            <td>@Html.Label(Categoria.Id.ToString())</td>
-            <td>@Html.Label(Categoria.Nombre)</td>
-            <td>
-                <a href="@Url.Action("ModificarCat", "BackOffice", new { id = Categoria.Id, tipo = true })"><img src="~/Content/Lapiz Mod.png" height="30" /></a>
-            </td>
-            <td>
-                <a href="@Url.Action("BorrarCat", "BackOffice", new { id = Categoria.Id, tipo = true })"><img src="~/Content/Cruz-Borrar.png" height="30" /></a>
-            </td>
-        </tr>
-    }
-</table>
-<label>Grupos (Clasificacion de Preguntas)</label><br />
-<table border="1" align="center">
-    <tr>
-        <td>Id</td>
-        <td>Grupo</td>
-        <td>Modificar</td>
-        <td>Borrar</td>
-    </tr>
-    @foreach (Cat Grupo in ViewBag.Grupos)
-    {
-        <tr>
-            <td>@Html.Label(Grupo.Id.ToString())</td>
-            <td>@Html.Label(Grupo.Nombre)</td>
-            <td>
-                <a href="@Url.Action("ModificarCat", "BackOffice", new { id = Grupo.Id, tipo = false })"><img src="~/Content/Lapiz Mod.png" height="30" /></a>
-            </td>
-            <td>
-                <a href="@Url.Action("BorrarCat", "BackOffice", new { id = Grupo.Id, tipo = false })"><img src="~/Content/Cruz-Borrar.png" height="30" /></a>
-            </td>
-        </tr>
-    }
-</table>
-@Html.ActionLink("Volver al BackOffice Index", "Index", "BackOffice") <br />
+
+
+<div class="container " style="background-color: white;margin-top: 5rem; padding-top: 4rem; border: solid 2px black">
+    <h2 class="text-center">Menu ABM de Categorias</h2>
+    <div class="row" style="margin-top: 6rem;">
+        <div class="col-md-8 col-md-offset-2">
+            <a href="@Url.Action("AgregarCat", "BackOffice")"><img src="~/Content/Agregar-elemento.png" height="30" /></a><br /><br />
+
+        </div>
+    </div>
+    <div class="row" style="margin-top: 3rem;">
+        <div class="col-md-8 col-md-offset-2">
+            <label style="margin-top:4rem;">Categorias (Clasificacion de Personajes)</label><br />
+            <table class="table table-bordered">
+                <tr>
+                    <td>Categoria</td>
+                    <td>Modificar</td>
+                    <td>Borrar</td>
+                </tr>
+                @foreach (Cat Categoria in ViewBag.Categorias)
+                {
+                    <tr>
+                        <td>@Html.Label(Categoria.Nombre)</td>
+                        <td>
+                            <a href="@Url.Action("ModificarCat", "BackOffice", new { id = Categoria.Id, tipo = true })"><img src="~/Content/Lapiz Mod.png" height="30" /></a>
+                        </td>
+                        <td>
+                            <a href="@Url.Action("BorrarCat", "BackOffice", new { id = Categoria.Id, tipo = true })"><img src="~/Content/Cruz-Borrar.png" height="30" /></a>
+                        </td>
+                    </tr>
+                }
+            </table>
+            <label style="margin-top:6rem;">Grupos (Clasificacion de Preguntas)</label><br />
+            <table class="table table-bordered">
+                <tr>
+                    <td>Grupo</td>
+                    <td>Modificar</td>
+                    <td>Borrar</td>
+                </tr>
+                @foreach (Cat Grupo in ViewBag.Grupos)
+                {
+                    <tr>
+                        <td>@Html.Label(Grupo.Nombre)</td>
+                        <td>
+                            <a href="@Url.Action("ModificarCat", "BackOffice", new { id = Grupo.Id, tipo = false })"><img src="~/Content/Lapiz Mod.png" height="30" /></a>
+                        </td>
+                        <td>
+                            <a href="@Url.Action("BorrarCat", "BackOffice", new { id = Grupo.Id, tipo = false })"><img src="~/Content/Cruz-Borrar.png" height="30" /></a>
+                        </td>
+                    </tr>
+                }
+            </table>
+
+        </div>
+    </div>
+</div>
+
+

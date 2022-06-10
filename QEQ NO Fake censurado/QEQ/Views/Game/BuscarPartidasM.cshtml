@@ -3,32 +3,61 @@
     ViewBag.Title = "Listado de partidas";
 }
 @using QEQ.Models
-<h2>Partidas</h2>
-<a href="@Url.Action("StartM","Game")">Crear Partida</a>
-@if (ViewBag.Partidas.Count > 0)
-{
-    <table border="1">
-        <tr>
-            <td>  Numero de partida </td>
-            <td> Usuario Host </td>
-            <td> Unirse </td>
-            <td> Categoria </td>
-        </tr>
-        @foreach (Partida partida in ViewBag.Partidas)
-        {
-            <tr>
-                <td>@partida.Id.ToString()</td>
-                <td>@BD.BuscarUsuario(partida.Usuario1).Nombre </td>
-                <td><a href="@Url.Action("Unirse", "Game", new { id = @partida.Id, idcat = partida.IdCat }, null)"><img width="87" src="~/Content/depositphotos_57092423-stock-illustration-red-join-now-button.jpg" /></a></td>
-                <td>@partida.IdCat</td>
-            </tr>
-        }
-    </table>
-}
-else
-{
-    <h3> No se encontraron Partidas xd</h3>
-}
+<div class="container" style="background-color: white;margin-top: 5rem; padding-top: 4rem; border: solid 2px black; margin-bottom:6rem;">
+    
+    
+    <div class="container">
+        
+
+            <div class="row" style="margin-top:0.5rem;">
+                <div class="col-md-12">
+                    <a style="width: 100%;font-weight:500; padding-right: 3rem;" class="btn btn-primary w-100" href="@Url.Action("StartM","Game")">Crear Partida</a>
+                </div>
+            </div>
+
+            @if (ViewBag.Partidas.Count > 0)
+            {
+                <table style="margin-left: 1rem;" class="table table-bordered">
+                    <tr>
+                        <th>  Numero de partida </th>
+                        <th> Usuario Host </th>
+                        <th> Unirse </th>
+                    </tr>
+                                        @foreach (Partida partida in ViewBag.Partidas)
+                {
+                                            <tr>
+                                                <td>@partida.Id.ToString()</td>
+                                                <td>@BD.BuscarUsuario(partida.Usuario1).Username </td>
+                                                <td>
+                                                    <div class="row">
+                                                        <div class="col-md-2 col-md-offset-5">
+                                                            <a href="@Url.Action("Unirse", "Game", new { id = @partida.Id, idcat = partida.IdCat }, null)"><h3 style="font-size:2rem; font-weight:100;" class="label label-info">Ingresar!</h3></a>
+
+                                                        </div>
+                                                    </div>
+                                                </td>
+
+                        </tr>
+                    }
+                </table>
+            }
+            else
+            {
+                <div class="alert alert-danger" style="margin-left:1rem;margin-bottom:4rem; margin-top:3rem;" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span>
+                    <strong>No se encontraron Partidas</strong>
+                </div>
+            }
+
+
+        </div>
+    
+    
+  
+
+
+</div>
 
 <script>	
     window.onload = function () {

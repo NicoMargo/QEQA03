@@ -6,33 +6,64 @@
 }
 @if (Convert.ToBoolean(Session["Host"]) == BD.laPartida.Turno)
 {
-    <h2 class="TPuntos"> Quien Adivina Primero gana!! <br /> Te queda = <span id="timer"></span></h2>
+    <h2 class="TPuntos">Te queda = <span id="timer"></span></h2>
 }
 else
 {
-    <h2 class="TPuntos"> Quien Adivina Primero gana!! <br /> Al otro jugador le quedan <span id="timer"></span></h2>
+    <h2 class="TPuntos"> Al otro jugador le quedan <span id="timer"></span></h2>
 }
 
-<div id="divtodo">
+<div class="container" style="margin-top: 10rem;">
+    <div class="panel panel-danger">
+        <div class="panel-heading">
+            <h2 class="panel-title"><b>Quien adivina primero gana!!</b> </h2>
+        </div>
+        <div class="panel-body">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 PregBox text-center">
+                        @using (Html.BeginForm("NucleoGameM", "Game", FormMethod.Post))
+                        {
+                            <p style="margin-top: 4rem; font-size:1.6rem;"><b>Que desea preguntar?</b> </p><br />
 
-    <div class="PregBox">
-        @using (Html.BeginForm("NucleoGameM", "Game"))
-        {
-            <p class="text-center Textpreg divJPM">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; Seleccione que quiere  &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; preguntar  para adivinar su&nbsp; &nbsp;&nbsp; personaje</p><br />
-            @Html.DropDownList("idpreg", new SelectList(ViewBag.Preg, "Id", "Texto"), new { style = "width: 700px;", @class = "DDLClass" }) <br />
-            <input type="submit" name="cargar" id="cargar" value="Preguntar" class="btnClassS btn-sm" />
+                            @Html.DropDownList("idpreg", new SelectList(ViewBag.Preg, "Id", "Texto"), new { @class = "DDLClass" }) <br />
+                            <input type="submit" name="cargar" id="cargar" value="Preguntar" class="btnClassS" />
+                        }
+                    </div>
 
-        }
+                    <div class="col-md-8" style="padding-left: 6rem;">
+                        <div class="galeria">
+                            @{
+                                foreach (Personaje personaje in ViewBag.Per)
+                                {
+                                    <a href='@Url.Action("RiskM", "Game", new { idPersonaje = personaje.Id })'><img src="@personaje.Direccion" /></a>
+                                }
+                            }
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="galeria">
-        @{
-            foreach (Personaje personaje in ViewBag.Per)
-            {
-                <a id="foto" href='@Url.Action("RiskM", "Game", new { idPersonaje = personaje.Id })'><img src="@personaje.Direccion" /></a>
-            }
-        }
-    </div>
+
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/bootstrap")
 <script type="text/javascript">  

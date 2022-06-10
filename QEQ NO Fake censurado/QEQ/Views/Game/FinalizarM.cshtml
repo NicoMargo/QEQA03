@@ -2,25 +2,59 @@
 
 @{
     ViewBag.Title = "Partida Terminada";
-    bool Jost = Convert.ToBoolean(Session["Host"]);
 }
 @using QEQ.Models
-<h2>@ViewBag.Msg</h2>
-<h2 class="TPuntos">@ViewBag.Ganador</h2>
-<p><a href="@Url.Action("TypeGame","Game")" class="btn btn-primary btn-lg">Ir al Game  &raquo;</a></p>
 
-                          <table class="table">
-                              <thead class="thead-dark">
-                                  <tr>
-                                      <td  scope="col">ID</td>
-                                      <td  scope="col">Texto</td>
-                                      <td scope="col">Grupo</td>
-                                      <td scope="col">Cantidad de descartados</td>
-                                  </tr>
-                              </thead>
-                              <tbody>
-                                 
-                              </tbody>
+<div class="divFinalizarM">
+    <div class="container">
 
-                          </table>
+       
+
+        <div style="width: 80%; margin-left:15%; margin-top: 10rem; height: 40%; " >
+
+            <div class="progress">
+                <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                    <span class="sr-only">80% Complete (danger)</span>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <h2 style="width:50%" class="btn alert-danger">@ViewBag.Ganador</h2>
+            </div>
+
+            <div class="row" style="margin-bottom: 5rem;">
+                <div class="col-md-3 col-md-offset-3 text-center">
+
+
+                    <h3>Tu personaje era:</h3> <br />
+                    <h3>@ViewBag.Nombre</h3>
+                </div>
+                <div class="col-md-3 text-center">
+                    <img class="text-center" src="@ViewBag.Foto" />
+                </div>
+
+
+
+
+
+                <div class="col-md-6 col-md-offset-3" style="margin-top: 5rem;">
+                    <a class="btn btn-danger" style="width:100%" href="@Url.Action("TypeGame", "Game")">
+                        Volver a jugar!
+                    </a>
+                </div>
+            </div> 
+            <div class="progress">
+                <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                    <span class="sr-only">80% Complete (danger)</span>
+                </div>
+            </div>   
+        </div>
+        
+
+    </div>
+</div>
+
+
+
+                       
 

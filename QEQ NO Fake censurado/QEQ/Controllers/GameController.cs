@@ -81,8 +81,7 @@ namespace QEQ.Controllers
             else { preguntxs = BD.Preguntas2; }
             Preg pregunta = null;
             int i = 0;
-            if (Convert.ToBoolean(Session["Host"]))
-            {
+            
                 while (i < preguntxs.Count && pregunta == null)
                 {
                     if (preguntxs[i].Id == id)
@@ -94,7 +93,7 @@ namespace QEQ.Controllers
                         i++;
                     }
                 }
-            }
+
             return i;
         }
         //Se ingresa un id de persona y un id de pregunta, devuelve true si existe una respuesta con esas dos id
@@ -117,7 +116,7 @@ namespace QEQ.Controllers
         //Borra todas las respuestas y preguntas de la misma categoria de preguntas de la pregunta preguntada :v
         public void EliminarporGrupo(int idPreg)
         {
-
+            
             List<Preg> Preguntas;
             if ((!BD.laPartida.Multijugador) || Convert.ToBoolean(Session["Host"]))
             {
@@ -197,7 +196,7 @@ namespace QEQ.Controllers
                 }
                 else if (idpreg == -1 && idper == -1)
                 {
-                    ViewBag.msgalert = "Bienvenido Al Juego";
+                    ViewBag.msgalert = "Realice una pregunta para ir descartando personajes. Para arriesgar por un personaje haga click sobre la foto!";
                 }
                 else if (idper != -1)
                 {
@@ -307,11 +306,11 @@ namespace QEQ.Controllers
             BD.Rank();
             if (Ganador)
             {
-                ViewBag.Msg = "Usted ha Ganado con un puntaje de " + BD.laPartida.Puntos;
+                ViewBag.Msg = "Usted Gano con " + BD.laPartida.Puntos + " puntos";
             }
             else
             {
-                ViewBag.Msg = "Usted ha Perdido";
+                ViewBag.Msg = "Usted ha perdido";
             }
             BD.GuardarPartida1(BD.laPartida);
             return View();
@@ -460,23 +459,6 @@ namespace QEQ.Controllers
             if (BD.laPartida.Ganador != -1)
             {
                 return RedirectToAction("FinalizarM", "Game");
-
-
-                /*if (SMHG())
-                {
-                    if (BD.laPartida.Ganador == BD.laPartida.Usuario1)
-                    { return RedirectToAction("FinalizarM", "Game", new { G = true }); }
-                    else { return RedirectToAction("FinalizarM", "Game"); }
-                }
-                else
-                {
-                    if (BD.laPartida.Ganador == BD.laPartida.Usuario2)
-                    { return RedirectToAction("FinalizarM", "Game", new { G = true }); }
-                    else
-                    {
-                        return RedirectToAction("FinalizarM", "Game");
-                    }
-                }*/
             }
             if (BD.laPartida.Usuario1 >= 0 && BD.laPartida.Usuario2 >= 0)
             {
@@ -509,13 +491,14 @@ namespace QEQ.Controllers
                     else if (AskForOne(BD.laPartida.Personaje2.Id, idpreg, true))
                     {
                         ViewBag.msgalert = "El personaje SI " + BD.BuscarPregunta(idpreg, false).Texto;
+                        BD.Preguntas2.RemoveAt(BuscarPregunta(idpreg));
 
-                        EliminarporGrupo(idpreg);
                     }
                     else
                     {
                         ViewBag.msgalert = "El personaje NO " + BD.BuscarPregunta(idpreg, false).Texto;
-                        BD.Preguntas2.Remove(BD.BuscarPregunta(idpreg, false));
+                        BD.Preguntas2.RemoveAt(BuscarPregunta(idpreg));
+
                     }
                 }
                 //si es host
@@ -526,13 +509,13 @@ namespace QEQ.Controllers
                         if (AskForOne(BD.laPartida.Personaje1.Id, idpreg, true))
                         {
                             ViewBag.msgalert = "El personaje SI " + BD.BuscarPregunta(idpreg).Texto;
-                            EliminarporGrupo(idpreg);
                         }
                         else
                         {
                             ViewBag.msgalert = "El personaje NO " + BD.BuscarPregunta(idpreg).Texto;
-                            BD.Preguntas.RemoveAt(BuscarPregunta(idpreg));
                         }
+                        BD.Preguntas.RemoveAt(BuscarPregunta(idpreg));
+
                     }
                     else if (idpreg == -1 && idper == -1)
                     {
@@ -630,11 +613,21 @@ namespace QEQ.Controllers
             
             if (G)
             {
-                ViewBag.Ganador = "Eres el ganador de la partida!!!";
+                ViewBag.Ganador = "Ganaste!";
             }
             else
             {
-                ViewBag.Ganador = "Eres el PERDEDOR de la partida";
+                ViewBag.Ganador = "Perdiste!";
+            }
+            if (SMHG())
+            {
+                ViewBag.Foto = BD.laPartida.Personaje1.Direccion;
+                ViewBag.Nombre = BD.laPartida.Personaje1.Nombre;
+            }else
+            {
+                ViewBag.Foto = BD.laPartida.Personaje2.Direccion;
+                ViewBag.Nombre = BD.laPartida.Personaje2.Nombre;
+
             }
             return View();
         }

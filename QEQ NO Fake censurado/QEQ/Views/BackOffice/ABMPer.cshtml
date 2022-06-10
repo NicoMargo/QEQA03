@@ -4,31 +4,46 @@
     ViewBag.Title = "ABMPer";
     
 }
+<div class="container " style="background-color: white;margin-top: 5rem; padding-top: 4rem; border: solid 2px black">
+    <h2 class="text-center">Menu ABM de Personajes</h2>
+    <div class="row" style="margin-top: 6rem;">
+        <div class="col-md-8 col-md-offset-2">
+            <a class="text-center" style="padding-top: 3rem;" href="@Url.Action("AgregarP", "BackOffice")"><img src="~/Content/Agregar-elemento.png" height="30" /></a><br /><br />
 
-<h2>Menu ABM de Personajes</h2>
-@Html.ActionLink("Volver al BackOffice Index", "Index", "BackOffice") <br />
-<a href="@Url.Action("AgregarP", "BackOffice")"><img src="~/Content/Agregar-elemento.png" height="30" /></a><br /><br />
-<table border="1" align="center">
-    <tr>
-        <td>Nombre</td>
-        <td>Categoria</td>
-        <td>Imagen</td>
-        <td>Modificar</td>
-        <td>Borrar</td>
-    </tr>
-    @foreach (Personaje personaje in ViewBag.Personajes)
-    {
-        <tr>
-            <td>@Html.Label(personaje.Nombre)</td>
-            <td>@Html.Label(BD.BuscarCat(personaje.idCategoria, BD.Categorias).Nombre)</td>
-            <td> <img class="img-responsive" src="@personaje.Direccion" width="135" /></td>
-            <td>
-                <a href="@Url.Action("ModificarP", "BackOffice", new { id = personaje.Id })"><img src="~/Content/Lapiz Mod.png" height="30" /></a>
-            </td>
-            <td>
-                <a href="@Url.Action("BorrarP", "BackOffice", new { id = personaje.Id })"><img src="~/Content/Cruz-Borrar.png" height="30" /></a>
-            </td>
-        </tr>
-    }
-</table>
-@Html.ActionLink("Volver al BackOffice Index", "Index", "BackOffice") <br />
+        </div>
+    </div>
+
+            <div class="row" style="margin-top: 3rem;">
+                <div class="col-md-8 col-md-offset-2">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Categoria</th>
+                                <th>Imagen</th>
+                                <th>Modificar</th>
+                                <th>Borrar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (Personaje personaje in ViewBag.Personajes)
+                            {
+                                <tr>
+                                    <td>@Html.Label(personaje.Nombre)</td>
+                                    <td>@Html.Label(BD.BuscarCat(personaje.idCategoria, BD.Categorias).Nombre)</td>
+                                    <td> <img class="img-responsive" src="@personaje.Direccion" width="135" /></td>
+                                    <td>
+                                        <a href="@Url.Action("ModificarP", "BackOffice", new { id = personaje.Id })"><img src="~/Content/Lapiz Mod.png" height="30" /></a>
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("BorrarP", "BackOffice", new { id = personaje.Id })"><img src="~/Content/Cruz-Borrar.png" height="30" /></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+

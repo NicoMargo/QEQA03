@@ -118,7 +118,7 @@ namespace QEQ.Models
         {
             Usuario user = new Usuario();
             int i = 0;
-            while (i < Usuarios.Count && user == new Usuario())
+            while (i < Usuarios.Count && user.Id == 0)
             {
                 if (Usuarios[i].Id == id)
                 {

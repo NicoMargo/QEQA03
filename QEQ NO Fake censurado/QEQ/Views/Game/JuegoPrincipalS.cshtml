@@ -20,7 +20,7 @@
                     <div class="col-md-4 PregBox text-center">
                         @using (Html.BeginForm("AskS", "Game", FormMethod.Post))
                         {
-                            <p style="margin-top: 4rem"><b>Que desea preguntar?</b> </p><br />
+                            <p style="margin-top: 4rem; font-size:1.6rem;"><b>Que desea preguntar?</b> </p><br />
 
                             @Html.DropDownList("idpreg", new SelectList(ViewBag.Preg, "Id", "Texto"), new { @class = "DDLClass" }) <br />
                             <input type="submit" name="cargar" id="cargar" value="Preguntar" class="btnClassS" />
