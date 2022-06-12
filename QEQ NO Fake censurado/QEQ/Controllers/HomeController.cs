@@ -24,10 +24,7 @@ namespace QEQ.Controllers
             BD.msg = null;
             return RedirectToAction("Index", "Home");
         }
-        public ActionResult Desarrolladores()
-        {
-            return View();
-        }
+
         public ActionResult About()
         {
             return View();

@@ -3,79 +3,77 @@
     int i = 0;
 }
 @using QEQ.Models
-<div class="container" style="background-color:white; margin-top: 5rem; border: solid 1px black; padding-top:3rem;">
-   
-    
-    
-     <div class="row">
 
-         <div class="progress">
-             <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
-                 <span class="sr-only">80% Complete (danger)</span>
-             </div>
-         </div>
 
-        <div class="col-md-3 col-lg-offset-2">        
-            <h3>@ViewBag.Msg</h3>
-            <h3>Tu personaje era @BD.laPartida.Personaje1.Nombre</h3>
+
+<div class="divFinalizarM">
+    <div class="container">
+        <div style="width: 80%; margin-left:15%; margin-top: 10rem; height: 40%; ">
+
+            <div class="progress">
+                <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                    <span class="sr-only">80% Complete (danger)</span>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <h2 style="width:50%" class="btn alert-danger">@ViewBag.Msg</h2>
+            </div>
+
+            <div class="row" style="margin-bottom: 5rem;">
+                <div class="col-md-3 col-md-offset-3 text-center">
+
+
+                    <h3>Tu personaje era:</h3> <br />
+                    <h3>@BD.laPartida.Personaje1.Nombre</h3>
+                </div>
+                <div class="col-md-3 text-center">
+                    <img class="text-center" src="@BD.laPartida.Personaje1.Direccion" />
+                </div>
+
+                <div class="col-md-6 col-md-offset-3" style="margin-top: 5rem;">
+                    <a class="btn btn-danger" style="width:100%" href="@Url.Action("TypeGame", "Game")">
+                        Volver a jugar!
+                    </a>
+                </div>
+            </div>
+            <div class="progress">
+                <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                    <span class="sr-only">80% Complete (danger)</span>
+                </div>
+            </div>
         </div>
-        <div class="col-md-3"></div>
-        <img src="@BD.laPartida.Personaje1.Direccion" />
-         <div class="progress" style="margin-top:3rem; margin-bottom:4rem;">
-             <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
-                 <span class="sr-only">80% Complete (danger)</span>
-             </div>
-         </div>
     </div>
-
-    <table class="table">
-        <thead class="thead-dark">
-            <tr>
-                <th scope="col">Pregunta</th>
-                <th scope="col">Puntos de la pregunta</th>
-                <th scope="col">Categoría de la pregunta</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (int idPregunta in BD.laPartida.Historial.Keys)
-            {
-                Preg preg = BD.BuscarPregunta(idPregunta);
-                <tr>
-                    <td>@preg.Texto?</td>
-                    <td>@preg.Puntos</td>
-                    <td>@BD.BuscarCat(preg.idGrupo, BD.Grupos).Nombre</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-    <hr />
-    <h2 style="margin-top: 4rem;">Ranking General</h2>
-    <table class="table">
-        <thead class="thead-dark">
-            <tr>
-                <th scope="col">Puesto</th>
-                <th scope="col">Jugador</th>
-                <th scope="col">Puntos</th>
-                <th scope="col">Cantidad de Preguntas</th>
-                <th scope="col">Personaje Jugado</th>
-            </tr>
-        </thead>
-        <tbody>
-            @while (i < 5 && i < BD.Ranking.Count)
-            {
-                <tr>
-                    <td>Top @i </td>
-                    <td>@BD.BuscarUsuario(BD.Ranking[i].Usuario1).Username</td>
-                    <td>@BD.Ranking[i].Puntos.ToString()</td>
-                    <td>@BD.Ranking[i].CantPreguntas.ToString()</td>
-                    <td> <img class="img-responsive" src="@BD.Ranking[i].Personaje1.Direccion" width="135" /> <br />@BD.Ranking[i].Personaje1.Nombre</td>
-                </tr>
-                i++;
-            }
-        </tbody>
-    </table>
-
 </div>
+
+        <div class="container" style="background-color:#ffff76; margin-top: 5rem; border: solid 1px black; padding-top:3rem;">
+            <h2 style="margin-top: 2rem; margin-bottom: 3rem">Ranking General</h2>
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Puesto</th>
+                        <th scope="col">Jugador</th>
+                        <th scope="col">Puntos</th>
+                        <th scope="col">Cantidad de Preguntas</th>
+                        <th scope="col">Personaje Jugado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @while (i < 5 && i < BD.Ranking.Count)
+            {
+                        <tr>
+                            <td>Top @i </td>
+                            <td>@BD.BuscarUsuario(BD.Ranking[i].Usuario1).Username</td>
+                            <td>@BD.Ranking[i].Puntos.ToString()</td>
+                            <td>@BD.Ranking[i].CantPreguntas.ToString()</td>
+                            <td> <img class="img-responsive" src="@BD.Ranking[i].Personaje1.Direccion" width="135" /></td>
+                        </tr>
+                        i++;
+                    }
+                </tbody>
+            </table>
+
+        </div>
 
 
 
